@@ -56,7 +56,7 @@
             </div>
 
 
-            <div v-for="task in tasks" :key="task.id" class="mb-3 rounded-lg shadow border-2 border-green-400 h-24 text-white bg-gray-700 px-2">
+            <div v-for="task in tasks" :key="task.id" class="mb-3 rounded-lg shadow h-24 text-white bg-gray-700 px-2">
                 <div class="flex items-center justify-between h-full px-2">
                     <div>
                         <span class="font-semibold text-green-400">{{ task.title }}</span>

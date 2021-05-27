@@ -6,7 +6,7 @@
         <div v-for="task in tasks" :key="task.id" class="mb-2 rounded-md shadow-lg text-white bg-gray-700 px-2 h-24">
             <div class="flex items-center h-full justify-between px-2">
                 <div>
-                    <span class="font-semibold text-green-400">{{ task.title }}</span>
+                    <span class="font-semibold text-green-400">{{ task.title }}<span v-if="task.spec_time"> - {{ getFormattedTime(task.spec_time) }}</span></span>
                     <p class="text-xs w-64">{{ getReducedDescription(task.description) }}</p>
                 </div>
                 <div class="flex  items-center">
