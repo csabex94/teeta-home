@@ -136,6 +136,16 @@
                                     name="spec_date"
                                     ref="specDate"
                                 />
+                                <svg
+                                    @click="clearCalendarInput()"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd" />
+                                </svg>
 
                                 <svg
                                     @click="openCalendarOnIconClick"
@@ -156,6 +166,17 @@
                                     name="spec_time"
                                     ref="specTime"
                                 />
+
+                                <svg
+                                    @click="clearTimeInput()"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd" />
+                                </svg>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer absolute text-gray-500 right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -375,6 +396,9 @@ export default {
                     this.showEditModal = false;
                 }
             });
+        },
+        clearTimeInput() {
+            this.form.spec_time = "";
         }
     },
     computed: {
