@@ -74,7 +74,7 @@ class EventsController extends Controller {
         ]);
     }
 
-    public function updateEvent(Request $request) {
+    public function update(Request $request) {
         $validate = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
@@ -94,7 +94,7 @@ class EventsController extends Controller {
         return Redirect::back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
     }
 
-    public function deleteEvent(Request $request) {
+    public function delete(Request $request) {
         Event::find($request->eventId)->delete();
 
         return Redirect::back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
