@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,5 +36,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
     // Tasks Page
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
+
+    //Events
+    Route::get('/events', [EventsController::class, 'show'])->name('events.show');
+    Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
+    Route::post('/events/store', [EventsController::class, 'store'])->name('events.store');
+    Route::put('/events/update', [EventsController::class, 'update'])->name('events.update');
+    Route::delete('/events/delete', [EventsController::class, 'delete'])->name('events.delete');
 });
 
