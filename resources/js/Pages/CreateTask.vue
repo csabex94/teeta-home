@@ -6,11 +6,11 @@
                 <jet-form-section @submitted="createTask">
 
                 <template #title>
-                    <h1 class="text-2xl text-gray-500">Create New Task</h1>
+                    <h1 class="text-2xl text-gray-200">Create New Task</h1>
                 </template>
 
                 <template #description>
-                    <p class="text-gray500">
+                    <p class="text-gray-200">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     </p>
                 </template>
@@ -40,12 +40,12 @@
                         <div class="flex items-center text-sm font-medium text-gray-700">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
                     </div>
 
-                    <div v-if="!form.daily" class="col-span-6 grid grid-cols-2 gap-8">
+                    <div v-if="!form.daily" class="grid grid-cols-2 col-span-6 gap-8">
                         <div class="relative w-full">
                             <flat-pickr
                                 v-model="form.spec_date"
                                 :config="flatPickrConfig"
-                                class="border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                 placeholder="Specify date"
                                 name="spec_date"
                                 ref="specDate"
@@ -54,7 +54,7 @@
                             <svg
                                 @click="clearCalendarInput()"
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                                class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
                                 viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path
@@ -65,7 +65,7 @@
                             <svg
                                 @click="openCalendarOnIconClick"
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 cursor-pointer absolute text-gray-500 right-2 bottom-3"
+                                class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -76,7 +76,7 @@
                             <flat-pickr
                                 v-model="form.spec_time"
                                 :config="flatPickrConfigTime"
-                                class="border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                 placeholder="Specify time"
                                 name="spec_time"
                                 ref="specTime"
@@ -85,23 +85,23 @@
                             <svg
                                 @click="clearTimeInput()"
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                                class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
                                 viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path
                                     fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                                     clip-rule="evenodd" />
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer absolute text-gray-500 right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
                     </div>
 
-                    <div v-if="showRemindOptions" class="col-span-6 grid grid-cols-2 gap-8">
+                    <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8">
                         <select
                             v-model="form.remind_before_option"
-                            class="text-gray-500 w-full border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm appearance-none">
+                            class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
                             <option>Remind me before</option>
                             <option value="minutes">Minutes</option>
                             <option value="hours">Hours</option>

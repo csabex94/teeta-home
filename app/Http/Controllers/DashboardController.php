@@ -13,10 +13,12 @@ class DashboardController extends Controller
     {
         $dailyTasks = Task::where('daily',1)->get();
         $specDateTasks = Task::whereDate('spec_date', Carbon::today())->get();
+        $allTasks = Task::all();
 
         return Inertia::render('Dashboard', [
            'tasks' => array_merge($dailyTasks->toArray(), $specDateTasks->toArray()),
-           'upcomingTasks' => []
+           'upcomingTasks' => [],
+           'allTasks' => $allTasks
         ]);
     }
 }

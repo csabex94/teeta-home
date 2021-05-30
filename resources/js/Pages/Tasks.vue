@@ -1,32 +1,33 @@
 <template>
     <app-layout>
         <template #content>
-            <span class="block mb-5 text-xl text-gray-500 text-center">All Tasks</span>
+            <div class="mx-auto max-w-7xl">
+                <span class="block mb-5 text-xl text-center text-gray-500">All Tasks</span>
 
             <div class="flex items-center mb-5">
-                <div class="w-full relative flex items-center">
+                <div class="relative flex items-center w-full">
                     <jet-input @keydown="handleKeyDown" v-model="searchQuery" type="text" name="search" placeholder="Search task" class="w-full" />
                     <svg
                         @click="clearSearchInput"
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                        class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
                         viewBox="0 0 20 20"
                         fill="currentColor">
                         <path
                             fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                             clip-rule="evenodd" />
                     </svg>
-                    <svg @click="searchForTask" xmlns="http://www.w3.org/2000/svg" class="h-5 cursor-pointer bottom-3 absolute right-2 text-gray-500 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg @click="searchForTask" xmlns="http://www.w3.org/2000/svg" class="absolute w-5 h-5 text-gray-500 cursor-pointer bottom-3 right-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
 
                 <div class="w-8" />
 
-                <div class="w-full relative">
+                <div class="relative w-full">
                     <flat-pickr
                         :config="flatPickrConfig"
-                        class="border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                         placeholder="Search by date"
                         name="spec_date"
                         ref="specDate"
@@ -36,7 +37,7 @@
                     <svg
                         @click="clearCalendarInput"
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                        class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
                         viewBox="0 0 20 20"
                         fill="currentColor">
                         <path
@@ -46,7 +47,7 @@
                     <svg
                         @click="openCalendar"
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 cursor-pointer absolute text-gray-500 right-2 bottom-3"
+                        class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -56,11 +57,11 @@
             </div>
 
 
-            <div v-for="task in tasks" :key="task.id" class="mb-3 rounded-lg shadow h-24 text-white bg-gray-700 px-2">
+            <div v-for="task in tasks" :key="task.id" class="h-24 px-2 mb-3 text-white bg-gray-700 rounded-lg shadow">
                 <div class="flex items-center justify-between h-full px-2">
                     <div>
                         <span class="font-semibold text-green-400">{{ task.title }}</span>
-                        <p class="text-xs w-56">{{ getReducedDescription(task.description) }}</p>
+                        <p class="w-56 text-xs">{{ getReducedDescription(task.description) }}</p>
                     </div>
 
                     <div>
@@ -73,19 +74,19 @@
                     </div>
 
                     <div class="flex items-end">
-                        <span class="flex flex-col cursor-pointer hover:text-green-400 items-center">
+                        <span class="flex flex-col items-center cursor-pointer hover:text-green-400">
                             <jet-checkbox />
-                            <p class="text-xs mt-1">Complete Task</p>
+                            <p class="mt-1 text-xs">Complete Task</p>
                         </span>
-                        <span @click="openEditModal(task)" class="flex flex-col cursor-pointer hover:text-green-400 items-center mx-5">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                        <span @click="openEditModal(task)" class="flex flex-col items-center mx-5 cursor-pointer hover:text-green-400">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                                 <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
                             </svg>
                             <p class="text-xs">Edit Task</p>
                         </span>
                         <span @click="openDeleteTaskModal(task.id)" class="flex flex-col items-center cursor-pointer hover:text-green-400">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
                             </svg>
                             <p class="text-xs">Delete Task</p>
@@ -114,7 +115,7 @@
                             <jet-input-error :message="form.errors.description" class="mt-2" />
                         </div>
 
-                        <div class="flex items-center justify-between mt-5 col-span-6">
+                        <div class="flex items-center justify-between col-span-6 mt-5">
                             <div class="flex items-center text-sm font-medium text-gray-700">
                                 Daily <jet-checkbox :checked="checkBoxChecked(form.daily)" v-model="form.daily" class="ml-2" />
                             </div>
@@ -126,20 +127,20 @@
                             </div>
                         </div>
 
-                        <div v-if="!form.daily" class="col-span-6 mt-5 grid grid-cols-2 gap-8 relative">
+                        <div v-if="!form.daily" class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
                             <div class="relative w-full">
                                 <flat-pickr
                                     v-model="form.spec_date"
                                     :config="flatPickrConfig"
-                                    class="border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                     placeholder="Specify date"
                                     name="spec_date"
                                     ref="specDate"
                                 />
                                 <svg
-                                    @click="clearCalendarInput()"
+                                    @click="clearCalendarInput"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                                    class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
                                     viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path
@@ -150,7 +151,7 @@
                                 <svg
                                     @click="openCalendarOnIconClick"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 cursor-pointer absolute text-gray-500 right-2 bottom-3"
+                                    class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -161,32 +162,32 @@
                                 <flat-pickr
                                     v-model="form.spec_time"
                                     :config="flatPickrConfigTime"
-                                    class="border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                     placeholder="Specify time"
                                     name="spec_time"
                                     ref="specTime"
                                 />
 
                                 <svg
-                                    @click="clearTimeInput()"
+                                    @click="clearTimeInput"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
+                                    class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
                                     viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path
                                         fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer absolute text-gray-500 right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                         </div>
 
-                        <div v-if="showRemindOptions" class="col-span-6 mt-5 grid grid-cols-2 gap-8">
+                        <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8 mt-5">
                             <select
                                 v-model="form.remind_before_option"
-                                class="text-gray-500 w-full border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm appearance-none">
+                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
                                 <option>Remind me before</option>
                                 <option value="minutes">Minutes</option>
                                 <option value="hours">Hours</option>
@@ -225,6 +226,7 @@
 
                 </jet-confirmation-modal>
                 <!-- Delete Task Modal -->
+            </div>
             </div>
         </template>
     </app-layout>
@@ -341,10 +343,10 @@ export default {
             this.$refs.specDate.fp.close();
         },
         clearCalendarInput() {
-            this.searchDate = "";
+            this.form.spec_date = "";
         },
         clearSearchInput() {
-            this.searchQuery = "";
+            this.form.spec_time = "";
         },
         openEditModal(task) {
             this.showRemindOptions = false;

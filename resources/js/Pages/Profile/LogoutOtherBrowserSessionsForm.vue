@@ -1,11 +1,11 @@
 <template>
     <jet-action-section>
         <template #title>
-            Browser Sessions
+            <span class="text-gray-200">Browser Sessions</span>
         </template>
 
         <template #description>
-            Manage and log out your active sessions on other browsers and devices.
+            <span class="text-gray-200">Manage and log out your active sessions on other browsers and devices.</span>
         </template>
 
         <template #content>
@@ -35,7 +35,7 @@
                             <div class="text-xs text-gray-500">
                                 {{ session.ip_address }},
 
-                                <span class="text-green-500 font-semibold" v-if="session.is_current_device">This device</span>
+                                <span class="font-semibold text-green-500" v-if="session.is_current_device">This device</span>
                                 <span v-else>Last active {{ session.last_active }}</span>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                     Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.
 
                     <div class="mt-4">
-                        <jet-input type="password" class="mt-1 block w-3/4" placeholder="Password"
+                        <jet-input type="password" class="block w-3/4 mt-1" placeholder="Password"
                                     ref="password"
                                     v-model="form.password"
                                     @keyup.enter="logoutOtherBrowserSessions" />

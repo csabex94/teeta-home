@@ -6,11 +6,11 @@
                 <jet-form-section>
 
                 <template #title>
-                    <h1 class="text-2xl text-gray-500">Create New Event</h1>
+                    <h1 class="text-2xl text-gray-200">Create New Event</h1>
                 </template>
 
                 <template #description>
-                    <p class="text-gray500">
+                    <p class="text-gray-200">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     </p>
                 </template>
@@ -34,7 +34,7 @@
                         <jet-input-error :message="form.errors.title" class="mt-2" /> 
                     </div>
 
-                    <div class="col-span-6 mt-5 grid grid-cols-2 gap-8 relative">
+                    <div class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
                         <div class="relative w-full">
                             <jet-label for="date" value="Select Date" />
                             <jet-input id="date" type="date" class="block w-full mt-1" v-model="form.date" />
