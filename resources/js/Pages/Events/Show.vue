@@ -69,7 +69,7 @@
                         <span v-else>Daily</span>
                     </div>
 
-                        <div class="flex items-end">
+                    <div class="flex items-end">
                         <span @click="openEditModal(event)" class="flex flex-col cursor-pointer hover:text-green-400 items-center mx-5">
                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
@@ -84,8 +84,10 @@
                             <p class="text-xs">Delete Event</p>
                         </span>
                     </div>
+
+                    </div>
                 </div>
-            </div>
+                
                 <!-- Edit Event Modal -->
                 <jet-dialog-modal :show="showEditModal" @close="closeEditModal">
                     <template #title>Edit Event</template>
@@ -107,129 +109,107 @@
                                 rows="6"></textarea>
                             <jet-input-error :message="form.errors.description" class="mt-2" />
                         </div>
-                    </div>
-                    <!-- Edit Event Modal -->
-                    <jet-dialog-modal :show="showEditModal" @close="closeEditModal">
-                        <template #title>Edit Event</template>
 
-                        <template #content>
-                            <div class="col-span-6">
-                                <jet-label for="title" value="Title" />
-                                <jet-input id="title" type="text" class="block w-full mt-1" v-model="form.title" autocomplete="title" />
-                                <jet-input-error :message="form.errors.title" class="mt-2" />
+                        <div class="flex items-center text-gray-200 justify-between col-span-6 mt-5">
+                            <div class="flex items-center text-sm font-medium">
+                                Daily <jet-checkbox :checked="checkBoxChecked(form.daily)" v-model="form.daily" class="ml-2" />
                             </div>
-
-                            <div class="col-span-6 mt-5">
-                                <jet-label for="description" value="Description" />
-                                <textarea
-                                    class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                    name="description"
-                                    id="description"
-                                    v-model="form.description"
-                                    rows="6"></textarea>
-                                <jet-input-error :message="form.errors.description" class="mt-2" />
+                            <div v-if="!form.daily" class="flex items-center text-sm font-medium">
+                                Remind Before <jet-checkbox :checked="showRemindOptions" v-model="showRemindOptions" class="ml-2" />
                             </div>
-
-                            <div class="flex items-center text-gray-200 justify-between col-span-6 mt-5">
-                                <div class="flex items-center text-sm font-medium">
-                                    Daily <jet-checkbox :checked="checkBoxChecked(form.daily)" v-model="form.daily" class="ml-2" />
-                                </div>
-                                <div v-if="!form.daily" class="flex items-center text-sm font-medium">
-                                    Remind Before <jet-checkbox :checked="showRemindOptions" v-model="showRemindOptions" class="ml-2" />
-                                </div>
-                                <div class="flex items-center text-sm font-medium">
-                                    Email<jet-checkbox :checked="checkBoxChecked(form.push_email)" v-model="form.push_email" class="ml-2" />
-                                </div>
-                                <div class="flex items-center text-sm font-medium">
-                                    Important<jet-checkbox :checked="checkBoxChecked(form.important)" v-model="form.important" class="ml-2" />
-                                </div>
+                            <div class="flex items-center text-sm font-medium">
+                                Email<jet-checkbox :checked="checkBoxChecked(form.push_email)" v-model="form.push_email" class="ml-2" />
                             </div>
-
-                            <div v-if="!form.daily" class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
-                                <div class="relative w-full">
-                                    <flat-pickr
-                                        v-model="form.spec_date"
-                                        :config="flatPickrConfig"
-                                        class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                        placeholder="Specify date"
-                                        name="spec_date"
-                                        ref="specDate"
-                                    />
-                                    <svg
-                                        @click="clearCalendarInput"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path
-                                            fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-
-                                    <svg
-                                        @click="openCalendarOnIconClick"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <div class="relative w-full">
-                                    <flat-pickr
-                                        v-model="form.spec_time"
-                                        :config="flatPickrConfigTime"
-                                        class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                        placeholder="Specify time"
-                                        name="spec_time"
-                                        ref="specTime"
-                                    />
-
-                                    <svg
-                                        @click="clearTimeInput"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path
-                                            fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
+                            <div class="flex items-center text-sm font-medium">
+                                Important<jet-checkbox :checked="checkBoxChecked(form.important)" v-model="form.important" class="ml-2" />
                             </div>
+                        </div>
 
-                            <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8 mt-5">
-                                <select
-                                    v-model="form.remind_before_option"
-                                    class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
-                                    <option>Remind me before</option>
-                                    <option value="minutes">Minutes</option>
-                                    <option value="hours">Hours</option>
-                                    <option value="days">Days</option>
-                                    <option value="weeks">Weeks</option>
-                                    <option value="months">Months</option>
-                                </select>
-
-                                <jet-input
-                                    type="number"
-                                    class="w-full ml-2"
-                                    v-model="form.remind_before_value"
-                                    :placeholder="getBeforeValuePlaceholder()"
-                                    v-if="form.remind_before_option === 'minutes' || form.remind_before_option === 'hours' || form.remind_before_option === 'days' || form.remind_before_option === 'weeks' || form.remind_before_option === 'months'"
+                        <div v-if="!form.daily" class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
+                            <div class="relative w-full">
+                                <flat-pickr
+                                    v-model="form.spec_date"
+                                    :config="flatPickrConfig"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                    placeholder="Specify date"
+                                    name="spec_date"
+                                    ref="specDate"
                                 />
-                            </div>
-                        </template>
+                                <svg
+                                    @click="clearCalendarInput"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd" />
+                                </svg>
 
-                        <template #footer>
-                            <jet-secondary-button @click="closeEditModal">Cancel</jet-secondary-button>
-                            <jet-button class="ml-3" @click="updateEvent">Save</jet-button>
-                        </template>
-                    </jet-dialog-modal>
-                    <!-- Edit Event Modal -->
+                                <svg
+                                    @click="openCalendarOnIconClick"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div class="relative w-full">
+                                <flat-pickr
+                                    v-model="form.spec_time"
+                                    :config="flatPickrConfigTime"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                    placeholder="Specify time"
+                                    name="spec_time"
+                                    ref="specTime"
+                                />
+
+                                <svg
+                                    @click="clearTimeInput"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8 mt-5">
+                            <select
+                                v-model="form.remind_before_option"
+                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
+                                <option>Remind me before</option>
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months</option>
+                            </select>
+
+                            <jet-input
+                                type="number"
+                                class="w-full ml-2"
+                                v-model="form.remind_before_value"
+                                :placeholder="getBeforeValuePlaceholder()"
+                                v-if="form.remind_before_option === 'minutes' || form.remind_before_option === 'hours' || form.remind_before_option === 'days' || form.remind_before_option === 'weeks' || form.remind_before_option === 'months'"
+                            />
+                        </div>
+                    </template>
+
+                    <template #footer>
+                        <jet-secondary-button @click="closeEditModal">Cancel</jet-secondary-button>
+                        <jet-button class="ml-3" @click="updateEvent">Save</jet-button>
+                    </template>
+                </jet-dialog-modal>
+                <!-- Edit Event Modal -->
 
                 <!-- Delete Event Modal -->
                 <jet-confirmation-modal v-if="showDeleteModal" :show="showDeleteModal" @close="closeDeleteEventModal">
@@ -244,7 +224,7 @@
 
                 </jet-confirmation-modal> 
                 <!-- Delete Event Modal -->
-            
+            </div>
         </template>
     </app-layout>
 </template>
