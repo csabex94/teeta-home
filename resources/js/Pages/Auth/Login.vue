@@ -10,7 +10,7 @@
         <form @submit.prevent="submit">
             <div class="flex items-center my-5 flex-col justify-center">
                 <img class="rounded-full h-16 w-16" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="user avatar" />
-                <h1 class="text-3xl mt-5 text-gray-600 font-semibold">Login to Teeta</h1>
+                <h1 class="text-3xl mt-5 text-gray-200 font-semibold">Login to Teeta</h1>
             </div>
 
             <div>
@@ -26,12 +26,12 @@
             <div class="block mt-4">
                 <label class="flex items-center">
                     <jet-checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    <span class="ml-2 text-sm text-gray-200">Remember me</span>
                 </label>
-                <inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline mt-2 block text-sm text-gray-600 hover:text-gray-900">
+                <inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline mt-2 block text-sm text-gray-200 hover:text-gray-100">
                     Forgot your password?
                 </inertia-link>
-                <inertia-link  :href="route('register')" class="underline mt-2 block text-sm text-gray-600 hover:text-gray-900">
+                <inertia-link  :href="route('register')" class="underline mt-2 block text-sm text-gray-200 hover:text-gray-100">
                     Don't have a account?
                 </inertia-link>
             </div>

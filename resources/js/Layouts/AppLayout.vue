@@ -2,7 +2,7 @@
     <div class="flex h-screen bg-gray-800">
 
         <!-- Desktop sidebar -->
-        <aside class="z-30 flex-shrink-0 hidden w-56 pl-2 overflow-y-auto bg-gray-800 md:block">
+        <aside class="z-30 flex-shrink-0 hidden w-56 pl-2 border-r border-gray-200 overflow-y-auto bg-gray-800 md:block">
             <div>
                 <div class="text-white">
                     <div class="flex p-2 bg-gray-800">
@@ -93,7 +93,7 @@
         </aside>
 
         <div class="flex flex-col w-full h-full overflow-y-auto">
-            <header class="fixed top-0 right-0 z-20 flex items-center w-full px-5 py-4 bg-gray-800 h-18">
+            <header class="fixed top-0 border-b border-gray-200 right-0 z-20 flex items-center w-full px-5 py-4 bg-gray-800 h-18">
                 <div class="w-full" />
 
                 <div class="flex items-center justify-center h-10 mr-5 text-green-400 bg-white rounded-full cursor-pointer w-11 hover:bg-green-400 hover:text-white">

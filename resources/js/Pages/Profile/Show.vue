@@ -4,26 +4,23 @@
             <div class="py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <update-profile-information-form :user="$page.props.user" />
-
-                    <jet-section-border />
+                    <div class="h-8" />
                 </div>
 
                 <div v-if="$page.props.jetstream.canUpdatePassword">
                     <update-password-form class="mt-10 sm:mt-0" />
-
-                    <jet-section-border />
+                    <div class="h-8" />
                 </div>
 
                 <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
                     <two-factor-authentication-form class="mt-10 sm:mt-0" />
-
-                    <jet-section-border />
+                    <div class="h-8" />
                 </div>
 
                 <logout-other-browser-sessions-form :sessions="sessions" class="mt-10 sm:mt-0" />
 
                 <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">
-                    <jet-section-border />
+                    <div class="h-8" />
 
                     <delete-user-form class="mt-10 sm:mt-0" />
                 </template>
