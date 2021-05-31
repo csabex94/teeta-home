@@ -64,7 +64,7 @@
                     </div>
 
                     <div>
-                        <span>{{ getFormattedDate(event.date) }} | {{ getFormattedTime(event.spec_time) }}</span>
+                        <span>{{ getFormattedDate(event.spec_date) }} | {{ getFormattedTime(event.spec_time) }}</span>
                     </div>
 
                     <div class="flex items-end">
@@ -105,22 +105,46 @@
                             <jet-input-error :message="form.errors.description" class="mt-2" />
                         </div>
 
-                        <div class="col-span-6 mt-5 grid grid-cols-2 gap-8 relative">
+                        <div class="flex items-center justify-between col-span-6 mt-5">
+                            <div class="flex items-center text-sm font-medium text-gray-700">
+                                Daily <jet-checkbox :checked="checkBoxChecked(form.daily)" v-model="form.daily" class="ml-2" />
+                            </div>
+                            <div v-if="!form.daily" class="flex items-center text-sm font-medium text-gray-700">
+                                Remind Before <jet-checkbox :checked="showRemindOptions" v-model="showRemindOptions" class="ml-2" />
+                            </div>
+                            <div class="flex items-center text-sm font-medium text-gray-700">
+                                Email<jet-checkbox :checked="checkBoxChecked(form.push_email)" v-model="form.push_email" class="ml-2" />
+                            </div>
+                            <div class="flex items-center text-sm font-medium text-gray-700">
+                                Important<jet-checkbox :checked="checkBoxChecked(form.important)" v-model="form.important" class="ml-2" />
+                            </div>
+                        </div>
+
+                        <div v-if="!form.daily" class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
                             <div class="relative w-full">
-                                <jet-label for="date" value="Date" />
                                 <flat-pickr
-                                    v-model="form.date"
+                                    v-model="form.spec_date"
                                     :config="flatPickrConfig"
-                                    class="border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                     placeholder="Specify date"
                                     name="spec_date"
                                     ref="specDate"
                                 />
+                                <svg
+                                    @click="clearCalendarInput"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd" />
+                                </svg>
 
                                 <svg
                                     @click="openCalendarOnIconClick"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 cursor-pointer absolute text-gray-500 right-2 bottom-3"
+                                    class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -128,22 +152,56 @@
                                 </svg>
                             </div>
                             <div class="relative w-full">
-                                <jet-label for="spec_time" value="Time" />
                                 <flat-pickr
                                     v-model="form.spec_time"
                                     :config="flatPickrConfigTime"
-                                    class="border-gray-300 cursor-pointer w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                     placeholder="Specify time"
                                     name="spec_time"
+                                    ref="specTime"
                                 />
+
+                                <svg
+                                    @click="clearTimeInput"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="absolute w-5 h-5 text-gray-500 cursor-pointer right-10 bottom-3"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-6 h-6 text-gray-500 cursor-pointer right-2 bottom-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
                             </div>
                         </div>
 
+                        <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8 mt-5">
+                            <select
+                                v-model="form.remind_before_option"
+                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
+                                <option>Remind me before</option>
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months</option>
+                            </select>
+
+                            <jet-input
+                                type="number"
+                                class="w-full ml-2"
+                                v-model="form.remind_before_value"
+                                :placeholder="getBeforeValuePlaceholder()"
+                                v-if="form.remind_before_option === 'minutes' || form.remind_before_option === 'hours' || form.remind_before_option === 'days' || form.remind_before_option === 'weeks' || form.remind_before_option === 'months'"
+                            />
+                        </div>
                     </template>
 
                     <template #footer>
                         <jet-secondary-button @click="closeEditModal">Cancel</jet-secondary-button>
-                        <jet-button @click="updateEvent" class="ml-3">Save</jet-button>
+                        <jet-button class="ml-3" @click="updateEvent">Save</jet-button>
                     </template>
                 </jet-dialog-modal>
                 <!-- Edit Event Modal -->
@@ -201,6 +259,7 @@ export default {
           showEditModal: false,
           eventToDeleteId: null,
           eventToEdit: null,
+          showRemindOptions: false,
           flatPickrConfig: {
               altFormat: 'M j, Y',
               altInput: true,
@@ -214,8 +273,13 @@ export default {
           form: this.$inertia.form({
               title: "",
               description: "",
-              date: "",
-              spec_time: ""
+              daily: false,
+              important: false,
+              push_email: false,
+              spec_date: "",
+              spec_time: "",
+              remind_before_value: "",
+              remind_before_option: "Remind me before"
           })
       }
     },
@@ -260,7 +324,7 @@ export default {
             return  moment(date).format('dddd, MMMM Do YYYY')
         },
         getFormattedTime(time) {
-            return moment(time,'h:mm:ss').format('HH:mm A');
+            return time ? moment(time,'h:mm:ss').format('HH:mm A') : "";
         },
         getReducedDescription(text) {
             if (text.length > 80) {
@@ -286,11 +350,21 @@ export default {
             this.searchQuery = "";
         },
         openEditModal(event) {
+            this.showRemindOptions = false;
+            this.form.remind_before_option = "Remind me before";
             this.eventToEdit = event;
             this.form.title = event.title;
             this.form.description = event.description;
-            this.form.date = event.date;
+            this.form.daily = event.daily;
+            this.form.important = event.important;
+            this.form.push_email = event.push_email;
+            this.form.spec_date = event.spec_date;
             this.form.spec_time = event.spec_time;
+            if (event.remind_before_option && event.remind_before_value) {
+                this.form.remind_before_value = event.remind_before_value;
+                this.form.remind_before_option = event.remind_before_option;
+                this.showRemindOptions = true;
+            }
             this.showEditModal = true;
         },
         closeEditModal() {
@@ -300,19 +374,47 @@ export default {
             this.$refs.specDate.fp.toggle();
         },
         updateEvent() {
+            if (!this.showRemindOptions) {
+                this.form.remind_before_value = null;
+                this.form.remind_before_option = null;
+            }
             this.form.put(route('events.update', { eventId: this.eventToEdit.id }), {
                 onSuccess: () => {
                     this.showEditModal = false;
                 }
             });
-        }
+        },
+        getBeforeValuePlaceholder() {
+            switch (this.form.remind_before_option) {
+                case "minutes":
+                    return "Specify minutes"
+                case "hours":
+                    return "Specify hours"
+                case "days":
+                    return "Specify days"
+                case "weeks":
+                    return "Specify weeks"
+                case "months":
+                    return "Specify months"
+            }
+        },
+        checkBoxChecked(value) {
+            return value === 1;
+        },
     },
     computed: {
-        
+        daily() {
+            return this.form.daily
+        }
     },
     watch: {
         searchQuery(value) {
-            this.searchForEvent();
+            this.searchForTask();
+        },
+        daily(value) {
+            if (value === true) {
+                this.showRemindOptions = false;
+            }
         }
     },
 }

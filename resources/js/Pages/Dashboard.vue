@@ -2,10 +2,10 @@
     <app-layout>
         <template #content>
            <div class="w-full">
-                <calendar :allTasks="allTasks" />
-                <div class="grid w-full grid-cols-2 gap-4">
+                <calendar :allTasks="allTasks" :allEvents="allEvents" />
+                <div class="grid w-full mx-auto grid-cols-2 gap-4 pr-5">
+                    <daily-events :events="events" />
                     <today-tasks :tasks="tasks" />
-                    <upcoming-tasks :upcomingTasks="upcomingTasks" />
                 </div>
            </div>
         </template>
@@ -17,7 +17,11 @@
     import JetCheckbox from '@/Jetstream/Checkbox';
     import TodayTasks from '@/Components/TodayTasks';
     import UpcomingTasks from "@/Components/UpcomingTasks";
-    import Calendar from '@/Components/Calendar';
+    import DailyEvents from "@/Components/DailyEvents";
+
+    import Calendar from "@/Components/Calendar";
+    import moment from 'moment';
+
 
     export default {
         components: {
@@ -25,12 +29,15 @@
             JetCheckbox,
             TodayTasks,
             UpcomingTasks,
-            Calendar
+            Calendar,
+            DailyEvents
         },
         props: {
           tasks: Array,
           upcomingTasks: Array,
-          allTasks: Array
+          allTasks: Array,
+          allEvents: Array,
+          events: Array
         }
     }
 </script>

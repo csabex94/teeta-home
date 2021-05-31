@@ -74,10 +74,6 @@
                     </div>
 
                     <div class="flex items-end">
-                        <span class="flex flex-col items-center cursor-pointer hover:text-green-400">
-                            <jet-checkbox />
-                            <p class="mt-1 text-xs">Complete Task</p>
-                        </span>
                         <span @click="openEditModal(task)" class="flex flex-col items-center mx-5 cursor-pointer hover:text-green-400">
                              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
@@ -124,6 +120,9 @@
                             </div>
                             <div class="flex items-center text-sm font-medium text-gray-700">
                                 Email<jet-checkbox :checked="checkBoxChecked(form.push_email)" v-model="form.push_email" class="ml-2" />
+                            </div>
+                            <div class="flex items-center text-sm font-medium text-gray-700">
+                                Important<jet-checkbox :checked="checkBoxChecked(form.important)" v-model="form.important" class="ml-2" />
                             </div>
                         </div>
 

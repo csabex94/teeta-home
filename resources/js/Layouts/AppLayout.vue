@@ -2,7 +2,7 @@
     <div class="flex h-screen bg-gray-800">
 
         <!-- Desktop sidebar -->
-        <aside class="z-30 flex-shrink-0 hidden w-48 pl-2 overflow-y-auto bg-gray-800 md:block">
+        <aside class="z-30 flex-shrink-0 hidden w-56 pl-2 overflow-y-auto bg-gray-800 md:block">
             <div>
                 <div class="text-white">
                     <div class="flex p-2 bg-gray-800">
