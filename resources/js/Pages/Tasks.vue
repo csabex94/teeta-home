@@ -309,8 +309,10 @@ export default {
         },
         deleteTask() {
             this.$inertia.delete(route("delete.task", { taskId: this.taskToDeleteId }, {
-                onSuccess: () => {}
-            }))
+                onSuccess: () => {
+                    this.showDeleteModal = false;
+                }
+            }));
         },
         openDeleteTaskModal(taskId) {
             this.taskToDeleteId = taskId;

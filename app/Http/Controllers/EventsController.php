@@ -20,7 +20,7 @@ class EventsController extends Controller {
             $events = Event::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
-            ])->limit(20)->get();
+            ])->limit(5)->get();
         } else {
             $next = Carbon::parse($request->date)->addDay(1);
             $events = Event::where([
@@ -32,7 +32,8 @@ class EventsController extends Controller {
         }
 
         return Inertia::render('Events/Show', [
-            'events' => $events
+            'events' => $events,
+            'success' => 'Test'
         ]);
     }
 
@@ -44,7 +45,7 @@ class EventsController extends Controller {
         $validated = $request->validate([
             'title' => ['required', 'max:50'],
             'description' => ['required'],
-            'date' => ['required', 'date'],
+            'date' => ['required'],
             'spec_time' => ['required']
         ]);
 
@@ -83,7 +84,6 @@ class EventsController extends Controller {
         ]);
 
         $eventToUpdate = Event::find($request->eventId);
-
         $eventToUpdate->title = $validate['title']; 
         $eventToUpdate->description = $validate['description'];
         $eventToUpdate->date = $validate['date'];
@@ -97,6 +97,6 @@ class EventsController extends Controller {
     public function delete(Request $request) {
         Event::find($request->eventId)->delete();
 
-        return Redirect::back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
+        return redirect()->back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
     }
 }

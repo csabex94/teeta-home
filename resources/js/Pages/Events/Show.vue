@@ -179,6 +179,7 @@ import JetLabel from '@/Jetstream/Label';
 import moment from 'moment';
 import _ from 'lodash';
 import flatPickr from 'vue-flatpickr-component';
+
 export default {
     components: {
         AppLayout,
@@ -218,6 +219,12 @@ export default {
           })
       }
     },
+    mounted() {
+        return {
+            showDeleteModal: false,
+            showEditModal: false
+        }
+    },
     props: {
         events: Array
     },
@@ -237,7 +244,9 @@ export default {
         },
         deleteEvent() {
             this.$inertia.delete(route("events.delete", { eventId: this.eventToDeleteId }, {
-                onSuccess: () => {}
+                onSuccess: () => {
+                    
+                }
             }))
         },
         openDeleteEventModal(eventId) {
