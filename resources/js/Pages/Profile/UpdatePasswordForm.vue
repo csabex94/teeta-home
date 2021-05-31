@@ -1,11 +1,11 @@
 <template>
     <jet-form-section @submitted="updatePassword">
         <template #title>
-            Update Password
+            <span class="text-gray-200">Update Password</span>
         </template>
 
         <template #description>
-            Ensure your account is using a long, random password to stay secure.
+            <span class="text-gray-200">Ensure your account is using a long, random password to stay secure.</span>
         </template>
 
         <template #form>

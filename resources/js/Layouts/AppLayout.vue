@@ -2,7 +2,7 @@
     <div class="flex h-screen bg-gray-800">
 
         <!-- Desktop sidebar -->
-        <aside class="z-30 flex-shrink-0 hidden pl-2 overflow-y-auto bg-gray-800 w-60 md:block">
+        <aside class="z-30 flex-shrink-0 hidden w-56 pl-2 overflow-y-auto bg-gray-800 md:block">
             <div>
                 <div class="text-white">
                     <div class="flex p-2 bg-gray-800">
@@ -110,7 +110,7 @@
 
             </header>
             <main class="flex-grow mt-16">
-                <div class="px-8 py-10 mx-4 mt-5 mb-4 bg-gray-100 border-4 border-green-400 rounded-3xl">
+                <div class="pb-10 pr-5 mt-5 mb-4 ">
                     <slot name="content"></slot>
                 </div>
             </main>

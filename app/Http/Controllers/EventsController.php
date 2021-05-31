@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Task;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -12,7 +14,7 @@ use Carbon\Carbon;
 class EventsController extends Controller {
 
     public function __construct() {
-        
+
     }
 
     public function show(Request $request) {
@@ -41,24 +43,42 @@ class EventsController extends Controller {
     }
 
     public function store(Request $request) {
-        $validated = $request->validate([
-            'title' => ['required', 'max:50'],
-            'description' => ['required'],
-            'date' => ['required', 'date'],
-            'spec_time' => ['required']
+        $validData = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'daily' => 'required|boolean',
+            'push_email' => 'required|boolean',
+            'important' => 'required|boolean'
         ]);
+        $newEvent = new Event();
 
-        if($validated) {
-            Event::create([
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'date' => $request->input('date'),
-                'spec_time' => $request->input('spec_time'),
-                'user_id' => Auth::id()
-            ]);
+        if ($validData) {
+            $newEvent->title = $validData['title'];
+            $newEvent->description = $validData['description'];
+            $newEvent->daily = $validData['daily'];
+            $newEvent->push_email = $validData['push_email'];
+            $newEvent->important = $validData['important'];
+            $newEvent->user_id = auth()->user()->id;
         }
 
-        return Redirect::route('events.show')->with('success', 'Event created.');
+        if ($request->spec_date) {
+            $newEvent->spec_date = $request->spec_date;
+        }
+
+        if ($request->spec_time) {
+            $newEvent->spec_time = $request->spec_time;
+        }
+
+        if ($request->remind_before_option && $request->remind_before_option != 'Remind me before') {
+            $newEvent->remind_before_option = $request->remind_before_option;
+        }
+
+        if ($request->remind_before_value) {
+            $newEvent->remind_before_value = $request->remind_before_value;
+        }
+
+        $newEvent->save();
+        return Inertia::render('Events/Create');
     }
 
     public function edit(Event $event)
@@ -75,23 +95,49 @@ class EventsController extends Controller {
     }
 
     public function update(Request $request) {
-        $validate = $request->validate([
+        $validData = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'date' => 'required',
-            'spec_time' => 'required'
+            'daily' => 'required|boolean',
+            'push_email' => 'required|boolean',
+            'important' => 'required|boolean'
         ]);
+        $eventToUpdate = Event::where('id', $request->eventId)->first();
 
-        $eventToUpdate = Event::find($request->eventId);
+        $eventToUpdate->title = $validData['title'];
+        $eventToUpdate->description = $validData['description'];
+        $eventToUpdate->push_email = $validData['push_email'];
+        $eventToUpdate->important = $validData['important'];
 
-        $eventToUpdate->title = $validate['title']; 
-        $eventToUpdate->description = $validate['description'];
-        $eventToUpdate->date = $validate['date'];
-        $eventToUpdate->spec_time = $validate['spec_time'];
+        if ($validData['daily'] == true || $validData['daily'] == 1) {
+            $eventToUpdate->remind_before_option = NULL;
+            $eventToUpdate->remind_before_value = NULL;
+            $eventToUpdate->spec_date = NULL;
+            $eventToUpdate->daily = 1;
+        } else {
+            $eventToUpdate->daily = 0;
+            if ($request->remind_before_option && $request->remind_before_value) {
+                $eventToUpdate->remind_before_option = $request->remind_before_option;
+                $eventToUpdate->remind_before_value = $request->remind_before_value;
+            } else {
+                $eventToUpdate->remind_before_option = NULL;
+                $eventToUpdate->remind_before_value = NULL;
+            }
+            if ($request->spec_date) {
+                $eventToUpdate->spec_date = $request->spec_date;
+            } else {
+                $eventToUpdate->spec_date = NULL;
+            }
 
+            if ($request->spec_time) {
+                $eventToUpdate->spec_time = $request->spec_time;
+            } else {
+                $eventToUpdate->spec_time = NULL;
+            }
+        }
         $eventToUpdate->save();
 
-        return Redirect::back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
+        return redirect()->back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
     }
 
     public function delete(Request $request) {

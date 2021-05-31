@@ -33,7 +33,6 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-
         $validData = $request->validate([
            'title' => 'required|string',
            'description' => 'required|string',
@@ -73,7 +72,7 @@ class TaskController extends Controller
     public function deleteTask(Request $request)
     {
         Task::where('id', $request->taskId)->first()->delete();
-        return redirect()->back()->with(['tasks' => Task::where('user_id', auth()->user()->id)->get()]);
+        return Inertia::render('Tasks', ['tasks' => Task::where('user_id', auth()->user()->id)->get()]);
     }
 
     public function updateTask(Request $request)
