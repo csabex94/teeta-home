@@ -1,12 +1,12 @@
 <template>
     <div class="w-full h-full">
-        <span class="mb-5 text-xl flex items-center justify-center text-gray-200">Today's <p class="text-green-400 ml-2">Tasks</p></span>
+        <span class="mb-5 text-xl flex items-center justify-center text-gray-200">Today's <p class="text-indigo-400 ml-2">Tasks</p></span>
         <span v-if="tasks.length <= 0" class="block text-center text-sm text-gray-200">Not tasks for today.</span>
 
         <div v-for="task in tasks" :key="task.id" class="h-24 px-2 mb-2 text-white bg-gray-700 rounded-md shadow-lg">
             <div class="flex items-center justify-between h-full px-2">
                 <div>
-                    <span class="font-semibold text-green-400">{{ task.title }}<span v-if="task.spec_time"> - {{ getFormattedTime(task.spec_time) }}</span></span>
+                    <span class="font-semibold text-indigo-400">{{ task.title }}<span v-if="task.spec_time"> - {{ getFormattedTime(task.spec_time) }}</span></span>
                     <p class="text-xs">{{ getReducedDescription(task.description) }}</p>
                 </div>
                 <div class="flex items-center">

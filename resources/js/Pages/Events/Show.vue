@@ -86,28 +86,6 @@
                     </div>
                 </div>
             </div>
-                <!-- Edit Event Modal -->
-                <jet-dialog-modal :show="showEditModal" @close="closeEditModal">
-                    <template #title>Edit Event</template>
-
-                    <template #content>
-                        <div class="col-span-6">
-                            <jet-label for="title" value="Title" />
-                            <jet-input id="title" type="text" class="block w-full mt-1" v-model="form.title" autocomplete="title" />
-                            <jet-input-error :message="form.errors.title" class="mt-2" />
-                        </div>
-
-                        <div class="col-span-6 mt-5">
-                            <jet-label for="description" value="Description" />
-                            <textarea
-                                class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                name="description"
-                                id="description"
-                                v-model="form.description"
-                                rows="6"></textarea>
-                            <jet-input-error :message="form.errors.description" class="mt-2" />
-                        </div>
-                    </div>
                     <!-- Edit Event Modal -->
                     <jet-dialog-modal :show="showEditModal" @close="closeEditModal">
                         <template #title>Edit Event</template>
@@ -242,9 +220,9 @@
                             <jet-danger-button @click="deleteEvent" class="ml-3">Confirm</jet-danger-button>
                         </template>
 
-                </jet-confirmation-modal> 
+                </jet-confirmation-modal>
                 <!-- Delete Event Modal -->
-            
+            </div>
         </template>
     </app-layout>
 </template>
@@ -328,7 +306,7 @@ export default {
         deleteEvent() {
             this.showDeleteModal = false;
             this.$inertia.delete(route("events.delete", { eventId: this.eventToDeleteId }, {
-                
+
             }));
         },
         openDeleteEventModal(eventId) {
