@@ -89,6 +89,7 @@
                         </span>
                     </div>
                 </div>
+            </div>
                 <!-- Edit Task Modal -->
                 <jet-dialog-modal :show="showEditModal" @close="closeEditModal">
                     <template #title>Edit Task</template>
@@ -213,10 +214,10 @@
                 <!-- Edit Task Modal -->
 
                 <!-- Delete Task Modal -->
-                <jet-confirmation-modal :show="showDeleteModal" @close="closeDeleteTaskModal">
+                <jet-confirmation-modal v-if="showDeleteModal" :show="showDeleteModal" @close="closeDeleteTaskModal">
 
                     <template #title>Delete Task</template>
-                    <template #content>Are you sure you want to delete this task? taskId: {{ taskToDeleteId }}</template>
+                    <template #content>Are you sure you want to delete this task?</template>
 
                     <template #footer>
                         <jet-secondary-button @click="closeDeleteTaskModal">Cancel</jet-secondary-button>
@@ -225,7 +226,6 @@
 
                 </jet-confirmation-modal>
                 <!-- Delete Task Modal -->
-            </div>
             </div>
         </template>
     </app-layout>
@@ -307,9 +307,10 @@ export default {
             }
         },
         deleteTask() {
+            this.showDeleteModal = false;
             this.$inertia.delete(route("delete.task", { taskId: this.taskToDeleteId }, {
                 onSuccess: () => {
-                    this.showDeleteModal = false;
+                    
                 }
             }));
         },

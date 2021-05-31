@@ -111,6 +111,7 @@
             </header>
             <main class="flex-grow mt-16">
                 <div class="pb-10 pr-5 mt-5 mb-4 ">
+                    <flash-messages></flash-messages>
                     <slot name="content"></slot>
                 </div>
             </main>
@@ -119,13 +120,13 @@
 </template>
 
 <script>
-    import JetApplicationMark from '@/Jetstream/ApplicationMark'
-    import JetBanner from '@/Jetstream/Banner'
-    import JetDropdown from '@/Jetstream/Dropdown'
-    import JetDropdownLink from '@/Jetstream/DropdownLink'
-    import JetNavLink from '@/Jetstream/NavLink'
-    import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
-    //import FlashMessages from '@/Shared/FlashMessages'
+    import JetApplicationMark from '@/Jetstream/ApplicationMark';
+    import JetBanner from '@/Jetstream/Banner';
+    import JetDropdown from '@/Jetstream/Dropdown';
+    import JetDropdownLink from '@/Jetstream/DropdownLink';
+    import JetNavLink from '@/Jetstream/NavLink';
+    import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink';
+    import FlashMessages from '@/Components/FlashMessages';
 
     export default {
         components: {
@@ -135,7 +136,7 @@
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
-            //FlashMessages
+            FlashMessages
         },
 
         data() {

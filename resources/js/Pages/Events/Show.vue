@@ -64,7 +64,8 @@
                     </div>
 
                     <div>
-                        <span>{{ getFormattedDate(event.spec_date) }} | {{ getFormattedTime(event.spec_time) }}</span>
+                        <span v-if="event.spec_date !== null">{{ getFormattedDate(event.spec_date) }} | {{ getFormattedTime(event.spec_time) }}</span>
+                        <span v-else>Daily</span>
                     </div>
 
                     <div class="flex items-end">
@@ -83,6 +84,7 @@
                         </span>
                     </div>
                 </div>
+            </div>
                 <!-- Edit Event Modal -->
                 <jet-dialog-modal :show="showEditModal" @close="closeEditModal">
                     <template #title>Edit Event</template>
@@ -207,19 +209,19 @@
                 <!-- Edit Event Modal -->
 
                 <!-- Delete Event Modal -->
-                <jet-confirmation-modal :show="showDeleteModal" @close="closeDeleteEventModal">
+                <jet-confirmation-modal v-if="showDeleteModal" :show="showDeleteModal" @close="closeDeleteEventModal">
 
                     <template #title>Delete Event</template>
-                    <template #content>Are you sure you want to delete this event? eventId: {{ eventToDeleteId }}</template>
+                    <template #content>Are you sure you want to delete this event?</template>
 
                     <template #footer>
                         <jet-secondary-button @click="closeDeleteEventModal">Cancel</jet-secondary-button>
                         <jet-danger-button @click="deleteEvent" class="ml-3">Confirm</jet-danger-button>
                     </template>
 
-                </jet-confirmation-modal>
+                </jet-confirmation-modal> 
                 <!-- Delete Event Modal -->
-            </div>
+            
         </template>
     </app-layout>
 </template>
@@ -283,12 +285,6 @@ export default {
           })
       }
     },
-    mounted() {
-        return {
-            showDeleteModal: false,
-            showEditModal: false
-        }
-    },
     props: {
         events: Array
     },
@@ -307,11 +303,10 @@ export default {
             }
         },
         deleteEvent() {
+            this.showDeleteModal = false;
             this.$inertia.delete(route("events.delete", { eventId: this.eventToDeleteId }, {
-                onSuccess: () => {
-                    
-                }
-            }))
+                
+            }));
         },
         openDeleteEventModal(eventId) {
             this.eventToDeleteId = eventId;
@@ -409,7 +404,7 @@ export default {
     },
     watch: {
         searchQuery(value) {
-            this.searchForTask();
+            this.searchForEvent();
         },
         daily(value) {
             if (value === true) {

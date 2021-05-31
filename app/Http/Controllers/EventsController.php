@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\Task;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class EventsController extends Controller {
 
@@ -22,7 +19,7 @@ class EventsController extends Controller {
             $events = Event::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
-            ])->limit(5)->get();
+            ])->limit(20)->get();
         } else {
             $next = Carbon::parse($request->date)->addDay(1);
             $events = Event::where([
@@ -30,12 +27,11 @@ class EventsController extends Controller {
                 ['title', 'LIKE', "%$request->search%"],
                 ['date', '>=' ,$request->date],
                 ['date', '<=' ,$next]
-            ])->get();
+            ])->orderBy('created_at', 'desc')->get();
         }
 
         return Inertia::render('Events/Show', [
-            'events' => $events,
-            'success' => 'Test'
+            'events' => $events
         ]);
     }
 
@@ -64,6 +60,8 @@ class EventsController extends Controller {
 
         if ($request->spec_date) {
             $newEvent->spec_date = $request->spec_date;
+        } else {
+            $newEvent->daily = 1;
         }
 
         if ($request->spec_time) {
@@ -79,7 +77,7 @@ class EventsController extends Controller {
         }
 
         $newEvent->save();
-        return Inertia::render('Events/Create');
+        return redirect()->route('events.show')->with('success', 'Event created.');
     }
 
     public function edit(Event $event)
@@ -138,12 +136,13 @@ class EventsController extends Controller {
         }
         $eventToUpdate->save();
 
-        return redirect()->back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
+        return redirect()->back()->with('success', 'Event modified successfully.');
     }
 
     public function delete(Request $request) {
         Event::find($request->eventId)->delete();
-
-        return redirect()->back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
+        Session::put('record_deleted', true);
+        
+        return redirect()->back()->with('success', 'Event deleted successfully.');
     }
 }

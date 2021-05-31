@@ -66,13 +66,13 @@ class TaskController extends Controller
         }
 
         $newTask->save();
-        return Inertia::render('CreateTask');
+        return redirect()->route('tasks')->with('success', 'Task created successfully!');
     }
 
     public function deleteTask(Request $request)
     {
         Task::where('id', $request->taskId)->first()->delete();
-        return Inertia::render('Tasks', ['tasks' => Task::where('user_id', auth()->user()->id)->get()]);
+        return redirect()->back()->with('success', 'Task deleted successfully!');
     }
 
     public function updateTask(Request $request)
