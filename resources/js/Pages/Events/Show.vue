@@ -222,7 +222,7 @@
                             <jet-danger-button @click="deleteEvent" class="ml-3">Confirm</jet-danger-button>
                         </template>
 
-                </jet-confirmation-modal> 
+                </jet-confirmation-modal>
                 <!-- Delete Event Modal -->
             </div>
         </template>
@@ -308,7 +308,7 @@ export default {
         deleteEvent() {
             this.showDeleteModal = false;
             this.$inertia.delete(route("events.delete", { eventId: this.eventToDeleteId }, {
-                
+
             }));
         },
         openDeleteEventModal(eventId) {

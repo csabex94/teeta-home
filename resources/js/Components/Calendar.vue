@@ -1,7 +1,7 @@
 <template>
 
     <div class="w-full mx-auto calendar-wrapper">
-        <div class="flex flex-col items-start justify-between border-r h-full border-b border-gray-200 sidebar">
+        <div class="flex flex-col items-start justify-between h-full sidebar">
 
             <div class="py-8 h-full flex flex-col justify-around mx-auto">
                 <h2 class="mb-32 text-2xl font-bold text-gray-400">{{ year }}</h2>
@@ -13,7 +13,7 @@
                 >{{ month }}</div>
             </div>
         </div>
-        <div class="content border-b border-gray-200">
+        <div class="content">
             <div class="flex pl-8 mt-8 header">
                 <h2 class="py-2 mr-5 text-gray-200 ">Event Type</h2>
                 <div class="flex items-center justify-around ">

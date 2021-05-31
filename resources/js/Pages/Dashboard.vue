@@ -2,8 +2,8 @@
     <app-layout>
         <template #content>
            <div class="w-full">
-               <div class="mx-auto border-b border-gray-200">
-                   <div class="grid px-5 grid-cols-2 my-10 gap-4">
+               <div class="mx-auto">
+                   <div class="grid grid-cols-2 my-10 gap-4">
                        <daily-events :date="today" :events="eventList" />
                        <today-tasks :date="today" :tasks="taskList" />
                    </div>
@@ -24,7 +24,6 @@
     import JetSectionBorder from '@/Jetstream/SectionBorder';
     import Calendar from "@/Components/Calendar";
     import moment from 'moment';
-
 
     export default {
         components: {
@@ -59,7 +58,8 @@
             }
         },
         mounted() {
-            this.today = moment().format('YYYY MMMM d')
-        }
+            this.today = moment().format('YYYY MMMM d');
+        },
+
     }
 </script>

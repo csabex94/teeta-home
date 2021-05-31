@@ -17654,6 +17654,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var channel = Echo.channel('my-channel');
+channel.listen('.my-event', function (data) {
+  alert(JSON.stringify(data));
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     JetApplicationMark: _Jetstream_ApplicationMark__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -19571,7 +19575,7 @@ var _hoisted_1 = {
   "class": "w-full mx-auto calendar-wrapper"
 };
 var _hoisted_2 = {
-  "class": "flex flex-col items-start justify-between border-r h-full border-b border-gray-200 sidebar"
+  "class": "flex flex-col items-start justify-between h-full sidebar"
 };
 var _hoisted_3 = {
   "class": "py-8 h-full flex flex-col justify-around mx-auto"
@@ -19580,7 +19584,7 @@ var _hoisted_4 = {
   "class": "mb-32 text-2xl font-bold text-gray-400"
 };
 var _hoisted_5 = {
-  "class": "content border-b border-gray-200"
+  "class": "content"
 };
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
@@ -20022,7 +20026,7 @@ var _hoisted_1 = {
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
   "class": "mb-5 text-xl flex items-center justify-center text-gray-200"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Today's "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-green-400 ml-2"
+  "class": "text-indigo-400 ml-2"
 }, "Tasks")], -1
 /* HOISTED */
 );
@@ -20035,7 +20039,7 @@ var _hoisted_4 = {
   "class": "flex items-center justify-between h-full px-2"
 };
 var _hoisted_5 = {
-  "class": "font-semibold text-green-400"
+  "class": "font-semibold text-indigo-400"
 };
 var _hoisted_6 = {
   key: 0
@@ -21321,7 +21325,7 @@ var _hoisted_1 = {
   "class": "flex h-screen bg-gray-800"
 };
 var _hoisted_2 = {
-  "class": "z-30 flex-shrink-0 hidden w-56 pl-2 border-r border-gray-200 overflow-y-auto bg-gray-800 md:block"
+  "class": "z-30 flex-shrink-0 hidden w-56 pl-2 overflow-y-auto bg-gray-800 md:block"
 };
 var _hoisted_3 = {
   "class": "text-white"
@@ -21491,7 +21495,7 @@ var _hoisted_22 = {
   "class": "flex flex-col w-full h-full overflow-y-auto"
 };
 var _hoisted_23 = {
-  "class": "fixed top-0 border-b border-gray-200 right-0 z-20 flex items-center w-full px-5 py-4 bg-gray-800 h-18"
+  "class": "fixed top-0 right-0 z-20 flex items-center w-full px-5 py-4 bg-gray-800 h-18"
 };
 
 var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
@@ -23020,7 +23024,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-gray-200"
-}, null, -1
+}, " Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", -1
 /* HOISTED */
 );
 
@@ -23369,10 +23373,10 @@ var _hoisted_1 = {
   "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "mx-auto border-b border-gray-200"
+  "class": "mx-auto"
 };
 var _hoisted_3 = {
-  "class": "grid px-5 grid-cols-2 my-10 gap-4"
+  "class": "grid grid-cols-2 my-10 gap-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_daily_events = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("daily-events");
@@ -23436,7 +23440,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-gray-200"
-}, null, -1
+}, " Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", -1
 /* HOISTED */
 );
 
@@ -26517,8 +26521,11 @@ _inertiajs_progress__WEBPACK_IMPORTED_MODULE_2__.InertiaProgress.init({
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
   \***********************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'laravel-echo'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -26533,14 +26540,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-// import Echo from 'laravel-echo';
-// window.Pusher = require('pusher-js');
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+
+
+window.Pusher = __webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'pusher-js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+window.Echo = new Object(function webpackMissingModule() { var e = new Error("Cannot find module 'laravel-echo'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())({
+  broadcaster: 'pusher',
+  key: "cfb1ab398ed7babd3469",
+  cluster: "eu",
+  forceTLS: true
+});
 
 /***/ }),
 
