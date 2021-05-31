@@ -1,10 +1,13 @@
 <template>
     <app-layout>
         <template #content>
-            <div class="w-full grid grid-cols-2 gap-4">
-                <today-tasks :tasks="tasks" />
-                <upcoming-tasks :upcomingTasks="upcomingTasks" />
-            </div>
+           <div>
+               <calendar />
+               <div class="w-full grid grid-cols-2 gap-4">
+                   <today-tasks :tasks="tasks" />
+                   <upcoming-tasks :upcomingTasks="upcomingTasks" />
+               </div>
+           </div>
         </template>
     </app-layout>
 </template>
@@ -14,14 +17,18 @@
     import JetCheckbox from '@/Jetstream/Checkbox';
     import TodayTasks from '@/Components/TodayTasks';
     import UpcomingTasks from "@/Components/UpcomingTasks";
+
+    import Calendar from "@/Components/Calendar";
     import moment from 'moment';
+
 
     export default {
         components: {
             AppLayout,
             JetCheckbox,
             TodayTasks,
-            UpcomingTasks
+            UpcomingTasks,
+            Calendar
         },
         props: {
           tasks: Array,
