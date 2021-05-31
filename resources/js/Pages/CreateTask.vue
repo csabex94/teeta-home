@@ -11,7 +11,7 @@
 
                 <template #description>
                     <p class="text-gray-200">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
                     </p>
                 </template>
 
@@ -34,10 +34,10 @@
                         <jet-input-error :message="form.errors.description" class="mt-2" />
                     </div>
 
-                    <div class="flex items-center justify-between col-span-6">
-                        <div class="flex items-center text-sm font-medium text-gray-700">Daily <jet-checkbox v-model="form.daily" class="ml-2" /></div>
-                        <div v-if="!form.daily" class="flex items-center text-sm font-medium text-gray-700">Remind Before <jet-checkbox v-model="showRemindOptions" class="ml-2" /></div>
-                        <div class="flex items-center text-sm font-medium text-gray-700">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
+                    <div class="flex items-center text-gray-200 justify-between col-span-6">
+                        <div class="flex items-center text-sm font-medium">Daily <jet-checkbox v-model="form.daily" class="ml-2" /></div>
+                        <div v-if="!form.daily" class="flex items-center text-sm font-medium">Remind Before <jet-checkbox v-model="showRemindOptions" class="ml-2" /></div>
+                        <div class="flex items-center text-sm font-medium">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
                     </div>
 
                     <div v-if="!form.daily" class="grid grid-cols-2 col-span-6 gap-8">

@@ -125,6 +125,7 @@
     import JetDropdownLink from '@/Jetstream/DropdownLink'
     import JetNavLink from '@/Jetstream/NavLink'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
+    //import FlashMessages from '@/Shared/FlashMessages'
 
     export default {
         components: {
@@ -134,6 +135,7 @@
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
+            //FlashMessages
         },
 
         data() {

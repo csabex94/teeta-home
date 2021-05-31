@@ -1,7 +1,7 @@
 <template>
     <app-layout>
         <template #content>
-            <div class="mx-auto max-w-7xl">
+            <div class="mx-auto px-5 max-w-7xl">
                 <span class="block mb-5 text-xl text-center text-gray-500">All Tasks</span>
 
             <div class="flex items-center mb-5">
@@ -111,17 +111,17 @@
                             <jet-input-error :message="form.errors.description" class="mt-2" />
                         </div>
 
-                        <div class="flex items-center justify-between col-span-6 mt-5">
-                            <div class="flex items-center text-sm font-medium text-gray-700">
+                        <div class="flex items-center text-gray-200 justify-between col-span-6 mt-5">
+                            <div class="flex items-center text-sm font-medium">
                                 Daily <jet-checkbox :checked="checkBoxChecked(form.daily)" v-model="form.daily" class="ml-2" />
                             </div>
-                            <div v-if="!form.daily" class="flex items-center text-sm font-medium text-gray-700">
+                            <div v-if="!form.daily" class="flex items-center text-sm font-medium">
                                 Remind Before <jet-checkbox :checked="showRemindOptions" v-model="showRemindOptions" class="ml-2" />
                             </div>
-                            <div class="flex items-center text-sm font-medium text-gray-700">
+                            <div class="flex items-center text-sm font-medium">
                                 Email<jet-checkbox :checked="checkBoxChecked(form.push_email)" v-model="form.push_email" class="ml-2" />
                             </div>
-                            <div class="flex items-center text-sm font-medium text-gray-700">
+                            <div class="flex items-center text-sm font-medium">
                                 Important<jet-checkbox :checked="checkBoxChecked(form.important)" v-model="form.important" class="ml-2" />
                             </div>
                         </div>
@@ -308,8 +308,10 @@ export default {
         },
         deleteTask() {
             this.$inertia.delete(route("delete.task", { taskId: this.taskToDeleteId }, {
-                onSuccess: () => {}
-            }))
+                onSuccess: () => {
+                    this.showDeleteModal = false;
+                }
+            }));
         },
         openDeleteTaskModal(taskId) {
             this.taskToDeleteId = taskId;

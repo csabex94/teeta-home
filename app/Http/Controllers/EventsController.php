@@ -22,7 +22,7 @@ class EventsController extends Controller {
             $events = Event::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
-            ])->limit(20)->get();
+            ])->limit(5)->get();
         } else {
             $next = Carbon::parse($request->date)->addDay(1);
             $events = Event::where([
@@ -34,7 +34,8 @@ class EventsController extends Controller {
         }
 
         return Inertia::render('Events/Show', [
-            'events' => $events
+            'events' => $events,
+            'success' => 'Test'
         ]);
     }
 
@@ -143,6 +144,6 @@ class EventsController extends Controller {
     public function delete(Request $request) {
         Event::find($request->eventId)->delete();
 
-        return Redirect::back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
+        return redirect()->back()->with(['events' => Event::where('user_id', auth()->user()->id)->get()]);
     }
 }

@@ -5,7 +5,7 @@
         <form @submit.prevent="submit">
             <div class="flex flex-col items-center justify-center my-5">
                 <img class="w-16 h-16 rounded-full" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="user avatar" />
-                <h1 class="mt-5 text-3xl font-semibold text-gray-600">Register to Teeta</h1>
+                <h1 class="mt-5 text-3xl font-semibold text-gray-200">Register to Teeta</h1>
             </div>
 
             <div>
@@ -41,7 +41,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <inertia-link :href="route('login')" class="text-sm text-gray-600 underline hover:text-gray-900">
+                <inertia-link :href="route('login')" class="text-sm text-gray-200 underline hover:text-gray-100">
                     Already registered?
                 </inertia-link>
 

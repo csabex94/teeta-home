@@ -21,6 +21,7 @@
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     </head>
     <body class="font-sans antialiased">
+        @include('message')
         @inertia
     </body>
 </html>
