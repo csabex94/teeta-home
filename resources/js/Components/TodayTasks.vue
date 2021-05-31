@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full">
-        <span class="block mb-5 text-xl text-center text-gray-200">Today's Tasks</span>
-        <span v-if="tasks.length <= 0" class="block text-sm text-center text-gray-200">Not tasks for today.</span>
+        <span class="mb-5 text-xl flex items-center justify-center text-gray-200">Today's <p class="text-green-400 ml-2">Tasks</p></span>
+        <span v-if="tasks.length <= 0" class="block text-center text-sm text-gray-200">Not tasks for today.</span>
 
         <div v-for="task in tasks" :key="task.id" class="h-24 px-2 mb-2 text-white bg-gray-700 rounded-md shadow-lg">
             <div class="flex items-center justify-between h-full px-2">
@@ -52,7 +52,8 @@ export default {
       flatPickr
     },
     props: {
-        tasks: Array
+        tasks: Array,
+        date: String
     },
     data() {
       return {
@@ -87,6 +88,9 @@ export default {
         getFormattedTime(time) {
             return moment(time,'h:mm:ss').format('HH:mm A');
         },
+        checkForToday() {
+            return this.date;
+        }
     }
 }
 </script>

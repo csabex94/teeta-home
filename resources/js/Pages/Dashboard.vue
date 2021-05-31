@@ -2,11 +2,14 @@
     <app-layout>
         <template #content>
            <div class="w-full">
-                <calendar :allTasks="allTasks" :allEvents="allEvents" />
-                <div class="grid w-full mx-auto grid-cols-2 gap-4 pr-5">
-                    <daily-events :events="events" />
-                    <today-tasks :tasks="tasks" />
-                </div>
+               <div class="mx-auto border-b border-gray-200">
+                   <div class="grid px-5 grid-cols-2 my-10 gap-4">
+                       <daily-events :date="today" :events="eventList" />
+                       <today-tasks :date="today" :tasks="taskList" />
+                   </div>
+               </div>
+                <calendar @data="setData" :allTasks="allTasks" :allEvents="allEvents" />
+
            </div>
         </template>
     </app-layout>
@@ -18,7 +21,7 @@
     import TodayTasks from '@/Components/TodayTasks';
     import UpcomingTasks from "@/Components/UpcomingTasks";
     import DailyEvents from "@/Components/DailyEvents";
-
+    import JetSectionBorder from '@/Jetstream/SectionBorder';
     import Calendar from "@/Components/Calendar";
     import moment from 'moment';
 
@@ -30,7 +33,8 @@
             TodayTasks,
             UpcomingTasks,
             Calendar,
-            DailyEvents
+            DailyEvents,
+            JetSectionBorder
         },
         props: {
           tasks: Array,
@@ -38,6 +42,24 @@
           allTasks: Array,
           allEvents: Array,
           events: Array
+        },
+        data() {
+          return {
+              taskList: this.tasks,
+              eventList: this.events,
+              importantList: null,
+              today: null
+          }
+        },
+        methods: {
+            setData(value) {
+                this.taskList = value.todayTasks;
+                this.eventList = value.todayEvents;
+                this.today = `${value.day.year()} ${value.day.month()} ${value.day.date()}`
+            }
+        },
+        mounted() {
+            this.today = moment().format('YYYY MMMM d')
         }
     }
 </script>

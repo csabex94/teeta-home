@@ -1,20 +1,20 @@
 <template>
 
-    <div class="w-full mx-auto mb-24 pr-5 calendar-wrapper">
-        <div class="flex flex-col items-start sidebar">
+    <div class="w-full mx-auto calendar-wrapper">
+        <div class="flex flex-col items-start justify-between border-r h-full border-b border-gray-200 sidebar">
 
-            <div class="py-8 mx-auto">
-                <h2 class="mb-32 text-2xl font-bold text-gray-400">{{ moment.year() }}</h2>
+            <div class="py-8 h-full flex flex-col justify-around mx-auto">
+                <h2 class="mb-32 text-2xl font-bold text-gray-400">{{ year }}</h2>
                 <div
                     :class="markCurrentMonth(i)"
                     @click="changeMonth(i)"
-                    class="flex justify-start mb-5 text-lg font-semibold text-gray-200 cursor-pointer hover:text-green-400"
+                    class="flex flex-col justify-start text-lg font-semibold text-gray-200 cursor-pointer hover:text-green-400"
                     v-for="(month, i) in months" :key="i"
                 >{{ month }}</div>
             </div>
         </div>
-        <div class="content">
-            <div class="flex mt-8 header">
+        <div class="content border-b border-gray-200">
+            <div class="flex pl-8 mt-8 header">
                 <h2 class="py-2 mr-5 text-gray-200 ">Event Type</h2>
                 <div class="flex items-center justify-around ">
                     <div class="flex items-center mx-12 text-gray-200">
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="mt-8 calendar">
-                <div class="grid grid-cols-2">
+                <div class="grid pl-8 grid-cols-2">
                     <h2 class="text-xl text-gray-200">Calendar</h2>
                     <h3 class="text-xl text-green-400">{{ today.format("MMMM") }} {{ moment.year() }}</h3>
                 </div>
@@ -48,7 +48,7 @@
 
                 <div v-for="(week, i) in currentMonth" :key="i">
                     <div class="grid h-28 grid-cols-7">
-                        <div :class="markCurrentDay(day)" class="w-full h-full flex flex-col justify-around pt-2 px-2 border border-gray-500" v-for="(day, i) in week.days" :key="i">
+                        <div @click="showTasksAndEvents(day)" :class="markCurrentDay(day)" class="cursor-pointer w-full h-full flex flex-col justify-around pt-2 px-2 border border-gray-500 hover:bg-gray-200 hover:text-gray-700" v-for="(day, i) in week.days" :key="i">
                             <p class="flex justify-end text-lg">
                                 {{ day.date() }}
                             </p>
@@ -84,8 +84,6 @@
 import moment from 'moment';
 
 export default {
-
-
     props: {
         allTasks: Array,
         allEvents: Array
@@ -97,12 +95,13 @@ export default {
             months: null,
             moment: moment(),
             year: moment().year(),
-            selectedMonth: moment().month()
+            selectedMonth: moment().month(),
+            selectedDate: moment()
         }
     },
     methods: {
         markCurrentDay(day) {
-            if (this.moment.date() === day.date() && this.moment.month() === day.month()) {
+            if (this.selectedDate.date() === day.date() && this.selectedDate.month() === day.month()) {
                 return "bg-gray-200 text-gray-700 font-semibold"
             }
             if (day.month() === this.today.month()) {
@@ -169,6 +168,36 @@ export default {
                }
             });
             return importants.length;
+        },
+        showTasksAndEvents(day) {
+            this.selectedDate = day;
+            let todayTasks = this.allTasks.filter(task => {
+                if (task.spec_date) {
+                    if(day.format('YYYY-MM-DD') === moment(task.spec_date).format('YYYY-MM-DD')) {
+                        return task;
+                    }
+                }
+                if (task.daily) return task;
+            });
+
+            let todayEvents = this.allEvents.filter(event => {
+                if (event.spec_date) {
+                    if (day.format('YYYY-MM-DD') === moment(event.spec_date).format('YYYY-MM-DD')) {
+                        return event;
+                    }
+                }
+                if (event.daily) return event;
+            });
+
+            let todayImportants = this.allEvents.filter(event => {
+                if (event.important) {
+                    if (day.format('YYYY-MM-DD') === moment(event.spec_date).format('YYYY-MM-DD')) {
+                        return event;
+                    }
+                }
+            });
+
+            this.$emit('data', {todayTasks, todayEvents, todayImportants, day});
         }
     },
     mounted() {
@@ -224,6 +253,9 @@ export default {
     top: -15px;
     left: -2px;
     font-weight: 600;
+}
+.margin {
+    margin: 25px 0;
 }
 </style>
 
