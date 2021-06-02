@@ -2,29 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
-use App\Models\Event;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Repositories\Event\EventRepositoryInterface;
+use App\Repositories\Task\TaskRepositoryInterface;
 use Inertia\Inertia;
 
-class DashboardController extends Controller
-{
-    public function index(Request $request)
-    {
-        $dailyTasks = Task::where('daily',1)->get();
-        $specDateTasks = Task::whereDate('spec_date', Carbon::today())->get();
-        $allTasks = Task::all();
-        $allEvents = Event::all();
-        $events = Event::where('daily', 1)->get();
-        $specDateEvents = Event::whereDate('spec_date', Carbon::today())->get();
+class DashboardController extends Controller {
+
+    protected $event, $task;
+
+    public function __construct(EventRepositoryInterface $event, TaskRepositoryInterface $task) {
+        $this->event = $event;
+        $this->task = $task;
+    }
+
+    public function index() {
+        $allTasks = $this->task->getAllTasks();
+        $dailyTasks = $this->task->getDailyTasks();
+        $todaysTasks = $this->task->getTodaysTasks();
+
+        $allEvents = $this->event->getAllEvents();
+        $events = $this->event->getDailyEvents();
+        $todaysEvents = $this->event->getTodaysEvents();
 
         return Inertia::render('Dashboard', [
-           'tasks' => array_merge($dailyTasks->toArray(), $specDateTasks->toArray()),
+           'tasks' => array_merge($dailyTasks->toArray(), $todaysTasks->toArray()),
            'upcomingTasks' => [],
            'allTasks' => $allTasks,
            'allEvents' => $allEvents,
-           'events' => array_merge($events->toArray(), $specDateEvents->toArray())
+           'events' => array_merge($events->toArray(), $todaysEvents->toArray())
         ]);
     }
 }
