@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class DashboardController extends Controller {
@@ -31,5 +32,10 @@ class DashboardController extends Controller {
            'allEvents' => $allEvents,
            'events' => array_merge($events->toArray(), $todaysEvents->toArray())
         ]);
+    }
+
+    public function dashboardNew(Request $request)
+    {
+        return Inertia::render("AppLayoutNew");
     }
 }

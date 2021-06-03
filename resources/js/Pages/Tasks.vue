@@ -1,7 +1,7 @@
 <template>
-    <app-layout>
+    <app-layout-new>
         <template #content>
-            <div class="mx-auto px-5 max-w-7xl">
+            <div class="mx-auto mt-40 px-5 max-w-7xl">
                 <span class="block mb-5 text-xl text-center text-gray-500">All Tasks</span>
 
             <div class="flex items-center mb-5">
@@ -228,11 +228,11 @@
                 <!-- Delete Task Modal -->
             </div>
         </template>
-    </app-layout>
+    </app-layout-new>
 </template>
 
 <script>
-import AppLayout from "@/Layouts/AppLayout";
+import AppLayoutNew from "@/Pages/AppLayoutNew";
 import JetCheckbox from '@/Jetstream/Checkbox';
 import JetInput from '@/Jetstream/Input';
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
@@ -247,7 +247,7 @@ import flatPickr from 'vue-flatpickr-component';
 
 export default {
     components: {
-        AppLayout,
+        AppLayoutNew,
         JetCheckbox,
         JetInput,
         JetConfirmationModal,
@@ -310,7 +310,7 @@ export default {
             this.showDeleteModal = false;
             this.$inertia.delete(route("delete.task", { taskId: this.taskToDeleteId }, {
                 onSuccess: () => {
-                    
+
                 }
             }));
         },

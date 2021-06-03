@@ -1,22 +1,15 @@
 <template>
-    <app-layout>
+    <app-layout-new :today="today" :eventList="eventList" :taskList="taskList">
         <template #content>
            <div class="w-full">
-               <div class="mx-auto">
-                   <div class="grid grid-cols-2 my-10 gap-4">
-                       <daily-events :date="today" :events="eventList" />
-                       <today-tasks :date="today" :tasks="taskList" />
-                   </div>
-               </div>
-                <calendar @data="setData" :allTasks="allTasks" :allEvents="allEvents" />
-
+               <calendar @data="setData" :allTasks="allTasks" :allEvents="allEvents" />
            </div>
         </template>
-    </app-layout>
+    </app-layout-new>
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout'
+    import AppLayoutNew from '@/Pages/AppLayoutNew'
     import JetCheckbox from '@/Jetstream/Checkbox';
     import TodayTasks from '@/Components/TodayTasks';
     import UpcomingTasks from "@/Components/UpcomingTasks";
@@ -27,7 +20,7 @@
 
     export default {
         components: {
-            AppLayout,
+            AppLayoutNew,
             JetCheckbox,
             TodayTasks,
             UpcomingTasks,
