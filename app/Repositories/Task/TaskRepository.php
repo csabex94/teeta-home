@@ -59,7 +59,7 @@ class TaskRepository implements TaskRepositoryInterface {
         if($toDate) { //delete tasks up to date
             $tasks->whereDate('spec_date', '<=', $toDate);
         } else {
-            $tasks->whereDate('spec_date', '<=', Carbon::now()->subDays(3)); //don't remove last 3 days tasks yet
+            $tasks->whereDate('spec_date', '<=', Carbon::now()->subDays(1)); //don't remove previous day tasks yet
         }
 
         foreach($tasks->get() as $task) {

@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Repositories\Task\TaskRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TaskController extends Controller {
+
+    protected $task;
+
+    public function __construct(TaskRepositoryInterface $task) {
+        $this->task = $task;
+    }
+
     public function index(Request $request) {
         if (!$request->date) {
             $tasks = Task::where([

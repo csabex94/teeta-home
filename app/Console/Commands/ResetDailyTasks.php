@@ -11,7 +11,7 @@ class ResetDailyTasks extends Command {
      *
      * @var string
      */
-    protected $signature = 'command:reset-tasks';
+    protected $signature = 'command:reset-daily-tasks';
 
     /**
      * The console command description.

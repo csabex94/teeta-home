@@ -60,7 +60,7 @@ class EventRepository implements EventRepositoryInterface {
         if($toDate) { //delete events up to date
             $events->whereDate('spec_date', '<=', $toDate);
         } else {
-            $events->whereDate('spec_date', '<=', Carbon::now()->subDays(3)); //don't remove last 3 days events yet
+            $events->whereDate('spec_date', '<=', Carbon::now()->subDays(1)); //don't remove previous day events yet
         }
 
         foreach($events->get() as $event) {
