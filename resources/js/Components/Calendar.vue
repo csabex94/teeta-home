@@ -170,6 +170,7 @@ export default {
             return importants.length;
         },
         showTasksAndEvents(day) {
+            window.scrollTo(0, 0);
             this.selectedDate = day;
             let todayTasks = this.allTasks.filter(task => {
                 if (task.spec_date) {
@@ -216,6 +217,16 @@ export default {
         this.currentMonth = calendar;
         this.months = moment.months();
     },
+    computed: {
+        selectedDate() {
+            return this.selectedDate
+        }
+    },
+    watch: {
+        selectedDate(value) {
+            window.scroll({ top: 0 });
+        }
+    }
 }
 </script>
 

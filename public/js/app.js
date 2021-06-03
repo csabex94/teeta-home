@@ -16709,6 +16709,7 @@ __webpack_require__.r(__webpack_exports__);
       return importants.length;
     },
     showTasksAndEvents: function showTasksAndEvents(day) {
+      window.scrollTo(0, 0);
       this.selectedDate = day;
       var todayTasks = this.allTasks.filter(function (task) {
         if (task.spec_date) {
@@ -16760,6 +16761,18 @@ __webpack_require__.r(__webpack_exports__);
 
     this.currentMonth = calendar;
     this.months = moment__WEBPACK_IMPORTED_MODULE_0___default().months();
+  },
+  computed: {
+    selectedDate: function selectedDate() {
+      return this.selectedDate;
+    }
+  },
+  watch: {
+    selectedDate: function selectedDate(value) {
+      window.scroll({
+        top: 0
+      });
+    }
   }
 });
 
