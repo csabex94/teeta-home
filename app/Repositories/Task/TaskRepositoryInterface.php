@@ -12,6 +12,8 @@ interface TaskRepositoryInterface {
     public function getFollowingDaysTasks($days, $email);
     public function getFollowingWeeksTasks($weeks, $email);
     public function deletePreviousTasks($toDate);
-
-    
+    public function completeTask($id);
+    public function store($request);
+    public function update($request);
+    public function deleteTask($id);
 }

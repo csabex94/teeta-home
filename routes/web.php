@@ -26,20 +26,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     // Dashboard New Page
     Route::get('/dashboard-new', [DashboardController::class, 'dashboardNew'])->name('dashboard.new');
 
-    // Create Task Page
-    Route::get('/create-task', function() {
-       return Inertia::render('CreateTask');
-    })->name('create.task');
-
-    // Create Task
-    Route::post('/create-task', [TaskController::class, 'store'])->name('create.task.post');
-    // Delete Task
-    Route::delete('/delete-task', [TaskController::class, 'deleteTask'])->name('delete.task');
-    // Update Task
-    Route::put('/update-task', [TaskController::class, 'updateTask'])->name('update.task');
-
-    // Tasks Page
+    //Tasks
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
+    Route::get('/create-task', [TaskController::class, 'create'])->name('create.task');
+    Route::post('/create-task', [TaskController::class, 'store'])->name('create.task.post');
+    Route::put('/update-task', [TaskController::class, 'updateTask'])->name('update.task');
+    Route::delete('/delete-task', [TaskController::class, 'deleteTask'])->name('delete.task');
+    Route::put('/complete-task', [TaskController::class, 'completeTask'])->name('complete.task');
 
     //Events
     Route::get('/events', [EventsController::class, 'show'])->name('events.show');

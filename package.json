@@ -29,6 +29,7 @@
     "dependencies": {
         "laravel-echo": "^1.10.0",
         "pusher-js": "^7.0.3",
+        "tailwindcss-animatecss": "^1.0.7",
         "v-tooltip": "^2.1.3",
         "vue-flatpickr-component": "^9.0.3",
         "vue-infinite-loading": "^2.4.5"
