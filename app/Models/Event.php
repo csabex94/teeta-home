@@ -21,6 +21,12 @@ class Event extends Model {
         'remind_before_value'
     ];
 
+    protected $dates = [
+        'spec_date',
+        'created_at',
+        'updated_at'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }

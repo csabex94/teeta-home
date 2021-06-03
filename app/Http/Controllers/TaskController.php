@@ -7,14 +7,13 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class TaskController extends Controller
-{
-    public function index(Request $request)
-    {
+class TaskController extends Controller {
+    public function index(Request $request) {
         if (!$request->date) {
             $tasks = Task::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
+                ['completed', 0]
             ])->get();
         } else {
             $next = Carbon::parse($request->date)->addDay(1);
@@ -22,7 +21,8 @@ class TaskController extends Controller
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
                 ['spec_date', '>=' ,$request->date],
-                ['spec_date', '<=' ,$next]
+                ['spec_date', '<=' ,$next],
+                ['completed', 0]
             ])->get();
         }
 
@@ -31,8 +31,7 @@ class TaskController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validData = $request->validate([
            'title' => 'required|string',
            'description' => 'required|string',
@@ -69,14 +68,12 @@ class TaskController extends Controller
         return redirect()->route('tasks')->with('success', 'Task created successfully!');
     }
 
-    public function deleteTask(Request $request)
-    {
+    public function deleteTask(Request $request) {
         Task::where('id', $request->taskId)->first()->delete();
         return redirect()->back()->with('success', 'Task deleted successfully!');
     }
 
-    public function updateTask(Request $request)
-    {
+    public function updateTask(Request $request) {
         $validData = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
@@ -119,4 +116,9 @@ class TaskController extends Controller
 
         return redirect()->back()->with(['tasks' => Task::where('user_id', auth()->user()->id)->get()]);
     }
+
+    public function emailTask() {
+
+    }
+
 }

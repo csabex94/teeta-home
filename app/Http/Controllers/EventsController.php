@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class EventsController extends Controller {
 
     public function __construct() {
-
+        
     }
 
     public function show(Request $request) {
@@ -19,6 +19,7 @@ class EventsController extends Controller {
             $events = Event::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
+                ['spec_date', '>=', Carbon::now()]
             ])->limit(20)->get();
         } else {
             $next = Carbon::parse($request->date)->addDay(1);
@@ -80,8 +81,7 @@ class EventsController extends Controller {
         return redirect()->route('events.show')->with('success', 'Event created.');
     }
 
-    public function edit(Event $event)
-    {
+    public function edit(Event $event) {
         return Inertia::render('Events/Edit', [
             'event' => [
                 'id' => $event->id,
@@ -142,7 +142,12 @@ class EventsController extends Controller {
     public function delete(Request $request) {
         Event::find($request->eventId)->delete();
         Session::put('record_deleted', true);
-        
+
         return redirect()->back()->with('success', 'Event deleted successfully.');
     }
+
+    public function mailEvent() {
+        
+    }
+
 }
