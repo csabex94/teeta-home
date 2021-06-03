@@ -12,5 +12,7 @@ interface EventRepositoryInterface {
     public function getFollowingDaysEvents($days, $email);
     public function getFollowingWeeksEvents($weeks, $email);
     public function deletePreviousEvents($toDate);
-    
+    public function deleteEvent($id);
+    public function store($request);
+    public function update($request);
 }

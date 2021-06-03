@@ -4,6 +4,7 @@ namespace App\Repositories\Event;
 
 use Carbon\Carbon;
 use App\Models\Event;
+use Illuminate\Support\Facades\Session;
 
 class EventRepository implements EventRepositoryInterface {
     
@@ -66,5 +67,93 @@ class EventRepository implements EventRepositoryInterface {
             $event->delete();
         }
     }
+
+    public function deleteEvent($id) {
+        $this->event->find($id)->delete();
+        Session::put('record_deleted', true);
+    }
+
+    public function store($request) {
+        $validData = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'daily' => 'required|boolean',
+            'push_email' => 'required|boolean',
+            'important' => 'required|boolean'
+        ]);
+
+        if ($validData) {
+            $this->event->title = $validData['title'];
+            $this->event->description = $validData['description'];
+            $this->event->daily = $validData['daily'];
+            $this->event->push_email = $validData['push_email'];
+            $this->event->important = $validData['important'];
+            $this->event->user_id = auth()->user()->id;
+        }
+
+        if ($request->spec_date) {
+            $this->event->spec_date = $request->spec_date;
+        } else {
+            $this->event->daily = 1;
+        }
+
+        if ($request->spec_time) {
+            $this->event->spec_time = $request->spec_time;
+        }
+
+        if ($request->remind_before_option && $request->remind_before_option != 'Remind me before') {
+            $this->event->remind_before_option = $request->remind_before_option;
+        }
+
+        if ($request->remind_before_value) {
+            $this->event->remind_before_value = $request->remind_before_value;
+        }
+
+        $this->event->save();
+    }
     
+    public function update($request) {
+        $validData = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'daily' => 'required|boolean',
+            'push_email' => 'required|boolean',
+            'important' => 'required|boolean'
+        ]);
+        $event = $this->event->where('id', $request->eventId)->first();
+
+        $event->title = $validData['title'];
+        $event->description = $validData['description'];
+        $event->push_email = $validData['push_email'];
+        $event->important = $validData['important'];
+
+        if ($validData['daily'] == true || $validData['daily'] == 1) {
+            $event->remind_before_option = NULL;
+            $event->remind_before_value = NULL;
+            $event->spec_date = NULL;
+            $event->daily = 1;
+        } else {
+            $event->daily = 0;
+            if ($request->remind_before_option && $request->remind_before_value) {
+                $event->remind_before_option = $request->remind_before_option;
+                $event->remind_before_value = $request->remind_before_value;
+            } else {
+                $event->remind_before_option = NULL;
+                $event->remind_before_value = NULL;
+            }
+            if ($request->spec_date) {
+                $event->spec_date = $request->spec_date;
+            } else {
+                $event->spec_date = NULL;
+            }
+
+            if ($request->spec_time) {
+                $event->spec_time = $request->spec_time;
+            } else {
+                $event->spec_time = NULL;
+            }
+        }
+
+        $event->save();
+    }
 }
