@@ -2,31 +2,34 @@
 
 namespace App\Console\Commands;
 
+use App\Repositories\Task\TaskRepositoryInterface;
 use Illuminate\Console\Command;
-use App\Models\Task;
 
-class ResetDailyTasks extends Command {
+class DeleteOldTasks extends Command {
+
+    protected $task;
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:reset-tasks';
+    protected $signature = 'command:delete-old-tasks';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Reset daily tasks';
+    protected $description = 'Deletes tasks that are not daily, and older than 2-3 days';
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct(TaskRepositoryInterface $task) {
         parent::__construct();
+        $this->task = $task;
     }
 
     /**
@@ -35,11 +38,6 @@ class ResetDailyTasks extends Command {
      * @return int
      */
     public function handle() {
-        $tasks = Task::where('daily', 1)->get();
-        
-        foreach($tasks as $task) {
-            $task->completed = 0;
-            $task->save();
-        }
+        $this->task->deletePreviousTasks(false);
     }
 }

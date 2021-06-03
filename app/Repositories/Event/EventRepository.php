@@ -57,10 +57,10 @@ class EventRepository implements EventRepositoryInterface {
     public function deletePreviousEvents($toDate = false) {
         $events = $this->event->where('daily', 0);
 
-        if($toDate) { //delete tasks up to date
+        if($toDate) { //delete events up to date
             $events->whereDate('spec_date', '<=', $toDate);
         } else {
-            $events->whereDate('spec_date', '<=', Carbon::now()->subDays(3)); //don't remove last 3 days tasks yet
+            $events->whereDate('spec_date', '<=', Carbon::now()->subDays(3)); //don't remove last 3 days events yet
         }
 
         foreach($events->get() as $event) {

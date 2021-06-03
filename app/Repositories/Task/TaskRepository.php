@@ -54,7 +54,7 @@ class TaskRepository implements TaskRepositoryInterface {
     }
 
     public function deletePreviousTasks($toDate = false) {
-        $tasks = $this->task->where('completed', 1)->where('daily', 0);
+        $tasks = $this->task->where('daily', 0);
 
         if($toDate) { //delete tasks up to date
             $tasks->whereDate('spec_date', '<=', $toDate);
@@ -147,7 +147,7 @@ class TaskRepository implements TaskRepositoryInterface {
                 $task->spec_time = NULL;
             }
         }
-        
+
         $task->save();
     }
 
