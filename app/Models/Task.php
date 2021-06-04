@@ -18,7 +18,8 @@ class Task extends Model {
         'spec_date',
         'spec_time',
         'remind_before_value',
-        'remind_before_option'
+        'remind_before_option',
+        'important'
     ];
 
     protected $dates = [

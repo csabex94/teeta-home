@@ -20,6 +20,7 @@ class CreateTasksTable extends Migration
             $table->text('description')->nullable();
             $table->tinyInteger('daily')->default(0);
             $table->tinyInteger('push_email')->default(0);
+            $table->tinyInteger('important')->default(0);
             $table->tinyInteger('completed')->default(0);
             $table->dateTime('spec_date')->nullable();
             $table->time('spec_time')->nullable();

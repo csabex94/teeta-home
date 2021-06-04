@@ -46,7 +46,9 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         $todaysTasks = $this->task->getTodaysTasks();
+        $dailyTasks = $this->task->getDailyTasks();
         $todaysEvents = $this->event->getTodaysEvents();
+        $dailyEvents = $this->event->getDailyEvents();
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
                 return [
@@ -55,8 +57,8 @@ class HandleInertiaRequests extends Middleware
                 ];
             }
         ], [
-            'todayEvents' => $todaysEvents,
-            'todayTasks' => $todaysTasks,
+            'todayEvents' => array_merge($todaysEvents->toArray(), $dailyEvents->toArray()),
+            'todayTasks' => array_merge($todaysTasks->toArray(), $dailyTasks->toArray()),
         ]);
     }
 }

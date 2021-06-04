@@ -1,8 +1,8 @@
 <template>
     <app-layout-new>
         <template #content>
-            <div class="px-5 mt-40 max-w-7xl mx-auto">
-                <span class="block mb-5 text-xl text-gray-500 text-center">Events</span>
+            <div class="px-5 mt-20 max-w-7xl mx-auto">
+                <span class="block mb-5 text-xl text-gray-200 text-center">Events</span>
 
                 <div class="flex items-center mb-5">
                     <div class="w-full relative flex items-center">
@@ -65,8 +65,10 @@
                         </div>
 
                     <div>
-                        <span v-if="event.spec_date !== null">{{ getFormattedDate(event.spec_date) }} | {{ getFormattedTime(event.spec_time) }}</span>
+                        <span v-if="event.spec_date !== null">{{ getFormattedDate(event.spec_date) }}<span v-if="event.spec_time"> - {{ getFormattedTime(event.spec_time) }}</span></span>
                         <span v-else>Daily</span>
+                        <span class="block text-sm text-green-400" v-if="event.remind_before_option && event.remind_before_value && event.remind_before_value !== 'Remind me before'">
+                            Remind before: {{ event.remind_before_value }} {{ event.remind_before_option }}</span>
                     </div>
 
                     <div class="flex items-end">
@@ -125,8 +127,8 @@
                             </div>
                         </div>
 
-                        <div v-if="!form.daily" class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
-                            <div class="relative w-full">
+                        <div class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
+                            <div v-if="!form.daily" class="relative w-full">
                                 <flat-pickr
                                     v-model="form.spec_date"
                                     :config="flatPickrConfig"

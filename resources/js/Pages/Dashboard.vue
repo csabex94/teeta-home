@@ -47,11 +47,11 @@
             setData(value) {
                 this.taskList = value.todayTasks;
                 this.eventList = value.todayEvents;
-                this.today = `${value.day.year()} ${value.day.month()} ${value.day.date()}`
+                this.today = value.day;
             }
         },
         mounted() {
-            this.today = moment().format('YYYY MMMM d');
+            this.today = moment();
         },
 
     }

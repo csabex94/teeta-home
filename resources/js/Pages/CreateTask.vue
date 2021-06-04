@@ -40,8 +40,8 @@
                         <div class="flex items-center text-sm font-medium">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
                     </div>
 
-                    <div v-if="!form.daily" class="grid grid-cols-2 col-span-6 gap-8">
-                        <div class="relative w-full">
+                    <div class="grid grid-cols-2 col-span-6 gap-8">
+                        <div v-if="!form.daily" class="relative w-full">
                             <flat-pickr
                                 v-model="form.spec_date"
                                 :config="flatPickrConfig"
