@@ -34,8 +34,8 @@ class DashboardController extends Controller {
         ]);
     }
 
-    public function dashboardNew(Request $request)
+    public function light(Request $request)
     {
-        return Inertia::render("AppLayoutNew");
+        return Inertia::render("DashboardLight");
     }
 }

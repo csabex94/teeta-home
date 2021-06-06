@@ -21,10 +21,11 @@ use Inertia\Inertia;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
+    // Light
+    Route::get('/light', [DashboardController::class, 'light'])->name('light');
+
     // Dashboard Page
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    // Dashboard New Page
-    Route::get('/dashboard-new', [DashboardController::class, 'dashboardNew'])->name('dashboard.new');
 
     //Tasks
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
