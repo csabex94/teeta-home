@@ -1,5 +1,5 @@
 <template>
-    <app-layout-new>
+    <app-layout>
         <template #content>
             <div class="px-5 mt-20 max-w-7xl mx-auto">
                 <span class="block mb-5 text-xl text-gray-200 text-center">Events</span>
@@ -228,11 +228,11 @@
                 <!-- Delete Event Modal -->
             </div>
         </template>
-    </app-layout-new>
+    </app-layout>
 </template>
 
 <script>
-import AppLayoutNew from "@/Pages/AppLayoutNew";
+import AppLayout from '@/Layouts/AppLayout'
 import JetCheckbox from '@/Jetstream/Checkbox';
 import JetInput from '@/Jetstream/Input';
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
@@ -247,7 +247,7 @@ import flatPickr from 'vue-flatpickr-component';
 
 export default {
     components: {
-        AppLayoutNew,
+        AppLayout,
         JetCheckbox,
         JetInput,
         JetConfirmationModal,

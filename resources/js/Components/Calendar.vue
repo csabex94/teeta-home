@@ -1,16 +1,16 @@
 <template>
 
-    <div class="w-full mt-24 pl-5 mx-auto">
-<!--        <div class="flex flex-col items-start justify-between pl-5 h-full sidebar">-->
-<!--            <h2 class="mt-12 text-2xl font-bold text-gray-400">{{ year }}</h2>-->
-<!--            <div-->
-<!--                :class="markCurrentMonth(i)"-->
-<!--                @click="changeMonth(i)"-->
-<!--                class="flex flex-col font-semibold text-gray-200 cursor-pointer hover:text-green-400"-->
-<!--                v-for="(month, i) in months" :key="i"-->
-<!--            >{{ month }}</div>-->
-<!--        </div>-->
-        <div>
+    <div class="w-full grid grid-cols-5 mt-24 pl-5 mx-auto">
+       <div class="flex flex-col col-span-1 items-start justify-between pl-5 h-full sidebar">
+           <h2 class="mt-12 text-2xl font-bold text-gray-400">{{ year }}</h2>
+           <div
+               :class="markCurrentMonth(i)"
+               @click="changeMonth(i)"
+               class="flex flex-col font-semibold text-gray-200 cursor-pointer hover:text-green-400"
+               v-for="(month, i) in months" :key="i"
+           >{{ month }}</div>
+       </div>
+        <div class="col-span-4">
             <div class="flex pl-8 mt-8">
                 <h2 class="py-2 mr-5 text-gray-200 flex items-center justify-center">Event Type</h2>
                 <div class="flex items-center justify-around ">
@@ -31,10 +31,10 @@
                 </div>
             </div>
             <div class="calendar">
-<!--                <div class="grid pl-8 grid-cols-2">-->
-<!--                    <h2 class="text-xl text-gray-200">Calendar</h2>-->
-<!--                    <h3 class="text-xl text-green-400">{{ today.format("MMMM") }} {{ moment.year() }}</h3>-->
-<!--                </div>-->
+               <div class="grid pl-8 grid-cols-2">
+                   <h2 class="text-xl text-gray-200">Calendar</h2>
+                   <h3 class="text-xl text-green-400">{{ today.format("MMMM") }} {{ moment.year() }}</h3>
+               </div>
                 <div class="grid grid-cols-7 my-5 text-sm font-semibold text-center text-gray-400">
                     <span>Sunday</span>
                     <span>Monday</span>
@@ -144,7 +144,7 @@ export default {
                        specDateTasks.push(task);
                    }
                }
-               if (task.daily) specDateTasks.push(task);
+               if (task.daily && day.format('YYYY-MM-DD') <= moment(task.spec_date).format('YYYY-MM-DD')) specDateTasks.push(task);
             });
             return specDateTasks.length;
         },

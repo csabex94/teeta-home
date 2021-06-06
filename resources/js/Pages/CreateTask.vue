@@ -1,5 +1,5 @@
 <template>
-    <app-layout-new>
+    <app-layout>
         <template #content>
 
             <div class="py-10 mx-auto mt-32 max-w-7xl lg:px-6">
@@ -134,11 +134,11 @@
             </div>
 
         </template>
-    </app-layout-new>
+    </app-layout>
 </template>
 
 <script>
-import AppLayoutNew from "@/Pages/AppLayoutNew";
+import AppLayout from '@/Layouts/AppLayout'
 import JetFormSection from '@/Jetstream/FormSection';
 import JetLabel from '@/Jetstream/Label';
 import JetInput from '@/Jetstream/Input';
@@ -151,7 +151,7 @@ import flatPickr from 'vue-flatpickr-component';
 
 export default {
     components: {
-        AppLayoutNew,
+        AppLayout,
         JetFormSection,
         JetLabel,
         JetInput,
