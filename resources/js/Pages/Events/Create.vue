@@ -2,7 +2,7 @@
     <app-layout>
         <template #content>
 
-            <div class="py-10 mx-auto max-w-7xl lg:px-6">
+            <div class="py-10 mx-auto mt-32 max-w-7xl lg:px-6">
                 <jet-form-section @submitted="createEvent">
 
                     <template #title>
@@ -41,8 +41,8 @@
                             <div class="flex items-center text-sm font-medium">Important <jet-checkbox v-model="form.important" class="ml-2" /></div>
                         </div>
 
-                        <div v-if="!form.daily" class="grid grid-cols-2 col-span-6 gap-8">
-                            <div class="relative w-full">
+                        <div class="grid grid-cols-2 col-span-6 gap-8">
+                            <div v-if="!form.daily" class="relative w-full">
                                 <flat-pickr
                                     v-model="form.spec_date"
                                     :config="flatPickrConfig"
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import AppLayout from "@/Layouts/AppLayout";
+import AppLayout from '@/Layouts/AppLayout'
 import JetFormSection from '@/Jetstream/FormSection';
 import JetLabel from '@/Jetstream/Label';
 import JetInput from '@/Jetstream/Input';

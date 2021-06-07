@@ -58,7 +58,7 @@ class TaskController extends Controller {
     public function updateTask(Request $request) {
         $this->task->update($request);
 
-        return redirect()->back()->with(['tasks' => Task::where('user_id', auth()->user()->id)->get()]);
+        return redirect()->back()->with('success', 'Task modified successfully.');
     }
 
     public function completeTask(Request $request) {

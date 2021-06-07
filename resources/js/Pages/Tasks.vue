@@ -1,8 +1,8 @@
 <template>
     <app-layout>
         <template #content>
-            <div class="mx-auto px-5 max-w-7xl">
-                <span class="block mb-5 text-xl text-center text-gray-500">All Tasks</span>
+            <div class="mx-auto mt-20 px-5 max-w-7xl">
+                <span class="block mb-5 text-xl text-center text-gray-200">All Tasks</span>
 
             <div class="flex items-center mb-5">
                 <div class="relative flex items-center w-full">
@@ -60,15 +60,19 @@
             <div v-for="task in tasks" :key="task.id" class="h-24 px-2 mb-3 text-white bg-gray-700 rounded-lg shadow">
                 <div class="flex items-center justify-between h-full px-2">
                     <div>
-                        <span class="font-semibold text-green-400">{{ task.title }}</span>
+                        <svg v-if="task.important" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+
+                        <span class="font-semibold text-indigo-400">{{ task.title }}</span>
                         <p class="w-56 text-xs">{{ getReducedDescription(task.description) }}</p>
                     </div>
 
                     <div>
-                        <span v-if="task.spec_date">{{ getFormattedDate(task.spec_date) }} | <span v-if="task.spec_time">{{ getFormattedTime(task.spec_time) }}</span></span>
-                        <span v-else>Daily</span>
+                        <span v-if="task.spec_date">{{ getFormattedDate(task.spec_date) }} - <span v-if="task.spec_time">{{ getFormattedTime(task.spec_time) }}</span></span>
+                        <span v-else>Daily <span v-if="task.spec_time">- {{ getFormattedTime(task.spec_time) }}</span></span>
 
-                        <span class="block text-sm text-green-400" v-if="task.remind_before_option && task.remind_before_value && task.remind_before_value != 'Remind me before'">
+                        <span class="block text-sm text-indigo-400" v-if="task.remind_before_option && task.remind_before_value && task.remind_before_value != 'Remind me before'">
                         Remind before: {{ task.remind_before_value }} {{ task.remind_before_option }}
                     </span>
                     </div>
@@ -127,8 +131,8 @@
                             </div>
                         </div>
 
-                        <div v-if="!form.daily" class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
-                            <div class="relative w-full">
+                        <div class="relative grid grid-cols-2 col-span-6 gap-8 mt-5">
+                            <div v-if="!form.daily" class="relative w-full">
                                 <flat-pickr
                                     v-model="form.spec_date"
                                     :config="flatPickrConfig"
@@ -232,7 +236,7 @@
 </template>
 
 <script>
-import AppLayout from "@/Layouts/AppLayout";
+import AppLayout from '@/Layouts/AppLayout'
 import JetCheckbox from '@/Jetstream/Checkbox';
 import JetInput from '@/Jetstream/Input';
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
@@ -282,6 +286,7 @@ export default {
               description: "",
               daily: false,
               push_email: false,
+              important: false,
               spec_date: "",
               spec_time: "",
               remind_before_value: "",
@@ -310,7 +315,7 @@ export default {
             this.showDeleteModal = false;
             this.$inertia.delete(route("delete.task", { taskId: this.taskToDeleteId }, {
                 onSuccess: () => {
-                    
+
                 }
             }));
         },
@@ -355,6 +360,7 @@ export default {
             this.form.remind_before_option = "Remind me before";
             this.taskToEdit = task;
             this.form.title = task.title;
+            this.form.important = task.important;
             this.form.description = task.description;
             this.form.daily = task.daily;
             this.form.push_email = task.push_email;

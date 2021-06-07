@@ -1,15 +1,15 @@
 <template>
-    <app-layout>
+    <app-layout :today="today" :eventList="eventList" :taskList="taskList">
         <template #content>
-           <div class="w-full">
-               <div class="mx-auto">
-                   <div class="grid grid-cols-2 my-10 gap-4">
-                       <daily-events :date="today" :events="eventList" />
-                       <today-tasks :date="today" :tasks="taskList" />
-                   </div>
-               </div>
-                <calendar @data="setData" :allTasks="allTasks" :allEvents="allEvents" />
+           <div>
+               <div class="w-full">
+                    <calendar @data="setData" :allTasks="allTasks" :allEvents="allEvents" />
+                </div>
 
+                <div class="grid grid-cols-2 mt-16">
+                    <today-tasks :tasks="tasks" :date="today" />
+                    <daily-events :events="events" />
+                </div>
            </div>
         </template>
     </app-layout>
@@ -33,7 +33,7 @@
             UpcomingTasks,
             Calendar,
             DailyEvents,
-            JetSectionBorder
+            JetSectionBorder,
         },
         props: {
           tasks: Array,
@@ -54,11 +54,11 @@
             setData(value) {
                 this.taskList = value.todayTasks;
                 this.eventList = value.todayEvents;
-                this.today = `${value.day.year()} ${value.day.month()} ${value.day.date()}`
+                this.today = value.day;
             }
         },
         mounted() {
-            this.today = moment().format('YYYY MMMM d');
+            this.today = moment();
         },
 
     }

@@ -2,11 +2,20 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Event;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Repositories\Event\EventRepositoryInterface;
+use App\Repositories\Task\TaskRepositoryInterface;
 
 class HandleInertiaRequests extends Middleware
 {
+    public function __construct(EventRepositoryInterface $event, TaskRepositoryInterface $task) {
+        $this->event = $event;
+        $this->task = $task;
+    }
+
     /**
      * The root template that's loaded on the first page visit.
      *
@@ -36,6 +45,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        $todaysTasks = $this->task->getTodaysTasks();
+        $dailyTasks = $this->task->getDailyTasks();
+        $todaysEvents = $this->event->getTodaysEvents();
+        $dailyEvents = $this->event->getDailyEvents();
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
                 return [
@@ -43,6 +56,9 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error')
                 ];
             }
+        ], [
+            'todayEvents' => array_merge($todaysEvents->toArray(), $dailyEvents->toArray()),
+            'todayTasks' => array_merge($todaysTasks->toArray(), $dailyTasks->toArray()),
         ]);
     }
 }

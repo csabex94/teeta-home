@@ -21,18 +21,14 @@ class EventsController extends Controller {
             $events = Event::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
-                ['spec_date', '>=', Carbon::now()]
-            ])->orderBy('spec_date', 'asc')->limit(20)->get(); //needs pagination
+            ])->get(); //needs pagination
         } else {
-            $next = Carbon::parse($request->date)->addDay(1);
             $events = Event::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
-                ['date', '>=' ,$request->date],
-                ['date', '<=' ,$next]
+                ['spec_date', '=' ,$request->date],
             ])->orderBy('spec_date', 'asc')->get();
         }
-
         return Inertia::render('Events/Show', [
             'events' => $events
         ]);
@@ -44,7 +40,7 @@ class EventsController extends Controller {
 
     public function store(Request $request) {
         $this->event->store($request);
-        
+
         return redirect()->route('events.show')->with('success', 'Event created.');
     }
 

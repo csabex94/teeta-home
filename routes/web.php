@@ -23,6 +23,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
     // Dashboard Page
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // Dashboard New Page
+    Route::get('/dashboard-new', [DashboardController::class, 'dashboardNew'])->name('dashboard.new');
 
     //Tasks
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
@@ -44,25 +46,25 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         //Test Routes
         Route::get('/mail/single-event', function () { //reminder for an event on specified date
             $event = App\Models\Event::with('user')->first();
-        
+
             return (new App\Mail\EventReminder($event))->render(); //params (Event)
         });
 
         Route::get('/mail/event-list', function () { //event list to complete in the following * week
             $events = App\Models\Event::with('user')->whereDate('spec_date', '>=', Carbon\Carbon::now()->addWeeks(1))->get();
-        
+
             return (new App\Mail\EventListReminder(auth()->user(), $events, 'week'))->render(); //params(User, event list, in the following '$string')
         });
 
         Route::get('/mail/single-task', function () { //reminder for a task to complete
             $task = App\Models\Task::with('user')->first();
-        
+
             return (new App\Mail\TaskReminder($task))->render(); //params (Task)
         });
 
         Route::get('/mail/task-list', function () { //task list to complete in the following * 2 weeks
             $tasks = App\Models\Task::with('user')->whereDate('spec_date', '>=', Carbon\Carbon::now()->addWeeks(2))->get();
-        
+
             return (new App\Mail\TaskListReminder(auth()->user(), $tasks, '2 weeks'))->render(); //params(User, task list, in the following '$string')
         });
 
@@ -79,9 +81,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-    
+
         return redirect('/');
     })->middleware(['auth', 'signed'])->name('verification.verify');
 
-   */ 
+   */
 });

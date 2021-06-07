@@ -1,24 +1,23 @@
 <template>
 
-    <div class="w-full mx-auto calendar-wrapper">
-        <div class="flex flex-col items-start justify-between h-full sidebar">
-
-            <div class="py-8 h-full flex flex-col justify-around mx-auto">
-                <h2 class="mb-32 text-2xl font-bold text-gray-400">{{ year }}</h2>
-                <div
-                    :class="markCurrentMonth(i)"
-                    @click="changeMonth(i)"
-                    class="flex flex-col justify-start text-lg font-semibold text-gray-200 cursor-pointer hover:text-green-400"
-                    v-for="(month, i) in months" :key="i"
-                >{{ month }}</div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="flex pl-8 mt-8 header">
-                <h2 class="py-2 mr-5 text-gray-200 ">Event Type</h2>
+    <div class="w-full grid grid-cols-5 mt-24 pl-5 mx-auto">
+       <div class="flex flex-col col-span-1 items-start justify-between pl-5 h-full sidebar">
+           <h2 class="mt-12 text-2xl font-bold text-gray-400">{{ year }}</h2>
+           <div
+               :class="markCurrentMonth(i)"
+               @click="changeMonth(i)"
+               class="flex flex-col font-semibold text-gray-200 cursor-pointer hover:text-green-400"
+               v-for="(month, i) in months" :key="i"
+           >{{ month }}</div>
+       </div>
+        <div class="col-span-4">
+            <div class="flex pl-8 mt-8">
+                <h2 class="py-2 mr-5 text-gray-200 flex items-center justify-center">Event Type</h2>
                 <div class="flex items-center justify-around ">
                     <div class="flex items-center mx-12 text-gray-200">
-                        <svg class="w-6 h-6 text-red-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                         <span class="text-xs">Important</span>
                     </div>
                     <div class="flex items-center mx-12 text-gray-200">
@@ -31,11 +30,11 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-8 calendar">
-                <div class="grid pl-8 grid-cols-2">
-                    <h2 class="text-xl text-gray-200">Calendar</h2>
-                    <h3 class="text-xl text-green-400">{{ today.format("MMMM") }} {{ moment.year() }}</h3>
-                </div>
+            <div class="calendar">
+               <div class="grid pl-8 grid-cols-2">
+                   <h2 class="text-xl text-gray-200">Calendar</h2>
+                   <h3 class="text-xl text-green-400">{{ today.format("MMMM") }} {{ moment.year() }}</h3>
+               </div>
                 <div class="grid grid-cols-7 my-5 text-sm font-semibold text-center text-gray-400">
                     <span>Sunday</span>
                     <span>Monday</span>
@@ -48,7 +47,12 @@
 
                 <div v-for="(week, i) in currentMonth" :key="i">
                     <div class="grid h-28 grid-cols-7">
-                        <div @click="showTasksAndEvents(day)" :class="markCurrentDay(day)" class="cursor-pointer w-full h-full flex flex-col justify-around pt-2 px-2 border border-gray-500 hover:bg-gray-200 hover:text-gray-700" v-for="(day, i) in week.days" :key="i">
+                        <div
+                            @click="showTasksAndEvents(day)"
+                            :class="markCurrentDay(day)"
+                            class="cursor-pointer w-full h-full flex flex-col justify-around pt-2 px-2 border border-gray-500 hover:bg-gray-200 hover:text-gray-700"
+                            v-for="(day, i) in week.days" :key="i"
+                        >
                             <p class="flex justify-end text-lg">
                                 {{ day.date() }}
                             </p>
@@ -56,7 +60,7 @@
                             <div class="flex items-center h-full">
                                 <div v-if="getImportants(day) > 0" class="relative">
                                     <svg class="w-8 h-10 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                                    <span class="absolute infoPositionImportant bg-gray-600 rounded-full px-1 text-gray-200">{{ getEventsForDate(day) }}</span>
+                                    <span class="absolute infoPositionImportant bg-gray-600 rounded-full px-1 text-gray-200">{{ getImportants(day) }}</span>
                                 </div>
 
                                 <div v-if="getEventsForDate(day) > 0" class="relative">
@@ -105,7 +109,7 @@ export default {
                 return "bg-gray-200 text-gray-700 font-semibold"
             }
             if (day.month() === this.today.month()) {
-                return "text-gray-200"
+                return "text-gray-200 bg-gray-700"
             } else {
                 return "opacity-50 text-gray-300"
             }
@@ -140,7 +144,7 @@ export default {
                        specDateTasks.push(task);
                    }
                }
-               if (task.daily) specDateTasks.push(task);
+               if (task.daily && day.format('YYYY-MM-DD') <= moment(task.spec_date).format('YYYY-MM-DD')) specDateTasks.push(task);
             });
             return specDateTasks.length;
         },
@@ -170,6 +174,7 @@ export default {
             return importants.length;
         },
         showTasksAndEvents(day) {
+            this.changeMonth(day.month())
             this.selectedDate = day;
             let todayTasks = this.allTasks.filter(task => {
                 if (task.spec_date) {
@@ -216,29 +221,20 @@ export default {
         this.currentMonth = calendar;
         this.months = moment.months();
     },
+    computed: {
+        selectedDate() {
+            return this.selectedDate
+        }
+    },
+    watch: {
+        selectedDate(value) {
+            window.scroll({ top: 0 });
+        }
+    }
 }
 </script>
 
 <style>
-.calendar-wrapper {
-    display: grid;
-    grid-template-columns: 20% 1fr 1fr 1fr 1fr;
-    grid-template-areas: "sidebar cont cont cont" "sidebar cont cont cont" "sidebar cont cont cont";
-}
-.sidebar {
-    grid-area: sidebar;
-    grid-column: 1 / 2;
-}
-.content {
-    grid-area: cont;
-    grid-column: 2 / -1;
-}
-.header {
-    grid-area: header;
-}
-.calendar {
-    grid-area: calendar;
-}
 .infoPosition {
     top: -20px;
     left: -2px;
@@ -253,9 +249,6 @@ export default {
     top: -15px;
     left: -2px;
     font-weight: 600;
-}
-.margin {
-    margin: 25px 0;
 }
 </style>
 
