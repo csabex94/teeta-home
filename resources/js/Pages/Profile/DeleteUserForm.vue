@@ -1,15 +1,15 @@
 <template>
     <jet-action-section>
         <template #title>
-            <span class="text-gray-200">Delete Account</span>
+            <span class="text-gray-800">Delete Account</span>
         </template>
 
         <template #description>
-            <span class="text-gray-200">Permanently delete your account.</span>
+            <span class="text-gray-800">Permanently delete your account.</span>
         </template>
 
         <template #content>
-            <div class="max-w-xl text-sm text-gray-200">
+            <div class="max-w-xl text-sm text-gray-800">
                 Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.
             </div>
 

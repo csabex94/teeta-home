@@ -1,23 +1,23 @@
 <template>
     <jet-action-section>
         <template #title>
-            <span class="text-gray-200">Two Factor Authentication</span>
+            <span class="text-gray-800">Two Factor Authentication</span>
         </template>
 
         <template #description>
-            <span class="text-gray-200">Add additional security to your account using two factor authentication.</span>
+            <span class="text-gray-800">Add additional security to your account using two factor authentication.</span>
         </template>
 
         <template #content>
-            <h3 class="text-lg font-medium text-gray-200" v-if="twoFactorEnabled">
+            <h3 class="text-lg font-medium text-gray-800" v-if="twoFactorEnabled">
                 You have enabled two factor authentication.
             </h3>
 
-            <h3 class="text-lg font-medium text-gray-200" v-else>
+            <h3 class="text-lg font-medium text-gray-800" v-else>
                 You have not enabled two factor authentication.
             </h3>
 
-            <div class="max-w-xl mt-3 text-sm text-gray-200">
+            <div class="max-w-xl mt-3 text-sm text-gray-800">
                 <p>
                     When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.
                 </p>
@@ -25,7 +25,7 @@
 
             <div v-if="twoFactorEnabled">
                 <div v-if="qrCode">
-                    <div class="max-w-xl mt-4 text-sm text-gray-200">
+                    <div class="max-w-xl mt-4 text-sm text-gray-800">
                         <p class="font-semibold">
                             Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application.
                         </p>
@@ -36,7 +36,7 @@
                 </div>
 
                 <div v-if="recoveryCodes.length > 0">
-                    <div class="max-w-xl mt-4 text-sm text-gray-200">
+                    <div class="max-w-xl mt-4 text-sm text-gray-800">
                         <p class="font-semibold">
                             Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.
                         </p>

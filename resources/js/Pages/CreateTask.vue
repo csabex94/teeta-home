@@ -1,16 +1,13 @@
 <template>
-    <app-layout>
-        <template #content>
-
-            <div class="py-10 mx-auto mt-32 max-w-7xl lg:px-6">
+            <div class="mx-auto max-w-7xl lg:px-6">
                 <jet-form-section @submitted="createTask">
 
                 <template #title>
-                    <h1 class="text-2xl text-gray-200">Create New Task</h1>
+                    <h1 class="text-2xl text-gray-800">Create New Task</h1>
                 </template>
 
                 <template #description>
-                    <p class="text-gray-200">
+                    <p class="text-gray-800">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     </p>
                 </template>
@@ -34,7 +31,7 @@
                         <jet-input-error :message="form.errors.description" class="mt-2" />
                     </div>
 
-                    <div class="flex items-center text-gray-200 justify-between col-span-6">
+                    <div class="flex items-center text-gray-800 justify-between col-span-6">
                         <div class="flex items-center text-sm font-medium">Daily <jet-checkbox v-model="form.daily" class="ml-2" /></div>
                         <div v-if="!form.daily" class="flex items-center text-sm font-medium">Remind Before <jet-checkbox v-model="showRemindOptions" class="ml-2" /></div>
                         <div class="flex items-center text-sm font-medium">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
@@ -133,8 +130,7 @@
             </jet-form-section>
             </div>
 
-        </template>
-    </app-layout>
+
 </template>
 
 <script>
