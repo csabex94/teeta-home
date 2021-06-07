@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PersonalStuffController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::post('/events/store', [EventsController::class, 'store'])->name('events.store');
     Route::put('/events/update', [EventsController::class, 'update'])->name('events.update');
     Route::delete('/events/delete', [EventsController::class, 'delete'])->name('events.delete');
+
+    //Personal Stuff
+
+    Route::get('/personal', [PersonalStuffController::class, 'show'])->name('personal.show');
+    Route::get('/personal/create', [PersonalStuffController::class, 'create'])->name('personal.create');
+    Route::post('/personal/store', [PersonalStuffController::class, 'store'])->name('personal.store');
+    Route::put('/personal/update', [PersonalStuffController::class, 'update'])->name('personal.update');
+    Route::delete('/personal/delete', [PersonalStuffController::class, 'delete'])->name('personal.delete');
 
     //Mails
 

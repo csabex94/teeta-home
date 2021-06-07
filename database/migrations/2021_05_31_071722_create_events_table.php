@@ -16,7 +16,7 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->foreignId('user_id')->index();
             $table->tinyInteger('push_email')->default(0);
             $table->tinyInteger('daily')->default(0);

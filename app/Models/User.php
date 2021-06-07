@@ -59,8 +59,11 @@ class User extends Authenticatable //implements MustVerifyEmail
         'profile_photo_url',
     ];
 
-    public function getTasks(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
+    public function getTasks(): \Illuminate\Database\Eloquent\Relations\HasMany {
         return $this->hasMany(\App\Models\Task::class, 'user_id', 'id');
+    }
+
+    public function futureEvents() {
+        return $this->hasMany(\App\Models\Event::class, 'event_id', 'id');
     }
 }
