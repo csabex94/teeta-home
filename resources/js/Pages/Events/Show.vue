@@ -1,8 +1,8 @@
 <template>
-    <app-layout>
+    <light-layout>
         <template #content>
-            <div class="px-5 mt-20 max-w-7xl mx-auto">
-                <span class="block mb-5 text-xl text-gray-200 text-center">Events</span>
+            <div class="px-5 max-w-7xl mx-auto">
+                <span class="block mb-5 text-xl text-gray-800 text-center">Events</span>
 
                 <div class="flex items-center mb-5">
                     <div class="w-full relative flex items-center">
@@ -228,11 +228,11 @@
                 <!-- Delete Event Modal -->
             </div>
         </template>
-    </app-layout>
+    </light-layout>
 </template>
 
 <script>
-import AppLayout from '@/Layouts/AppLayout'
+import LightLayout from '@/Layouts/LightLayout'
 import JetCheckbox from '@/Jetstream/Checkbox';
 import JetInput from '@/Jetstream/Input';
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
@@ -247,7 +247,7 @@ import flatPickr from 'vue-flatpickr-component';
 
 export default {
     components: {
-        AppLayout,
+        LightLayout,
         JetCheckbox,
         JetInput,
         JetConfirmationModal,

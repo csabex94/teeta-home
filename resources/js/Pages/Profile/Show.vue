@@ -1,7 +1,7 @@
 <template>
-    <app-layout>
+    <light-layout>
         <template #content>
-            <div class="py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div>
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <update-profile-information-form :user="$page.props.user" />
                     <div class="h-8" />
@@ -26,11 +26,11 @@
                 </template>
             </div>
         </template>
-    </app-layout>
+    </light-layout>
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout'
+    import LightLayout from '@/Layouts/LightLayout'
     import DeleteUserForm from './DeleteUserForm'
     import JetSectionBorder from '@/Jetstream/SectionBorder'
     import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm'
@@ -42,7 +42,7 @@
         props: ['sessions'],
 
         components: {
-            AppLayout,
+            LightLayout,
             DeleteUserForm,
             JetSectionBorder,
             LogoutOtherBrowserSessionsForm,

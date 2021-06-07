@@ -25,17 +25,12 @@ class DashboardController extends Controller {
         $events = $this->event->getDailyEvents();
         $todaysEvents = $this->event->getTodaysEvents();
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('DashboardLight', [
            'tasks' => array_merge($dailyTasks->toArray(), $todaysTasks->toArray()),
            'upcomingTasks' => [],
            'allTasks' => $allTasks,
            'allEvents' => $allEvents,
            'events' => array_merge($events->toArray(), $todaysEvents->toArray())
         ]);
-    }
-
-    public function light(Request $request)
-    {
-        return Inertia::render("DashboardLight");
     }
 }

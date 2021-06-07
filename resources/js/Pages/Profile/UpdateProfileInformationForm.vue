@@ -1,25 +1,23 @@
 <template>
     <jet-form-section @submitted="updateProfileInformation">
         <template #title>
-            <span class="text-gray-200">Profile Information</span>
+            <span class="text-gray-800">Profile Information</span>
         </template>
 
         <template #description>
-            <span class="text-gray-200">Update your account's profile information and email address.</span>
+            <span class="text-gray-800">Update your account's profile information and email address.</span>
         </template>
 
         <template #form>
             <!-- Profile Photo -->
-            <div class="col-span-6" v-if="$page.props.jetstream.managesProfilePhotos">
+            <div class="col-span-6 flex items-center" v-if="$page.props.jetstream.managesProfilePhotos">
                 <!-- Profile Photo File Input -->
                 <input type="file" class="hidden"
                             ref="photo"
                             @change="updatePhotoPreview">
 
-                <jet-label for="photo" value="Photo" />
-
                 <!-- Current Profile Photo -->
-                <div class="mt-2" v-show="! photoPreview">
+                <div class="mr-2" v-show="! photoPreview">
                     <img :src="returnProfilePhoto()" :alt="user.name" class="object-cover w-20 h-20 rounded-full">
                 </div>
 

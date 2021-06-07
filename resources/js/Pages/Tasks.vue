@@ -1,8 +1,8 @@
 <template>
-    <app-layout>
+    <light-layout>
         <template #content>
-            <div class="mx-auto mt-20 px-5 max-w-7xl">
-                <span class="block mb-5 text-xl text-center text-gray-200">All Tasks</span>
+            <div class="mx-auto px-5 max-w-7xl">
+                <span class="block mb-5 text-xl text-center text-gray-800">All Tasks</span>
 
             <div class="flex items-center mb-5">
                 <div class="relative flex items-center w-full">
@@ -232,11 +232,11 @@
                 <!-- Delete Task Modal -->
             </div>
         </template>
-    </app-layout>
+    </light-layout>
 </template>
 
 <script>
-import AppLayout from '@/Layouts/AppLayout'
+import LightLayout from '@/Layouts/LightLayout'
 import JetCheckbox from '@/Jetstream/Checkbox';
 import JetInput from '@/Jetstream/Input';
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
@@ -251,7 +251,7 @@ import flatPickr from 'vue-flatpickr-component';
 
 export default {
     components: {
-        AppLayout,
+        LightLayout,
         JetCheckbox,
         JetInput,
         JetConfirmationModal,
