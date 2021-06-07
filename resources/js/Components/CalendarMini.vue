@@ -80,7 +80,11 @@
                                 </tr>
                                 <tr v-for="(week, i) in currentMonth" :key="i">
                                     <td class="py-3 px-2 md:px-3 " v-for="(day, i) in week.days" :key="i">
-                                        <span class="p-2 flex items-center justify-center" :class="markCurrentDay(day)">{{ day.date() }}</span>
+                                        <span
+                                            @click="changeDay(day)"
+                                            class="p-2 rounded-md flex cursor-pointer hover:bg-gray-700 hover:text-white items-center justify-center"
+                                            :class="markCurrentDay(day)"
+                                        >{{ day.date() }}</span>
                                     </td>
                                 </tr>
                             </table>
@@ -113,6 +117,10 @@
                 },
             },
         },
+        props: {
+          allTasks: Array,
+          allEvents: Array
+        },
         data() {
             return {
                 currentMonth: null,
@@ -122,10 +130,15 @@
                 currentYear: moment().year(),
                 showMonthsList: false,
                 selectedDate: null,
+                selectedDateMonth: null
             }
         },
         methods: {
             markCurrentDay(day) {
+                // Selected Date
+                if (day.date() === this.selectedDate && this.selectedDateMonth === this.months[day.month()]) {
+                    return "text-center bg-gray-800 text-white rounded-md shadow"
+                }
                 // Current Day
                 if ((moment().date() === day.date() && moment().month() === day.month()) && moment().year() === day.year()) {
                     return "text-center bg-blue-500 text-white rounded-md shadow"
@@ -143,7 +156,7 @@
             changeMonth(month) {
                 this.selectedMonth = month;
                 let calendar = [];
-                const today = moment(`${this.currentYear}, ${month + 1}`);
+                const today = moment(`${this.currentYear}, ${month}`);
                 let startDay = today.clone().startOf('month').startOf('week');
                 let endDay = today.clone().endOf('month').endOf('week');
                 let date = startDay.clone().subtract(1, 'day');
@@ -198,8 +211,31 @@
                 this.currentMonth = calendar;
                 this.months = moment.months();
                 this.selectedMonth = moment().format("MMMM");
-                this.selectedDate = moment().date()
+                this.selectedDate = moment().date();
+                this.selectedDateMonth = null;
             },
+            changeDay(day) {
+                this.selectedDate = day.date();
+                this.selectedDateMonth = this.months[day.month()];
+                this.changeMonth(this.months[day.month()])
+                let todayTasks = this.allTasks.filter(task => {
+                    if (task.spec_date) {
+                        if(day.format('YYYY-MM-DD') === moment(task.spec_date).format('YYYY-MM-DD')) {
+                            return task;
+                        }
+                    }
+                    if (task.daily) return task;
+                });
+                let todayEvents = this.allEvents.filter(event => {
+                    if (event.spec_date) {
+                        if (day.format('YYYY-MM-DD') === moment(event.spec_date).format('YYYY-MM-DD')) {
+                            return event;
+                        }
+                    }
+                    if (event.daily) return event;
+                });
+                this.$emit('data', {todayTasks, todayEvents, day});
+            }
         },
         mounted() {
             this.setCalendar();
