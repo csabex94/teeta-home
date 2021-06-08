@@ -1,9 +1,9 @@
 <template>
             <div class="mx-auto max-w-7xl lg:px-6">
-                <jet-form-section @submitted="createEvent">
+                <jet-form-section @submitted="createPersonal">
 
                     <template #title>
-                        <h1 class="text-2xl text-gray-800">Create New Event</h1>
+                        <h1 class="text-2xl text-gray-800">Create Personal Record</h1>
                     </template>
 
                     <template #description>
@@ -19,9 +19,6 @@
                             <b>Email *</b>
                             <br>
                             <ul class="mt-2"><li>- Receive email notifications</li></ul>
-                            <b>Important *</b>
-                            <br>
-                            <ul class="mt-2"><li>- The event will be more prioritized</li></ul>
                         </p>
                     </template>
 
@@ -48,7 +45,6 @@
                             <div class="flex items-center text-sm font-medium">Daily <jet-checkbox v-model="form.daily" class="ml-2" /></div>
                             <div v-if="!form.daily" class="flex items-center text-sm font-medium">Remind Before <jet-checkbox v-model="showRemindOptions" class="ml-2" /></div>
                             <div class="flex items-center text-sm font-medium">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
-                            <div class="flex items-center text-sm font-medium">Important <jet-checkbox v-model="form.important" class="ml-2" /></div>
                         </div>
 
                         <div class="grid grid-cols-2 col-span-6 gap-8">
@@ -129,6 +125,17 @@
                             />
                         </div>
 
+                        <div class="col-span-6">
+                            
+                        </div>
+
+                        <div class="flex flex-wrap mt-8">
+                            <img v-for="(image, key) in images"
+                                :key="key"
+                                :src="image.image"
+                                class="w-48 h-46 object-cover mr-4 mb-4 shadow rounded">
+                        </div>
+
                     </template>
 
                     <template #actions>
@@ -167,20 +174,20 @@ export default {
         JetActionMessage,
         JetButton,
         JetCheckbox,
-        flatPickr
+        flatPickr,
     },
     data() {
         return {
             form: this.$inertia.form({
                 title: "",
                 description: "",
+                images: "",
                 daily: false,
                 push_email: false,
                 spec_date: "",
                 remind_before_value: "",
                 remind_before_option: "Remind me before",
                 spec_time: "",
-                important: false
             }),
             showRemindOptions: false,
             flatPickrConfig: {
@@ -193,14 +200,17 @@ export default {
                 noCalendar: true,
                 dateFormat: "H:i",
             },
+            options: {
+                url: "",
+            },
         }
     },
     methods: {
         openCalendarOnIconClick() {
             this.$refs.specDate.fp.toggle();
         },
-        createEvent() {
-            this.form.post(route('events.store'),{
+        createPersonal() {
+            this.form.post(route('personal.store'),{
                 onSuccess: () => {
                     this.form.daily = false;
                     this.form.push_email = false;
@@ -228,7 +238,9 @@ export default {
         },
         clearTimeInput() {
             this.form.spec_time = "";
-        }
+        },
+        
+       
     },
     computed: {
         daily() {

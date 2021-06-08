@@ -7,8 +7,18 @@
                 </template>
 
                 <template #description>
-                    <p class="text-gray-800">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    <p class="text-gray-800 mt-4">
+                        <b>Daily *</b>
+                        <br>
+                        <ul class="mt-2"><li>- The created task will appear everyday on the dashboard</li></ul>
+                        <br>
+                        <b>Remind Before *</b>
+                        <br>
+                        <ul class="mt-2"><li>- Specify a custom reminder</li></ul>
+                        <br>
+                        <b>Email *</b>
+                        <br>
+                        <ul class="mt-2"><li>- Receive email notifications</li></ul>
                     </p>
                 </template>
 

@@ -68,8 +68,8 @@
                 </div>
 
                 <!-- Create Personal Stuff Form -->
-                <div>
-
+                <div v-if="showCreatePersonalForm" class="mx-auto mb-5 lg:px-6">
+                    <create-personal />
                 </div>
             </div>
         </template>
@@ -88,6 +88,7 @@ import JetCheckbox from '@/Jetstream/Checkbox';
 
 import CreateTask from '@/Pages/CreateTask';
 import Create from '@/Pages/Events/Create';
+import CreatePersonal from '@/Pages/Personal/Create';
 import flatPickr from 'vue-flatpickr-component';
 
 export default {
@@ -102,7 +103,8 @@ export default {
         JetCheckbox,
         flatPickr,
         CreateTask,
-        Create
+        Create,
+        CreatePersonal
     },
     data() {
         return {
@@ -156,7 +158,30 @@ export default {
                     dateFormat: "H:i",
                 },
             },
-            createPersonalStuff: {},
+            createPersonalStuff: {
+                form: this.$inertia.form({
+                    title: "",
+                    description: "",
+                    image_id: "",
+                    daily: false,
+                    push_email: false,
+                    spec_date: "",
+                    remind_before_value: "",
+                    remind_before_option: "Remind me before",
+                    spec_time: ""
+                }),
+                showRemindOptions: false,
+                flatPickrConfig: {
+                    altFormat: 'M j, Y',
+                    altInput: true,
+                    dateFormat: 'Y-m-d',
+                },
+                flatPickrConfigTime: {
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                },
+            },
         }
     },
     methods: {
