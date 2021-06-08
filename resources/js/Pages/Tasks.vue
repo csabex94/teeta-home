@@ -27,7 +27,7 @@
                 <div class="relative w-full">
                     <flat-pickr
                         :config="flatPickrConfig"
-                        class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                        class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                         placeholder="Search by date"
                         name="spec_date"
                         ref="specDate"
@@ -57,35 +57,38 @@
             </div>
 
 
-            <div v-for="task in tasks" :key="task.id" class="h-24 px-2 mb-3 text-white bg-gray-700 rounded-lg shadow">
+            <div v-for="task in tasks" :key="task.id" class="h-24 px-2 mb-3 bg-white text-gray-700 rounded-lg shadow">
                 <div class="flex items-center justify-between h-full px-2">
                     <div>
-                        <svg v-if="task.important" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        <span v-if="task.important" class="flex items-center font-semibold text-xs text-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Important
+                        </span>
 
-                        <span class="font-semibold text-indigo-400">{{ task.title }}</span>
+                        <span class="font-semibold text-blue-500">{{ task.title }}</span>
                         <p class="w-56 text-xs">{{ getReducedDescription(task.description) }}</p>
                     </div>
 
                     <div>
-                        <span v-if="task.spec_date">{{ getFormattedDate(task.spec_date) }} - <span v-if="task.spec_time">{{ getFormattedTime(task.spec_time) }}</span></span>
+                        <span v-if="task.spec_date">{{ getFormattedDate(task.spec_date) }} <span v-if="task.spec_time"> - {{ getFormattedTime(task.spec_time) }}</span></span>
                         <span v-else>Daily <span v-if="task.spec_time">- {{ getFormattedTime(task.spec_time) }}</span></span>
 
-                        <span class="block text-sm text-indigo-400" v-if="task.remind_before_option && task.remind_before_value && task.remind_before_value != 'Remind me before'">
+                        <span class="block text-sm text-blue-500" v-if="task.remind_before_option && task.remind_before_value && task.remind_before_value != 'Remind me before'">
                         Remind before: {{ task.remind_before_value }} {{ task.remind_before_option }}
                     </span>
                     </div>
 
                     <div class="flex items-end">
-                        <span @click="openEditModal(task)" class="flex flex-col items-center mx-5 cursor-pointer hover:text-green-400">
+                        <span @click="openEditModal(task)" class="flex flex-col items-center mx-5 cursor-pointer hover:text-blue-500">
                              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                                 <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
                             </svg>
                             <p class="text-xs">Edit Task</p>
                         </span>
-                        <span @click="openDeleteTaskModal(task.id)" class="flex flex-col items-center cursor-pointer hover:text-green-400">
+                        <span @click="openDeleteTaskModal(task.id)" class="flex flex-col items-center cursor-pointer hover:text-red-500">
                              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
                             </svg>
@@ -94,6 +97,8 @@
                     </div>
                 </div>
             </div>
+
+
                 <!-- Edit Task Modal -->
                 <jet-dialog-modal :show="showEditModal" @close="closeEditModal">
                     <template #title>Edit Task</template>
@@ -108,7 +113,7 @@
                         <div class="col-span-6 mt-5">
                             <jet-label for="description" value="Description" />
                             <textarea
-                                class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                                 name="description"
                                 id="description"
                                 v-model="form.description"
@@ -116,7 +121,7 @@
                             <jet-input-error :message="form.errors.description" class="mt-2" />
                         </div>
 
-                        <div class="flex items-center text-gray-200 justify-between col-span-6 mt-5">
+                        <div class="flex items-center text-gray-800 justify-between col-span-6 mt-5">
                             <div class="flex items-center text-sm font-medium">
                                 Daily <jet-checkbox :checked="checkBoxChecked(form.daily)" v-model="form.daily" class="ml-2" />
                             </div>
@@ -136,7 +141,7 @@
                                 <flat-pickr
                                     v-model="form.spec_date"
                                     :config="flatPickrConfig"
-                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                                     placeholder="Specify date"
                                     name="spec_date"
                                     ref="specDate"
@@ -166,7 +171,7 @@
                                 <flat-pickr
                                     v-model="form.spec_time"
                                     :config="flatPickrConfigTime"
-                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                                     placeholder="Specify time"
                                     name="spec_time"
                                     ref="specTime"
@@ -191,7 +196,7 @@
                         <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8 mt-5">
                             <select
                                 v-model="form.remind_before_option"
-                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
+                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50">
                                 <option>Remind me before</option>
                                 <option value="minutes">Minutes</option>
                                 <option value="hours">Hours</option>
@@ -239,6 +244,7 @@
 import LightLayout from '@/Layouts/LightLayout'
 import JetCheckbox from '@/Jetstream/Checkbox';
 import JetInput from '@/Jetstream/Input';
+import JetInputError from '@/Jetstream/InputError';
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
 import JetDangerButton from '@/Jetstream/DangerButton';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton';
@@ -254,6 +260,7 @@ export default {
         LightLayout,
         JetCheckbox,
         JetInput,
+        JetInputError,
         JetConfirmationModal,
         JetDangerButton,
         JetSecondaryButton,
@@ -401,6 +408,7 @@ export default {
                 this.form.remind_before_value = null;
                 this.form.remind_before_option = null;
             }
+            console.log(this.form.spec_time)
             this.form.put(route('update.task', { taskId: this.taskToEdit.id }), {
                 onSuccess: () => {
                     this.showEditModal = false;

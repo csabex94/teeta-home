@@ -28,9 +28,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     // Dashboard Page
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     // Create Page(Task, Event, Personal Stuff, ...)
-    Route::get('/create', function() {
-        return Inertia::render('Create');
-    })->name('create');
+    Route::get('/create', [DashboardController::class, 'create'])->name('create');
 
     //Tasks
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');

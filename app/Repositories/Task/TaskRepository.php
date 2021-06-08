@@ -122,17 +122,13 @@ class TaskRepository implements TaskRepositoryInterface {
         $task->description = $validData['description'];
         $task->push_email = $validData['push_email'];
         $task->important = $validData['important'];
+        $task->spec_time = $request->spec_time;
 
         if ($validData['daily'] == true || $validData['daily'] == 1) {
             $task->remind_before_option = NULL;
             $task->remind_before_value = NULL;
             $task->spec_date = NULL;
             $task->daily = 1;
-            if ($request->spec_time) {
-                $task->spec_time = $request->spec_time;
-            } else {
-                $task->spec_time = NULL;
-            }
         } else {
             $task->daily = 0;
             if ($request->remind_before_option && $request->remind_before_value) {

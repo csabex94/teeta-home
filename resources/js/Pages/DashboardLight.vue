@@ -2,18 +2,17 @@
     <light-layout>
         <template #content>
             <div class="pr-2 pl-2 md:pt-0 md:pr-0 md:pl-0">
-                    <div class="flex flex-col flex-wrap sm:flex-row ">
-
-                        <div class="w-full sm:w-1/2 xl:w-1/2">
-                            <today-tasks :tasks="tasks" :date="today" />
-                            <daily-events :events="events" :date="today" />
-                        </div>
-
-                           <div class="w-full sm:w-1/2 md:w-1/2">
-                                <calendar-mini @data="setData" :allTasks="allTasks" :allEvents="allEvents" />
-                                <personal-stuff />
-                            </div>
+                <div class="flex flex-col flex-wrap sm:flex-row ">
+                    <div class="w-full sm:w-1/2 xl:w-1/2">
+                        <today-tasks :tasks="taskList" :date="today" />
+                        <daily-events :events="eventList" :date="today" />
                     </div>
+
+                   <div class="w-full sm:w-1/2 md:w-1/2">
+                        <calendar-mini @data="setData" :allTasks="allTasks" :allEvents="allEvents" />
+                        <personal-stuff />
+                   </div>
+                </div>
             </div>
         </template>
     </light-layout>
@@ -53,8 +52,9 @@
         },
         methods: {
             setData(value) {
-                console.log(this.value);
-                this.today = value;
+                this.today = value.day;
+                this.taskList = value.todayTasks ? value.todayTasks : this.tasks;
+                this.eventList = value.todayEvents ? value.todayEvents : this.events;
             }
         }
     }

@@ -22,8 +22,14 @@
                             </div>
 
                             <!-- Calendar Month dropdown -->
-                            <div>
-                                <div v-clickoutside="closeMonthsList" class="relative inline-block text-left">
+                            <div class="flex items-center">
+                                <button @click="decrementMonth" class="p-2 rounded-full bg-blue-500 text-white">
+                                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M13.83 19a1 1 0 0 1-.78-.37l-4.83-6a1 1 0 0 1 0-1.27l5-6a1 1 0 0 1 1.54 1.28L10.29 12l4.32 5.36a1 1 0 0 1-.78 1.64z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <div v-clickoutside="closeMonthsList" class="relative mx-2 inline-block text-left">
                                     <button @click="openMonthsList" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-expanded="true" aria-haspopup="true">
                                         {{ selectedMonth }}
                                         <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -42,6 +48,12 @@
                                         </span>
                                     </div>
                                 </div>
+                                <button @click="incrementMonth" class="p-2 rounded-full bg-blue-500 text-white">
+                                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M10 19a1 1 0 0 1-.64-.23a1 1 0 0 1-.13-1.41L13.71 12L9.39 6.63a1 1 0 0 1 .15-1.41a1 1 0 0 1 1.46.15l4.83 6a1 1 0 0 1 0 1.27l-5 6A1 1 0 0 1 10 19z">
+                                        </path>
+                                    </svg>
+                                </button>
                             </div>
                             <!-- Calendar Month dropdown -->
 
@@ -98,6 +110,7 @@
 
 <script>
     import moment from 'moment';
+    import JetDropdown from '@/Jetstream/Dropdown';
 
     export default {
         directives: {
@@ -117,6 +130,9 @@
                 },
             },
         },
+        components: {
+            JetDropdown
+        },
         props: {
           allTasks: Array,
           allEvents: Array
@@ -130,7 +146,8 @@
                 currentYear: moment().year(),
                 showMonthsList: false,
                 selectedDate: null,
-                selectedDateMonth: null
+                selectedDateMonth: null,
+                selectedMonthIndex: moment().month()
             }
         },
         methods: {
@@ -194,6 +211,16 @@
                 this.changeMonth(moment().format('MMMM'));
                 this.selectedMonth = moment().format("MMMM");
             },
+            incrementMonth() {
+                this.selectedMonthIndex++;
+                this.selectedMonth = this.months[this.selectedMonthIndex];
+                this.changeMonth(this.selectedMonth);
+            },
+            decrementMonth() {
+                this.selectedMonthIndex--;
+                this.selectedMonth = this.months[this.selectedMonthIndex];
+                this.changeMonth(this.selectedMonth);
+            },
             setCalendar() {
                 this.currentYear = moment().year();
                 const calendar = [];
@@ -213,6 +240,7 @@
                 this.selectedMonth = moment().format("MMMM");
                 this.selectedDate = moment().date();
                 this.selectedDateMonth = null;
+                this.$emit('data', {day: moment()});
             },
             changeDay(day) {
                 this.selectedDate = day.date();

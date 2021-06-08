@@ -6,9 +6,6 @@
                 </p>
                 <ul>
                     <li class="flex items-center my-6 space-x-2">
-                        <a href="#" class="block relative">
-                            <img alt="profil" src="/images/person/1.jpg" class="mx-auto object-cover rounded-full h-10 w-10 "/>
-                        </a>
                         <div class="flex flex-col">
                             <span class="text-sm text-gray-900 font-semibold dark:text-white ml-2">
                                 Charlie Rabiller
@@ -19,9 +16,6 @@
                         </div>
                     </li>
                     <li class="flex items-center my-6 space-x-2">
-                        <a href="#" class="block relative">
-                            <img alt="profil" src="/images/person/5.jpg" class="mx-auto object-cover rounded-full h-10 w-10 "/>
-                        </a>
                         <div class="flex flex-col">
                             <span class="text-sm text-gray-900 font-semibold dark:text-white ml-2">
                                 Marie Lou
@@ -32,9 +26,6 @@
                         </div>
                     </li>
                     <li class="flex items-center my-6 space-x-2">
-                        <a href="#" class="block relative">
-                            <img alt="profil" src="/images/person/6.jpg" class="mx-auto object-cover rounded-full h-10 w-10 "/>
-                        </a>
                         <div class="flex flex-col">
                             <span class="text-sm text-gray-900 font-semibold dark:text-white ml-2">
                                 Ivan Buck
@@ -45,9 +36,6 @@
                         </div>
                     </li>
                     <li class="flex items-center my-6 space-x-2">
-                        <a href="#" class="block relative">
-                            <img alt="profil" src="/images/person/7.jpg" class="mx-auto object-cover rounded-full h-10 w-10 "/>
-                        </a>
                         <div class="flex flex-col">
                             <span class="text-sm text-gray-900 font-semibold dark:text-white ml-2">
                                 Marina Farga
@@ -64,7 +52,7 @@
 
 <script>
     export default {
-        
+
     }
 </script>
 

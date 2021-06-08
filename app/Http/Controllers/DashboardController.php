@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DashboardController extends Controller {
@@ -32,5 +32,22 @@ class DashboardController extends Controller {
            'allEvents' => $allEvents,
            'events' => array_merge($events->toArray(), $todaysEvents->toArray())
         ]);
+    }
+
+    public function create(Request $request)
+    {
+        $show = NULL;
+        if ($request->show) {
+            if ($request->show === 'create-task') {
+                $show = $request->show;
+            }
+            if ($request->show === 'create-event') {
+                $show = $request->show;
+            }
+        } else {
+            $show = NULL;
+        }
+
+        return Inertia::render('Create', ['show' => $show]);
     }
 }

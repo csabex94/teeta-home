@@ -34,7 +34,7 @@
                                 Dashboard
                             </span>
                     </jet-sidebar-link>
-                    <jet-sidebar-link :href="route('tasks')">
+                    <jet-sidebar-link :href="route('tasks')" :active="route().current('tasks')">
                             <span class="text-left">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -44,7 +44,7 @@
                                 Tasks
                             </span>
                     </jet-sidebar-link>
-                    <jet-sidebar-link :href="route('events.show')">
+                    <jet-sidebar-link :href="route('events.show')" :active="route().current('events.show')">
                             <span class="text-left">
                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -90,8 +90,3 @@ export default {
 }
 </script>
 
-<style>
-.sidebar {
-    height: calc(100vh - 1.25rem);
-}
-</style>

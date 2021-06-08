@@ -4,7 +4,7 @@
             <div class="my-12 w-full">
 
                 <!-- Create Task Head -->
-                <div class="w-full mb-5 h-16 flex items-center justify-between rounded-md shadow bg-white px-5 hover:text-blue-500 cursor-pointer">
+                <div @click="toggleCreateTaskForm" class="w-full mb-5 h-16 flex items-center justify-between rounded-md shadow bg-white px-5 hover:text-blue-500 cursor-pointer">
                     <div class="h-full flex items-center text-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -12,11 +12,11 @@
                         <span class="text-base font-semibold">Create New Task</span>
                     </div>
 
-                    <svg @click="openCreateTaskForm" v-if="!showCreateTaskForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg v-if="!showCreateTaskForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
                     </svg>
 
-                    <svg @click="closeCreateTaskForm" v-if="showCreateTaskForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg v-if="showCreateTaskForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
                     </svg>
                 </div>
@@ -27,7 +27,7 @@
                 </div>
 
                 <!-- Create Event Head -->
-                <div class="w-full mb-5 h-16 flex items-center justify-between rounded-md shadow bg-white px-5 hover:text-blue-500 cursor-pointer">
+                <div @click="toggleCreateEventForm" class="w-full mb-5 h-16 flex items-center justify-between rounded-md shadow bg-white px-5 hover:text-blue-500 cursor-pointer">
                     <div class="h-full flex items-center text-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
@@ -35,11 +35,11 @@
                         <span class="text-base font-semibold">Create New Event</span>
                     </div>
 
-                    <svg @click="openCreateEventForm" v-if="!showCreateEventForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg v-if="!showCreateEventForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
                     </svg>
 
-                    <svg @click="closeCreateEventForm" v-if="showCreateEventForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg v-if="showCreateEventForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
                     </svg>
                 </div>
@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Create Personal Stuff Head -->
-                <div class="w-full mb-5 h-16 flex items-center justify-between rounded-md shadow bg-white px-5 hover:text-blue-500 cursor-pointer">
+                <div @click="toggleCreatePersonalStuffForm" class="w-full mb-5 h-16 flex items-center justify-between rounded-md shadow bg-white px-5 hover:text-blue-500 cursor-pointer">
                     <div class="h-full flex items-center text-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -58,11 +58,11 @@
                         <span class="text-base font-semibold">Create Personal Stuff</span>
                     </div>
 
-                    <svg @click="openCreatePersonalStuffForm" v-if="!showCreatePersonalForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg v-if="!showCreatePersonalForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
                     </svg>
 
-                    <svg @click="closeCreatePersonalStuffForm" v-if="showCreatePersonalForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg  v-if="showCreatePersonalForm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
                     </svg>
                 </div>
@@ -103,6 +103,9 @@ export default {
         flatPickr,
         CreateTask,
         Create
+    },
+    props: {
+      show: String
     },
     data() {
         return {
@@ -160,23 +163,14 @@ export default {
         }
     },
     methods: {
-        openCreateTaskForm() {
-            this.showCreateTaskForm = true;
+        toggleCreateTaskForm() {
+            this.showCreateTaskForm = !this.showCreateTaskForm;
         },
-        openCreateEventForm() {
-            this.showCreateEventForm = true;
+        toggleCreateEventForm() {
+            this.showCreateEventForm = !this.showCreateEventForm;
         },
-        openCreatePersonalStuffForm() {
-            this.showCreatePersonalForm = true;
-        },
-        closeCreateTaskForm() {
-            this.showCreateTaskForm = false;
-        },
-        closeCreateEventForm() {
-            this.showCreateEventForm = false;
-        },
-        closeCreatePersonalStuffForm() {
-            this.showCreatePersonalForm = false;
+        toggleCreatePersonalStuffForm() {
+            this.showCreatePersonalForm = !this.showCreatePersonalForm;
         },
         openCalendarOnIconClick() {
             this.$refs.specDate.fp.toggle();
@@ -211,6 +205,16 @@ export default {
         clearTimeInput() {
             this.createTask.form.spec_time = "";
         }
+    },
+    mounted() {
+      if (this.show) {
+          if (this.show === 'create-task') {
+              this.toggleCreateTaskForm();
+          }
+          if (this.show === 'create-event') {
+              this.toggleCreateEventForm()
+          }
+      }
     },
     computed: {
         daily() {

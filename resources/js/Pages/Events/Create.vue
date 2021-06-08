@@ -23,7 +23,7 @@
                         <div class="col-span-6">
                             <jet-label for="description" value="Description" />
                             <textarea
-                                class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                                 name="description"
                                 id="description"
                                 v-model="form.description"
@@ -43,7 +43,7 @@
                                 <flat-pickr
                                     v-model="form.spec_date"
                                     :config="flatPickrConfig"
-                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                                     placeholder="Specify date"
                                     name="spec_date"
                                     ref="specDate"
@@ -74,7 +74,7 @@
                                 <flat-pickr
                                     v-model="form.spec_time"
                                     :config="flatPickrConfigTime"
-                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                                     placeholder="Specify time"
                                     name="spec_time"
                                     ref="specTime"
@@ -99,7 +99,7 @@
                         <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8">
                             <select
                                 v-model="form.remind_before_option"
-                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
+                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50">
                                 <option>Remind me before</option>
                                 <option value="minutes">Minutes</option>
                                 <option value="hours">Hours</option>

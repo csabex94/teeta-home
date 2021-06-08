@@ -7,22 +7,30 @@
                     <div class="h-8" />
                 </div>
 
+                <section-border />
+
                 <div v-if="$page.props.jetstream.canUpdatePassword">
-                    <update-password-form class="mt-10 sm:mt-0" />
+                    <update-password-form />
                     <div class="h-8" />
                 </div>
+
+                <section-border />
 
                 <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
-                    <two-factor-authentication-form class="mt-10 sm:mt-0" />
+                    <two-factor-authentication-form />
                     <div class="h-8" />
                 </div>
 
+                <section-border />
+
                 <logout-other-browser-sessions-form :sessions="sessions" class="mt-10 sm:mt-0" />
+
+                <section-border />
 
                 <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">
                     <div class="h-8" />
 
-                    <delete-user-form class="mt-10 sm:mt-0" />
+                    <delete-user-form />
                 </template>
             </div>
         </template>
@@ -36,12 +44,14 @@
     import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm'
     import TwoFactorAuthenticationForm from './TwoFactorAuthenticationForm'
     import UpdatePasswordForm from './UpdatePasswordForm'
-    import UpdateProfileInformationForm from './UpdateProfileInformationForm'
+    import UpdateProfileInformationForm from './UpdateProfileInformationForm';
+    import SectionBorder from "../../Jetstream/SectionBorder";
 
     export default {
         props: ['sessions'],
 
         components: {
+            SectionBorder,
             LightLayout,
             DeleteUserForm,
             JetSectionBorder,
