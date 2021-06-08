@@ -61,7 +61,10 @@ class TaskController extends Controller {
 
     public function completeTask(Request $request) {
         $this->task->completeTask($request->taskId);
-        return response()->json(['completedTask' => $this->task->getTask($request->taskId)]);
+        return response()->json([
+            'completedTask' => $this->task->getTask($request->taskId),
+            'completedTasks' => count($this->task->getCompletedTasks())
+        ]);
     }
 
 }

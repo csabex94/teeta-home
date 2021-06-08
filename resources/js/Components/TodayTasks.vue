@@ -24,7 +24,7 @@
             </div>
             <ul>
                 <li v-for="task in tasks" :key="task.id">
-                    <today-task-component :task="task" />
+                    <today-task-component @completedTasksLength="setCompletedTasksLength" :task="task" />
                 </li>
             </ul>
         </div>
@@ -72,6 +72,9 @@ export default {
         formatDate() {
             return moment(this.date).format("DD MMMM YYYY");
         },
+        setCompletedTasksLength(value) {
+            this.completedTasks = value;
+        }
     },
     mounted() {
         this.completedTasks = this.tasks.filter(task => {

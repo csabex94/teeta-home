@@ -55,6 +55,7 @@ export default {
                axios.get('/complete-task?taskId='+this.currentTask.id).then(res => {
                    this.currentTask = res.data.completedTask;
                    this.status = 'completed';
+                   this.$emit('completedTasksLength', res.data.completedTasks)
                });
            } else {
                this.checkbox = false;
