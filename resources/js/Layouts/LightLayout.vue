@@ -9,11 +9,13 @@
         <div class="col-span-4">
             <jet-header />
             <div class="mt-5 w-full mx-auto">
+                <flash-messages></flash-messages>
                 <slot name="content"></slot>
             </div>
         </div>
 
     </main>
+
 </template>
 
 <script>
@@ -22,6 +24,7 @@ import JetDropdownLink from '@/Jetstream/DropdownLink';
 import JetSidebarLink from '@/Jetstream/SidebarLink';
 import JetSidebar from '@/Jetstream/Sidebar';
 import JetHeader from '@/Jetstream/Header';
+import FlashMessages from '@/Components/FlashMessages';
 
 export default {
     components: {
@@ -29,7 +32,19 @@ export default {
         JetDropdownLink,
         JetSidebarLink,
         JetSidebar,
-        JetHeader
+        JetHeader,
+        FlashMessages
+    },
+    created() {
+        window.Echo.private('App.Models.User.${this.$page.props.user.id}').notification((notification => {
+            console.log(notification);
+            switch(notification.type) {
+                case 'App\\Notifications\\TaskList':
+                    this.$page.props.unreadNotificationsCount++;
+                    break;
+                
+            }
+        }));
     },
     methods: {
         returnProfilePhoto() {

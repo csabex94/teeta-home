@@ -21,7 +21,7 @@ class PersonalRepository implements PersonalRepositoryInterface {
     }
 
     public function getAll() {
-        return $this->personal->where('user_id', $this->user->id)->get();
+        return $this->personal->where('user_id', auth()->user()->id)->get();
     }
 
     public function store($request) {
