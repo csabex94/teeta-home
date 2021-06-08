@@ -5,16 +5,14 @@ namespace App\Repositories\Personal;
 use Carbon\Carbon;
 use App\Models\Personal;
 use App\Models\Image;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PersonalRepository implements PersonalRepositoryInterface {
     
-    protected $personal, $user, $image;
+    protected $personal, $image;
 
     public function __construct(Personal $personal, Image $image) {
         $this->personal = $personal;
-        $this->user = auth()->user()->id;
         $this->image = $image;
     }
 

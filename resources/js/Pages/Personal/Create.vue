@@ -1,9 +1,9 @@
 <template>
             <div class="mx-auto max-w-7xl lg:px-6">
-                <jet-form-section @submitted="createEvent">
+                <jet-form-section @submitted="createPersonal">
 
                     <template #title>
-                        <h1 class="text-2xl text-gray-800">Create New Event</h1>
+                        <h1 class="text-2xl text-gray-800">Create Personal Record</h1>
                     </template>
 
                     <template #description>
@@ -19,9 +19,6 @@
                             <b>Email *</b>
                             <br>
                             <ul class="mt-2"><li>- Receive email notifications</li></ul>
-                            <b>Important *</b>
-                            <br>
-                            <ul class="mt-2"><li>- The event will be more prioritized</li></ul>
                         </p>
                     </template>
 
@@ -36,7 +33,7 @@
                         <div class="col-span-6">
                             <jet-label for="description" value="Description" />
                             <textarea
-                                class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
+                                class="w-full mt-2 border-gray-300 rounded-md shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                 name="description"
                                 id="description"
                                 v-model="form.description"
@@ -48,7 +45,6 @@
                             <div class="flex items-center text-sm font-medium">Daily <jet-checkbox v-model="form.daily" class="ml-2" /></div>
                             <div v-if="!form.daily" class="flex items-center text-sm font-medium">Remind Before <jet-checkbox v-model="showRemindOptions" class="ml-2" /></div>
                             <div class="flex items-center text-sm font-medium">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
-                            <div class="flex items-center text-sm font-medium">Important <jet-checkbox v-model="form.important" class="ml-2" /></div>
                         </div>
 
                         <div class="grid grid-cols-2 col-span-6 gap-8">
@@ -56,7 +52,7 @@
                                 <flat-pickr
                                     v-model="form.spec_date"
                                     :config="flatPickrConfig"
-                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                     placeholder="Specify date"
                                     name="spec_date"
                                     ref="specDate"
@@ -87,7 +83,7 @@
                                 <flat-pickr
                                     v-model="form.spec_time"
                                     :config="flatPickrConfigTime"
-                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
+                                    class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                     placeholder="Specify time"
                                     name="spec_time"
                                     ref="specTime"
@@ -112,7 +108,7 @@
                         <div v-if="showRemindOptions" class="grid grid-cols-2 col-span-6 gap-8">
                             <select
                                 v-model="form.remind_before_option"
-                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50">
+                                class="w-full text-gray-500 border-gray-300 rounded-md shadow-sm appearance-none cursor-pointer focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
                                 <option>Remind me before</option>
                                 <option value="minutes">Minutes</option>
                                 <option value="hours">Hours</option>
@@ -127,6 +123,17 @@
                                 :placeholder="getBeforeValuePlaceholder()"
                                 v-if="form.remind_before_option === 'minutes' || form.remind_before_option === 'hours' || form.remind_before_option === 'days' || form.remind_before_option === 'weeks' || form.remind_before_option === 'months'"
                             />
+                        </div>
+
+                        <div class="col-span-6">
+                            
+                        </div>
+
+                        <div class="flex flex-wrap mt-8">
+                            <img v-for="(image, key) in images"
+                                :key="key"
+                                :src="image.image"
+                                class="w-48 h-46 object-cover mr-4 mb-4 shadow rounded">
                         </div>
 
                     </template>
@@ -167,20 +174,20 @@ export default {
         JetActionMessage,
         JetButton,
         JetCheckbox,
-        flatPickr
+        flatPickr,
     },
     data() {
         return {
             form: this.$inertia.form({
                 title: "",
                 description: "",
+                images: "",
                 daily: false,
                 push_email: false,
                 spec_date: "",
                 remind_before_value: "",
                 remind_before_option: "Remind me before",
                 spec_time: "",
-                important: false
             }),
             showRemindOptions: false,
             flatPickrConfig: {
@@ -193,14 +200,17 @@ export default {
                 noCalendar: true,
                 dateFormat: "H:i",
             },
+            options: {
+                url: "",
+            },
         }
     },
     methods: {
         openCalendarOnIconClick() {
             this.$refs.specDate.fp.toggle();
         },
-        createEvent() {
-            this.form.post(route('events.store'),{
+        createPersonal() {
+            this.form.post(route('personal.store'),{
                 onSuccess: () => {
                     this.form.daily = false;
                     this.form.push_email = false;
@@ -228,7 +238,9 @@ export default {
         },
         clearTimeInput() {
             this.form.spec_time = "";
-        }
+        },
+        
+       
     },
     computed: {
         daily() {
