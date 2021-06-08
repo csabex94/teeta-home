@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\PersonalStuffController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -52,6 +53,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::post('/personal/store', [PersonalStuffController::class, 'store'])->name('personal.store');
     Route::put('/personal/update', [PersonalStuffController::class, 'update'])->name('personal.update');
     Route::delete('/personal/delete', [PersonalStuffController::class, 'delete'])->name('personal.delete');
+
+    //Notifications
+
+    Route::get('/notifications', [UserNotificationsController::class, 'show'])->name('notifications.show');    
 
     //Mails
 

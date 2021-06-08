@@ -16,6 +16,8 @@ class Personal extends Model {
         'created_at',
         'updated_at'
     ];
+
+    public $table = 'personal_items';
     
     public function user() {
         return $this->belongsTo(User::class);
