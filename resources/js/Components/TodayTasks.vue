@@ -8,8 +8,11 @@
                     </span>
                     <span v-else class="text-blue-500">{{ formatDate() }} <span class="text-gray-600">Tasks</span></span>
                     <span class="text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2">
-                        ({{ tasks.length }})
+                        ({{ uncompletedTasksListLength() }})
                     </span>
+                </div>
+                <div>
+                    <span class="text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2">Completed Tasks ({{ completedTaskListLength() }}) </span>
                 </div>
                 <inertia-link :href="route('create', { show: 'create-task' })" class="flex items-center bg-blue-500 text-white py-1 cursor-pointer rounded-md shadow px-2">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -62,6 +65,20 @@ export default {
         },
         formatDate() {
             return moment(this.date).format("DD MMMM YYYY");
+        },
+        uncompletedTasksListLength() {
+            return this.tasks.filter(task => {
+                if (!task.completed) {
+                    return task;
+                }
+            }).length
+        },
+        completedTaskListLength() {
+            return this.tasks.filter(task => {
+                if (task.completed) {
+                    return task;
+                }
+            }).length
         }
     }
 }

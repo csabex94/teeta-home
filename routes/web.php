@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::post('/create-task', [TaskController::class, 'store'])->name('create.task.post');
     Route::put('/update-task', [TaskController::class, 'updateTask'])->name('update.task');
     Route::delete('/delete-task', [TaskController::class, 'deleteTask'])->name('delete.task');
-    Route::put('/complete-task', [TaskController::class, 'completeTask'])->name('complete.task');
+    Route::get('/complete-task', [TaskController::class, 'completeTask'])->name('complete.task');
 
     //Events
     Route::get('/events', [EventsController::class, 'show'])->name('events.show');

@@ -239,6 +239,9 @@ export default {
           if (this.show === 'create-event') {
               this.toggleCreateEventForm()
           }
+          if (this.show === 'create-stuff') {
+              this.toggleCreatePersonalStuffForm()
+          }
       }
     },
     computed: {

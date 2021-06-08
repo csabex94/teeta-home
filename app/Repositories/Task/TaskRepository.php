@@ -70,6 +70,7 @@ class TaskRepository implements TaskRepositoryInterface {
     public function completeTask($id) {
         $task = $this->task->find($id);
         $task->completed = 1;
+        $task->completed_at = Carbon::now();
         $task->save();
     }
 
