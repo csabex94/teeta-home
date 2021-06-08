@@ -7,7 +7,7 @@
                     </template>
 
                     <template #description>
-                        <p class="text-gray-800 mt-4">
+                        <div class="text-gray-800 mt-4">
                             <b>Daily *</b>
                             <br>
                             <ul class="mt-2"><li>- The created task will appear everyday on the dashboard</li></ul>
@@ -19,7 +19,7 @@
                             <b>Email *</b>
                             <br>
                             <ul class="mt-2"><li>- Receive email notifications</li></ul>
-                        </p>
+                        </div>
                     </template>
 
                     <template #form>
@@ -126,7 +126,7 @@
                         </div>
 
                         <div class="col-span-6">
-                            
+
                         </div>
 
                         <div class="flex flex-wrap mt-8">
@@ -239,8 +239,8 @@ export default {
         clearTimeInput() {
             this.form.spec_time = "";
         },
-        
-       
+
+
     },
     computed: {
         daily() {

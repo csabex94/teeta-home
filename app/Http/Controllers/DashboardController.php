@@ -38,16 +38,10 @@ class DashboardController extends Controller {
     {
         $show = NULL;
         if ($request->show) {
-            if ($request->show === 'create-task') {
-                $show = $request->show;
-            }
-            if ($request->show === 'create-event') {
-                $show = $request->show;
-            }
-        } else {
-            $show = NULL;
+            $show = $request->show;
         }
-
-        return Inertia::render('Create', ['show' => $show]);
+        return Inertia::render('Create', [
+           'show' => $show
+        ]);
     }
 }

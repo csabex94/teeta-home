@@ -240,7 +240,23 @@
                 this.selectedMonth = moment().format("MMMM");
                 this.selectedDate = moment().date();
                 this.selectedDateMonth = null;
-                this.$emit('data', {day: moment()});
+                let todayTasks = this.allTasks.filter(task => {
+                    if (task.spec_date) {
+                        if(moment().format('YYYY-MM-DD') === moment(task.spec_date).format('YYYY-MM-DD')) {
+                            return task;
+                        }
+                    }
+                    if (task.daily) return task;
+                });
+                let todayEvents = this.allEvents.filter(event => {
+                    if (event.spec_date) {
+                        if (moment().format('YYYY-MM-DD') === moment(event.spec_date).format('YYYY-MM-DD')) {
+                            return event;
+                        }
+                    }
+                    if (event.daily) return event;
+                });
+                this.$emit('data', {todayTasks, todayEvents, day: moment()});
             },
             changeDay(day) {
                 this.selectedDate = day.date();
@@ -262,7 +278,7 @@
                     }
                     if (event.daily) return event;
                 });
-                this.$emit('data', {todayTasks, todayEvents, day});
+                this.$emit('data', {todayTasks, todayEvents, day: moment(day)});
             }
         },
         mounted() {

@@ -27,7 +27,7 @@
                 <div class="relative w-full">
                     <flat-pickr
                         :config="flatPickrConfig"
-                        class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-green-300 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
+                        class="w-full border-gray-300 rounded-md shadow-sm cursor-pointer focus:border-gray-400 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
                         placeholder="Search by date"
                         name="spec_date"
                         ref="specDate"
@@ -357,10 +357,10 @@ export default {
             this.$refs.specDate.fp.close();
         },
         clearCalendarInput() {
-            this.form.spec_date = "";
+            this.searchDate = "";
         },
         clearSearchInput() {
-            this.form.spec_time = "";
+            this.searchQuery = "";
         },
         openEditModal(task) {
             this.showRemindOptions = false;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,26 +12,23 @@ use Inertia\Inertia;
 class TaskController extends Controller {
 
     protected $task;
+    protected $event;
 
-    public function __construct(TaskRepositoryInterface $task) {
+    public function __construct(EventRepositoryInterface $event, TaskRepositoryInterface $task) {
+        $this->event = $event;
         $this->task = $task;
     }
-
     public function index(Request $request) {
         if (!$request->date) {
             $tasks = Task::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
-                ['completed', 0]
             ])->orderBy('spec_date', 'asc')->get();
         } else {
-            $next = Carbon::parse($request->date)->addDay(1);
             $tasks = Task::where([
                 ['user_id', auth()->user()->id],
                 ['title', 'LIKE', "%$request->search%"],
-                ['spec_date', '>=' ,$request->date],
-                ['spec_date', '<=' ,$next],
-                ['completed', 0]
+                ['spec_date', $request->date],
             ])->orderBy('spec_date', 'asc')->get();
         }
 
@@ -62,7 +60,8 @@ class TaskController extends Controller {
     }
 
     public function completeTask(Request $request) {
-        return $this->task->completeTask($request->taskId);
+        $this->task->completeTask($request->taskId);
+        return response()->json(['completedTask' => $this->task->getTask($request->taskId)]);
     }
 
 }
