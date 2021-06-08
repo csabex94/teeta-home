@@ -16958,32 +16958,44 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     changeDay: function changeDay(day) {
-      this.selectedDate = day.date();
-      this.selectedDateMonth = this.months[day.month()];
-      this.changeMonth(this.months[day.month()]);
-      var todayTasks = this.allTasks.filter(function (task) {
-        if (task.spec_date) {
-          if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(task.spec_date).format('YYYY-MM-DD')) {
-            return task;
+      if (moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_0___default()().format("D MMM YYYY")) {
+        this.setCalendar();
+      } else {
+        this.selectedDate = day.date();
+        this.selectedDateMonth = this.months[day.month()];
+        this.changeMonth(this.months[day.month()]);
+        var todayTasks = this.allTasks.filter(function (task) {
+          if (task.spec_date && !task.completed) {
+            if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(task.spec_date).format('YYYY-MM-DD')) {
+              return task;
+            }
           }
-        }
 
-        if (task.daily) return task;
-      });
-      var todayEvents = this.allEvents.filter(function (event) {
-        if (event.spec_date) {
-          if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(event.spec_date).format('YYYY-MM-DD')) {
-            return event;
+          if (task.daily && !task.completed) {
+            if (moment__WEBPACK_IMPORTED_MODULE_0___default()().format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format("D MMM YYYY")) {
+              return task;
+            }
           }
-        }
+        });
+        var todayEvents = this.allEvents.filter(function (event) {
+          if (event.spec_date) {
+            if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(event.spec_date).format('YYYY-MM-DD')) {
+              return event;
+            }
+          }
 
-        if (event.daily) return event;
-      });
-      this.$emit('data', {
-        todayTasks: todayTasks,
-        todayEvents: todayEvents,
-        day: moment__WEBPACK_IMPORTED_MODULE_0___default()(day)
-      });
+          if (event.daily) {
+            if (moment__WEBPACK_IMPORTED_MODULE_0___default()().format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format("D MMM YYYY")) {
+              return event;
+            }
+          }
+        });
+        this.$emit('data', {
+          todayTasks: todayTasks,
+          todayEvents: todayEvents,
+          day: moment__WEBPACK_IMPORTED_MODULE_0___default()(day)
+        });
+      }
     }
   },
   mounted: function mounted() {
@@ -17222,10 +17234,12 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.currentTask.completed && (moment__WEBPACK_IMPORTED_MODULE_1___default()(this.currentTask.spec_date).format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_1___default()().format("D MMM YYYY") || this.currentTask.daily)) {
         axios.get('/complete-task?taskId=' + this.currentTask.id).then(function (res) {
-          return _this.currentTask = res.data.completedTask;
+          _this.currentTask = res.data.completedTask;
+          _this.status = 'completed';
         });
       } else {
         this.checkbox = false;
+        status = null;
       }
     }
   },
@@ -17294,27 +17308,26 @@ __webpack_require__.r(__webpack_exports__);
     tasks: Array,
     date: Object
   },
+  data: function data() {
+    return {
+      completedTasks: 0,
+      uncompletedTasks: this.tasks.length
+    };
+  },
   methods: {
     isTodayDate: function isTodayDate() {
       return moment__WEBPACK_IMPORTED_MODULE_8___default()(this.date).format("D MMMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_8___default()().format("D MMMM YYYY");
     },
     formatDate: function formatDate() {
       return moment__WEBPACK_IMPORTED_MODULE_8___default()(this.date).format("DD MMMM YYYY");
-    },
-    uncompletedTasksListLength: function uncompletedTasksListLength() {
-      return this.tasks.filter(function (task) {
-        if (!task.completed) {
-          return task;
-        }
-      }).length;
-    },
-    completedTaskListLength: function completedTaskListLength() {
-      return this.tasks.filter(function (task) {
-        if (task.completed) {
-          return task;
-        }
-      }).length;
     }
+  },
+  mounted: function mounted() {
+    this.completedTasks = this.tasks.filter(function (task) {
+      if (task.completed) {
+        return task;
+      }
+    }).length;
   }
 });
 
@@ -21755,9 +21768,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [$options.isTodayDate() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_4, [_hoisted_5, _hoisted_6])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate()) + " ", 1
   /* TEXT */
-  ), _hoisted_8])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_9, " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.uncompletedTasksListLength()) + ") ", 1
+  ), _hoisted_8])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_9, " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.uncompletedTasks) + ") ", 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_10, "Completed Tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.completedTaskListLength()) + ") ", 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_10, "Completed Tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.completedTasks) + ") ", 1
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
     href: _ctx.route('create', {

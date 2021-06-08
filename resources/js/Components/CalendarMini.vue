@@ -259,26 +259,38 @@
                 this.$emit('data', {todayTasks, todayEvents, day: moment()});
             },
             changeDay(day) {
-                this.selectedDate = day.date();
-                this.selectedDateMonth = this.months[day.month()];
-                this.changeMonth(this.months[day.month()])
-                let todayTasks = this.allTasks.filter(task => {
-                    if (task.spec_date) {
-                        if(day.format('YYYY-MM-DD') === moment(task.spec_date).format('YYYY-MM-DD')) {
-                            return task;
+                if (moment(day).format("D MMM YYYY") === moment().format("D MMM YYYY")) {
+                    this.setCalendar()
+                } else {
+                    this.selectedDate = day.date();
+                    this.selectedDateMonth = this.months[day.month()];
+                    this.changeMonth(this.months[day.month()])
+                    let todayTasks = this.allTasks.filter(task => {
+                        if (task.spec_date && !task.completed) {
+                            if(day.format('YYYY-MM-DD') === moment(task.spec_date).format('YYYY-MM-DD')) {
+                                return task;
+                            }
                         }
-                    }
-                    if (task.daily) return task;
-                });
-                let todayEvents = this.allEvents.filter(event => {
-                    if (event.spec_date) {
-                        if (day.format('YYYY-MM-DD') === moment(event.spec_date).format('YYYY-MM-DD')) {
-                            return event;
+                        if (task.daily && !task.completed) {
+                            if (moment().format("D MMM YYYY") === moment(day).format("D MMM YYYY")) {
+                                return task;
+                            }
                         }
-                    }
-                    if (event.daily) return event;
-                });
-                this.$emit('data', {todayTasks, todayEvents, day: moment(day)});
+                    });
+                    let todayEvents = this.allEvents.filter(event => {
+                        if (event.spec_date) {
+                            if (day.format('YYYY-MM-DD') === moment(event.spec_date).format('YYYY-MM-DD')) {
+                                return event;
+                            }
+                        }
+                        if (event.daily) {
+                            if (moment().format("D MMM YYYY") === moment(day).format("D MMM YYYY")) {
+                                return event;
+                            }
+                        }
+                    });
+                    this.$emit('data', {todayTasks, todayEvents, day: moment(day)});
+                }
             }
         },
         mounted() {
