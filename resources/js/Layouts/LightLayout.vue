@@ -8,7 +8,7 @@
 
         <div class="col-span-4">
             <jet-header />
-            <div class="mt-5 w-full mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="mt-5 w-full mx-auto">
                 <slot name="content"></slot>
             </div>
         </div>

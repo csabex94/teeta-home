@@ -1,33 +1,28 @@
 <template>
-    <div class="w-full h-full">
-        <span class="mb-5 text-xl flex items-center justify-center text-gray-200">Today's <p class="text-green-400 ml-2">Events</p></span>
-        <span v-if="events.length <= 0" class="block text-sm text-center text-gray-200">Not events for today.</span>
-
-        <div v-for="event in events" :key="event.id" class="h-24 px-2 mb-2 text-white bg-gray-700 rounded-md shadow-lg">
-            <div class="flex items-center justify-between h-full px-2">
-                <div>
-                    <span class="font-semibold text-green-400">{{ event.title }}<span v-if="event.spec_time"> - {{ getFormattedTime(event.spec_time) }}</span></span>
-                    <p class="text-xs">{{ getReducedDescription(event.description) }}</p>
-                </div>
-                <div class="flex items-center">
-
-                    <div class="flex flex-col items-center cursor-pointer hover:text-green-400">
-                        <jet-checkbox />
+    <div class="mb-4 mx-0 xl:mr-4">
+        <div class="shadow-lg rounded-2xl bg-white dark:bg-gray-700 w-full">
+            <p class="font-bold text-md p-4 text-black dark:text-white">
+                <span class="text-green-400">
+                    Today's Events
+                </span>
+                <span class="text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2">
+                    ({{ events.length }})
+                </span>
+            </p>
+            <ul>
+                <li v-for="event in events" :key="event.id" class="flex h-20 items-center dark:text-gray-200 justify-between py-3 border-t-2 border-gray-100 dark:border-gray-800">
+                    <div class="flex flex-col items-start mx-4 justify-start text-sm">
+                        <span class="font-semibold">
+                            {{ event.title }} <span v-if="event.spec_time"> - {{ formatTime(event.spec_time) }}</span>
+                        </span>
+                        <span class="text-xs text-green-400" v-if="event.remind_before_option && event.remind_before_value">Remind before: {{ event.remind_before_value }} {{ event.remind_before_option }}</span>
+                        <span class="text-xs text-gray-600">{{ event.description }}</span>
                     </div>
-                </div>
-            </div>
+                    <custom-check-box @click="toggleCheckbox" :checked="checkbox" />
+                </li>
+
+            </ul>
         </div>
-
-        <jet-dialog-modal :show="showTaskDescription" >
-            <template #title>
-                {{ task.title }}
-                <span v-if="event.spec_date"> - {{ getFormattedDate(event.spec_date) }} | {{ getFormattedTime(event.spec_time) }}</span>
-                <span v-else> - Daily</span>
-            </template>
-            <template #content>{{ event.description }}</template>
-            <template #footer><jet-secondary-button >Close</jet-secondary-button></template>
-        </jet-dialog-modal>
-
     </div>
 </template>
 
@@ -38,8 +33,9 @@ import JetSecondaryButton from '@/Jetstream/SecondaryButton';
 import JetLabel from '@/Jetstream/Label';
 import JetInput from '@/Jetstream/Input';
 import JetButton from '@/Jetstream/Button';
+import CustomCheckBox from "@/Jetstream/CustomCheckBox";
 import flatPickr from 'vue-flatpickr-component';
-import moment from "moment";
+import moment from 'moment';
 
 export default {
     components: {
@@ -49,32 +45,26 @@ export default {
         JetInput,
         JetLabel,
         JetButton,
-        flatPickr
+        flatPickr,
+        CustomCheckBox
     },
     props: {
-        events: Array
+        events: Array,
     },
     data() {
         return {
-            showTaskDescription: false,
-            event: null
+            event: null,
+            checkbox: false
         }
     },
     methods: {
-        getReducedDescription(text) {
-            if (text.length > 80) {
-                return text.substr(0, 80) + " ..."
-            } else {
-                return text
-            }
+        toggleCheckbox() {
+            this.checkbox = !this.checkbox;
         },
-
-        getFormattedDate(date) {
-            return  moment(date).format('dddd, MMMM Do YYYY')
-        },
-        getFormattedTime(time) {
+        formatTime(time) {
             return moment(time,'h:mm:ss').format('HH:mm A');
-        },
+        }
     }
 }
 </script>
+
