@@ -22,7 +22,7 @@ class TaskList extends Notification {
     }
 
     public function via($notifiable) {
-        return ['database', 'broadcast'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     public function toMail($notifiable) {

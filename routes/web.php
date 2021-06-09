@@ -85,6 +85,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             return (new App\Mail\TaskListReminder(auth()->user(), $tasks, '2 weeks'))->render(); //params(User, task list, in the following '$string')
         });
 
+        //Verify
+        Route::get('/email/verify', function () {
+            return view('auth.verify-email');
+        })->name('verification.notice');
+
     /*
     Route::get('/email/verify', function () {
         return view('mails.verify-email');

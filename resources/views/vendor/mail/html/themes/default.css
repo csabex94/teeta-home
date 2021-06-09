@@ -11,7 +11,7 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 body {
     -webkit-text-size-adjust: none;
     background-color: #ffffff;
-    color: #dce4f0;
+    color: #718096;
     height: 100%;
     line-height: 1.4;
     margin: 0;
@@ -38,7 +38,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #fcfcfc;
+    color: #3d4852;
     font-size: 18px;
     font-weight: bold;
     margin-top: 0;
@@ -60,7 +60,7 @@ h3 {
 }
 
 p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.5em;
     margin-top: 0;
     text-align: left;
@@ -80,7 +80,7 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #374151;
+    background-color: #edf2f7;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -103,7 +103,7 @@ img {
 }
 
 .header a {
-    color: white;
+    color: #3d4852;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
@@ -123,9 +123,9 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #1F2937;
-    border-bottom: 1px solid #374151;
-    border-top: 1px solid #374151;
+    background-color: #edf2f7;
+    border-bottom: 1px solid #edf2f7;
+    border-top: 1px solid #edf2f7;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -135,8 +135,8 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 570px;
-    background-color: #1F2937;
-    border-color: #374151;
+    background-color: #ffffff;
+    border-color: #e8e5ef;
     border-radius: 2px;
     border-width: 1px;
     box-shadow: 0 2px 0 rgba(0, 0, 150, 0.025), 2px 4px 0 rgba(0, 0, 150, 0.015);
@@ -148,7 +148,7 @@ img {
 /* Subcopy */
 
 .subcopy {
-    border-top: 1px solid #374151;
+    border-top: 1px solid #e8e5ef;
     margin-top: 25px;
     padding-top: 25px;
 }
@@ -271,7 +271,7 @@ img {
 }
 
 .panel-content p {
-    color: #dce4f0;
+    color: #718096;
 }
 
 .panel-item {
@@ -287,8 +287,4 @@ img {
 
 .break-all {
     word-break: break-all;
-}
-
-.red {
-    color: red;
 }

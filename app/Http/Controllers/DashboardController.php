@@ -22,8 +22,8 @@ class DashboardController extends Controller {
     public function index() {
 
         event(new TaskList(auth()->user()));
-        $user = auth()->user();
-        $user->notify(new TL(auth()->user()));
+        //$user = auth()->user();
+        //$user->notify(new TL(auth()->user()));
         $allTasks = $this->task->getAllTasks();
         $dailyTasks = $this->task->getDailyTasks();
         $todaysTasks = $this->task->getTodaysTasks();
