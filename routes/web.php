@@ -45,6 +45,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::post('/events/store', [EventsController::class, 'store'])->name('events.store');
     Route::put('/events/update', [EventsController::class, 'update'])->name('events.update');
     Route::delete('/events/delete', [EventsController::class, 'delete'])->name('events.delete');
+    Route::get('complete-event', [EventsController::class, 'completeEvent'])->name('complete.event');
 
     //Personal Stuff
 
@@ -56,7 +57,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
     //Notifications
 
-    Route::get('/notifications', [UserNotificationsController::class, 'show'])->name('notifications.show');    
+    Route::get('/notifications', [UserNotificationsController::class, 'show'])->name('notifications.show');
 
     //Mails
 

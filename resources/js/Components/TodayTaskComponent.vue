@@ -57,7 +57,6 @@ export default {
                })
            } else {
                this.checkbox = false;
-               status = null;
            }
         }
     },

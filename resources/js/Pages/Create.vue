@@ -46,7 +46,7 @@
 
                 <!-- Create Event Form -->
                 <div v-if="showCreateEventForm" class="mx-auto mb-5 lg:px-6">
-                    <create />
+                    <create :date="date" />
                 </div>
 
                 <!-- Create Personal Stuff Head -->
