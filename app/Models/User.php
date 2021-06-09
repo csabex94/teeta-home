@@ -67,7 +67,7 @@ class User extends Authenticatable //implements MustVerifyEmail
         return $this->hasMany(\App\Models\Event::class, 'event_id', 'id');
     }
 
-//    public function notifications() {
-//        return $this->hasMany(\App\Models\Notification::class);
-//    }
+    //public function notifications() {
+        //return $this->hasMany(\App\Models\Notification::class);
+    //}
 }

@@ -36,7 +36,11 @@ export default {
         FlashMessages
     },
     created() {
-        window.Echo.private('App.Models.User.${this.$page.props.user.id}').notification((notification => {
+        /*let channel = Echo.channel('my-channel');
+        channel.listen('.my-event', function(data) {
+            alert(data);
+        });
+        window.Echo.channel('App.Models.User.${this.$page.props.user.id}').notification((notification => {
             console.log(notification);
             switch(notification.type) {
                 case 'App\\Notifications\\TaskList':
@@ -44,7 +48,7 @@ export default {
                     break;
                 
             }
-        }));
+        }));*/
     },
     methods: {
         returnProfilePhoto() {

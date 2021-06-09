@@ -13,7 +13,7 @@ class UserNotificationsController extends Controller {
 
     public function show() {
         return Inertia::render('Notifications', [
-            'notifications' => auth()->user()->notifications()->latest()->paginate()
+            'notifications' => auth()->user()->unreadNotifications()->latest()->paginate()
         ]);
     }
 }

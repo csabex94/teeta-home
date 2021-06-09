@@ -63,7 +63,7 @@ export default {
                 axios.get(this.userNotifications.next_page_url).then(response => {
                     this.userNotifications = {
                         ...response.data,
-                        data: [...this.notifications.data, ...response.data.data]
+                        data: [...this.userNotifications.data, ...response.data.data]
                     }
                 });
             }
