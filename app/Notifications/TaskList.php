@@ -2,7 +2,10 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Task;
+use App\Mail\TaskListReminder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,8 +17,7 @@ class TaskList extends Notification {
 
     protected $tasks, $user;
     
-    public function __construct($tasks, User $user) {
-        $this->tasks = $tasks;
+    public function __construct(User $user) {
         $this->user = $user;
     }
 
@@ -24,13 +26,18 @@ class TaskList extends Notification {
     }
 
     public function toMail($notifiable) {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        $tasks = Task::with('user')->where('user_id', $this->user->id)->whereDate('spec_date', '>=', Carbon::now())->whereDate('spec_date', '<=', Carbon::now()->addWeeks(1))->get();
+
+        return (new TaskListReminder($this->user, $tasks, 'week'));
     }
     
     public function toBroadcast($notifiable) {
+        return [
+            
+        ];
+    }
+
+    public function toDatabase($notifiable) {
         return [
             
         ];

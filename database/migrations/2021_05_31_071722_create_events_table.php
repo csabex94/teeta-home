@@ -25,6 +25,7 @@ class CreateEventsTable extends Migration
             $table->time('spec_time')->nullable();
             $table->string('remind_before_value')->nullable();
             $table->string('remind_before_option')->nullable();
+            $table->boolean('keep_in_list')->default(0);
             $table->timestamps();
         });
     }

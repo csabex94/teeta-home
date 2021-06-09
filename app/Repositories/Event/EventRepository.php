@@ -55,7 +55,7 @@ class EventRepository implements EventRepositoryInterface {
     }
 
     public function deletePreviousEvents($toDate = false) {
-        $events = $this->event->where('daily', 0);
+        $events = $this->event->where('daily', 0)->where('keep_in_list', 0);
 
         if($toDate) { //delete events up to date
             $events->whereDate('spec_date', '<=', $toDate);

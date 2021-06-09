@@ -27,6 +27,7 @@ class CreateTasksTable extends Migration
             $table->string('remind_before_value')->nullable();
             $table->string('remind_before_option')->nullable();
             $table->dateTime('completed_at')->nullable();
+            $table->boolean('keep_in_list')->default(0);
             $table->timestamps();
         });
     }
