@@ -2,41 +2,30 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
+use App\Repositories\Task\TaskRepositoryInterface;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
-class CheckTasks extends Command
-{
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'check:tasks';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+class CheckTasks extends Command {
+   
+    protected $task;
+    
+    protected $signature = 'command:check-tasks';
     protected $description = 'Command description';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+    public function __construct(TaskRepositoryInterface $task, User $user) {
         parent::__construct();
+        $this->task = $task;
+        $this->user = $user;
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        return 0;
+    public function handle() {
+        $users = $this->user->get();
+
+        foreach ($users as $user) {
+            $tasklist = $this->task->getUncompletedTasksForToday($user->id);
+            Mail::to($user->email)->send(new \App\Mail\TaskListReminder(auth()->user(), $tasklist, 'day'));
+        }
     }
 }

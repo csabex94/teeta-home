@@ -1,6 +1,6 @@
 @component('mail::message')
 
-# Dear, {{$name}}
+# Dear {{$name}},
 
 This is a kind reminder that you have an @if($event->important) <span class="red">important</span> @endif event to attend to: 
 # {{ $event->title }}

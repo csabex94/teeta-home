@@ -6,9 +6,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\PersonalStuffController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +82,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             $tasks = App\Models\Task::with('user')->whereDate('spec_date', '>=', Carbon\Carbon::now())->whereDate('spec_date', '<=', Carbon\Carbon::now()->addWeeks(2))->get();
 
             return (new App\Mail\TaskListReminder(auth()->user(), $tasks, '2 weeks'))->render(); //params(User, task list, in the following '$string')
+        });
+
+        Route::get('/mail/friend', function () { //task list to complete in the following * 2 weeks
+            $user = App\Models\User::find(2);
+            return (new App\Mail\FriendRequest($user, auth()->user()))->render(); //params(User, task list, in the following '$string')
         });
 
         //Verify

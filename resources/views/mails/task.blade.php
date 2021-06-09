@@ -1,6 +1,6 @@
 @component('mail::message')
 
-# Dear, {{$name}}
+# Dear {{$name}},
 
 This is a kind reminder that you have an task to complete: 
 # {{ $task->title }}

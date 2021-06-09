@@ -1,6 +1,6 @@
 @component('mail::message')
 
-# Dear, {{$name}}
+# Dear {{$name}},
 
 Here is a list of tasks that you need to complete in the following <strong>{{ $following }}</strong>:
 <ul>

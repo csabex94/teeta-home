@@ -15,7 +15,7 @@ class CreateColaborationsTable extends Migration
     {
         Schema::create('colaborations', function (Blueprint $table) {
             $table->id();
-            $table->foreignKey('user_id')->index();
+            $table->foreignId('user_id')->index();
             $table->integer('action_id')->unsigned();
             $table->boolean('is_task')->default(0);
             $table->boolean('is_event')->default(0);
