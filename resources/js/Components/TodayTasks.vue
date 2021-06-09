@@ -1,7 +1,7 @@
 <template>
-    <div class="mb-4 mx-0 xl:mr-4">
+    <div class="mb-4 mx-0  xl:mr-4">
         <div class="shadow-lg rounded-2xl  bg-white dark:bg-gray-700 w-full">
-            <div class="font-bold text-md border-b shadow border-gray-100 flex items-center justify-between p-4 text-black dark:text-white">
+            <div class="font-bold text-md  rounded-t-2xl border-b shadow border-gray-100 flex items-center justify-between p-4 text-black dark:text-white">
                 <div>
                     <span v-if="isTodayDate()" @click="setListToUncompleted" :class="markCurrentCompletedList()" class="text-gray-500 cursor-pointer hover:text-blue-500">
                         Today's Tasks ({{ uncompletedTasks() }})
@@ -24,7 +24,7 @@
                     Add
                 </inertia-link>
             </div>
-            <div class="overflow-y-scroll height">
+            <div class="overflow-y-scroll rounded-b-2xl height">
                 <ul v-if="taskListType === 'uncompleted'">
                     <li v-if="uncompletedTasks() > 0" v-for="task in getUncompletedTasks()" :key="task.id">
                         <today-task-component :task="task" />

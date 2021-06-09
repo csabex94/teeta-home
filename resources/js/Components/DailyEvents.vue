@@ -1,7 +1,7 @@
 <template>
     <div class="mb-4 mx-0 xl:mr-4">
         <div class="shadow-lg rounded-2xl bg-white dark:bg-gray-700 w-full">
-            <div class="font-bold shadow border-b flex items-center justify-between border-gray-100 p text-md p-4 text-black dark:text-white">
+            <div class="font-bold shadow border-b rounded-t-2xl flex items-center justify-between border-gray-100 p text-md p-4 text-black dark:text-white">
                 <div>
                     <span v-if="isTodayDate()" @click="setListToUncompleted" :class="markCurrentCompletedList()" class="text-gray-500 cursor-pointer hover:text-green-400">
                         Today's Events ({{ uncompletedEvents() }})
@@ -25,7 +25,7 @@
                     Add
                 </inertia-link>
             </div>
-            <div class="eventHeight overflow-y-scroll">
+            <div class="eventHeight rounded-2xl overflow-y-scroll">
                 <ul v-if="eventListType === 'uncompleted'">
                     <li v-if="uncompletedEvents() > 0" v-for="event in getUncompletedEvents()" :key="event.id">
                         <daily-event-component :event="event" />

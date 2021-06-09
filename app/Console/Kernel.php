@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel {
      * @var array
      */
     protected $commands = [
-        Commands\ResetDailyTasks::class,
+        \App\Console\Commands\ResetDailyTasks::class
     ];
 
     /**

@@ -34,6 +34,26 @@
                                 Dashboard
                             </span>
                     </jet-sidebar-link>
+                    <jet-sidebar-link :href="route('create')" :active="route().current('create')">
+                            <span class="text-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
+                                </svg>
+                            </span>
+                        <span class="mx-4 text-sm font-normal">
+                                Create
+                            </span>
+                    </jet-sidebar-link>
+                    <jet-sidebar-link :href="route('notifications.show')" :active="route().current('notifications.show')">
+                            <span class="text-left">
+                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                                    </svg>
+                            </span>
+                        <span class="mx-4 text-sm font-normal">
+                            Notifications
+                            </span>
+                    </jet-sidebar-link>
                     <jet-sidebar-link :href="route('tasks')" :active="route().current('tasks')">
                             <span class="text-left">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,16 +82,6 @@
                             </span>
                         <span class="mx-4 text-sm font-normal">
                                 Personal Stuff
-                            </span>
-                    </jet-sidebar-link>
-                    <jet-sidebar-link :href="route('create')" :active="route().current('create')">
-                            <span class="text-left">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
-                                </svg>
-                            </span>
-                        <span class="mx-4 text-sm font-normal">
-                                Create
                             </span>
                     </jet-sidebar-link>
                 </div>
