@@ -3,10 +3,11 @@
 namespace App\Repositories\Event;
 
 interface EventRepositoryInterface {
-    
+
     public function getEvent($id);
     public function getAllEvents();
     public function getTodaysEvents();
+    public function getCompletedEvents();
     public function getDailyEvents();
     public function getImportantEvents();
     public function getFollowingDaysEvents($days, $email);
@@ -15,4 +16,5 @@ interface EventRepositoryInterface {
     public function deleteEvent($id);
     public function store($request);
     public function update($request);
+    public function completeEvent($id);
 }

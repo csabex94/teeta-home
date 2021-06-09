@@ -7,7 +7,7 @@
                     </template>
 
                     <template #description>
-                        <p class="text-gray-800 mt-4">
+                        <div class="text-gray-800 mt-4">
                             <b>Daily *</b>
                             <br>
                             <ul class="mt-2"><li>- The created task will appear everyday on the dashboard</li></ul>
@@ -22,7 +22,7 @@
                             <b>Important *</b>
                             <br>
                             <ul class="mt-2"><li>- The event will be more prioritized</li></ul>
-                        </p>
+                        </div>
                     </template>
 
                     <template #form>
@@ -156,6 +156,7 @@ import JetActionMessage from '@/Jetstream/ActionMessage';
 import JetButton from '@/Jetstream/Button';
 import JetCheckbox from '@/Jetstream/Checkbox';
 import flatPickr from 'vue-flatpickr-component';
+import moment from "moment";
 
 export default {
     components: {
@@ -168,6 +169,9 @@ export default {
         JetButton,
         JetCheckbox,
         flatPickr
+    },
+    props: {
+      date: String
     },
     data() {
         return {
@@ -240,6 +244,11 @@ export default {
             if (value === true) {
                 this.showRemindOptions = false;
             }
+        }
+    },
+    mounted() {
+        if (this.date) {
+            this.form.spec_date = moment(this.date).format("YYYY-MM-D");
         }
     }
 }

@@ -10,7 +10,7 @@ use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
 
 class HandleInertiaRequests extends Middleware {
-    
+
     public function __construct(EventRepositoryInterface $event, TaskRepositoryInterface $task) {
         $this->event = $event;
         $this->task = $task;
@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware {
         $dailyTasks = $this->task->getDailyTasks();
         $todaysEvents = $this->event->getTodaysEvents();
         $dailyEvents = $this->event->getDailyEvents();
-        
+
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
                 return [

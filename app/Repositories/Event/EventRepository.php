@@ -7,9 +7,9 @@ use App\Models\Event;
 use Illuminate\Support\Facades\Session;
 
 class EventRepository implements EventRepositoryInterface {
-    
+
     protected $event;
-    
+
     public function __construct(Event $event) {
         $this->event = $event;
     }
@@ -26,10 +26,14 @@ class EventRepository implements EventRepositoryInterface {
         return $this->event->where('daily', 1)->get();
     }
 
+    public function getCompletedEvents() {
+        return $this->event->where([['completed', 1], ['user_id', auth()->user()->id]])->get();
+    }
+
     public function getTodaysEvents() {
         return $this->event->whereDate('spec_date', Carbon::today())->get();
     }
-    
+
     public function getImportantEvents() {
         return $this->event->where('important', 1)->get();
     }
@@ -111,7 +115,7 @@ class EventRepository implements EventRepositoryInterface {
 
         $this->event->save();
     }
-    
+
     public function update($request) {
         $validData = $request->validate([
             'title' => 'required|string',
@@ -154,6 +158,12 @@ class EventRepository implements EventRepositoryInterface {
             }
         }
 
+        $event->save();
+    }
+
+    public function completeEvent($id) {
+        $event = $this->event->find($id);
+        $event->completed = 1;
         $event->save();
     }
 }

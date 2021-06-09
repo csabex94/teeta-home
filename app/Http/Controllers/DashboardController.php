@@ -38,7 +38,8 @@ class DashboardController extends Controller {
            'allTasks' => $allTasks,
            'allEvents' => $allEvents,
            'events' => array_merge($events->toArray(), $todaysEvents->toArray()),
-            'completedTasks' => $this->task->getCompletedTasks()
+           'completedTasks' => $this->task->getCompletedTasks(),
+           'completedEvents' => $this->event->getCompletedEvents()
         ]);
     }
 

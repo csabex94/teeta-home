@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Repositories\Event\EventRepositoryInterface;
+use App\Repositories\Task\TaskRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
 class EventsController extends Controller {
 
-    protected $event;
+    protected $event, $task;
 
-    public function __construct(EventRepositoryInterface $event) {
+    public function __construct(EventRepositoryInterface $event, TaskRepositoryInterface $task) {
         $this->event = $event;
+        $this->task = $task;
     }
 
     public function show(Request $request) {
@@ -60,4 +62,24 @@ class EventsController extends Controller {
         return redirect()->back()->with('success', 'Event deleted successfully.');
     }
 
+    public function completeEvent(Request $request) {
+        $this->event->completeEvent($request->eventId);
+        $allTasks = $this->task->getAllTasks();
+        $dailyTasks = $this->task->getDailyTasks();
+        $todaysTasks = $this->task->getTodaysTasks();
+
+        $allEvents = $this->event->getAllEvents();
+        $events = $this->event->getDailyEvents();
+        $todaysEvents = $this->event->getTodaysEvents();
+
+        return Inertia::render('DashboardLight', [
+            'tasks' => array_merge($dailyTasks->toArray(), $todaysTasks->toArray()),
+            'upcomingTasks' => [],
+            'allTasks' => $allTasks,
+            'allEvents' => $allEvents,
+            'events' => array_merge($events->toArray(), $todaysEvents->toArray()),
+            'completedTasks' => $this->task->getCompletedTasks(),
+            'completedEvents' => $this->event->getCompletedEvents()
+        ]);
+    }
 }

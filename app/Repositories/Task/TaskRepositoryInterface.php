@@ -3,7 +3,7 @@
 namespace App\Repositories\Task;
 
 interface TaskRepositoryInterface {
-    
+
     public function getTask($id);
     public function getAllTasks();
     public function getTodaysTasks();
