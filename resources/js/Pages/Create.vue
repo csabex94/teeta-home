@@ -23,7 +23,7 @@
 
                 <!-- Create Task Form -->
                 <div v-if="showCreateTaskForm" class="mx-auto mb-5 lg:px-6">
-                    <create-task />
+                    <create-task :date="date" />
                 </div>
 
                 <!-- Create Event Head -->
@@ -107,84 +107,14 @@ export default {
         CreatePersonal
     },
     props: {
-      show: String
+      show: String,
+      date: String
     },
     data() {
         return {
             showCreateTaskForm: false,
             showCreateEventForm: false,
             showCreatePersonalForm: false,
-            createTask: {
-                form: this.$inertia.form({
-                    title: "",
-                    description: "",
-                    daily: false,
-                    push_email: false,
-                    spec_date: "",
-                    remind_before_value: "",
-                    remind_before_option: "Remind me before",
-                    spec_time: ""
-                }),
-                showRemindOptions: false,
-                flatPickrConfig: {
-                    altFormat: 'M j, Y',
-                    altInput: true,
-                    dateFormat: 'Y-m-d',
-                },
-                flatPickrConfigTime: {
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                },
-            },
-            createEvent: {
-                form: this.$inertia.form({
-                    title: "",
-                    description: "",
-                    daily: false,
-                    push_email: false,
-                    spec_date: "",
-                    remind_before_value: "",
-                    remind_before_option: "Remind me before",
-                    spec_time: "",
-                    important: false
-                }),
-                showRemindOptions: false,
-                flatPickrConfig: {
-                    altFormat: 'M j, Y',
-                    altInput: true,
-                    dateFormat: 'Y-m-d',
-                },
-                flatPickrConfigTime: {
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                },
-            },
-            createPersonalStuff: {
-                form: this.$inertia.form({
-                    title: "",
-                    description: "",
-                    image_id: "",
-                    daily: false,
-                    push_email: false,
-                    spec_date: "",
-                    remind_before_value: "",
-                    remind_before_option: "Remind me before",
-                    spec_time: ""
-                }),
-                showRemindOptions: false,
-                flatPickrConfig: {
-                    altFormat: 'M j, Y',
-                    altInput: true,
-                    dateFormat: 'Y-m-d',
-                },
-                flatPickrConfigTime: {
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                },
-            },
         }
     },
     methods: {
@@ -196,39 +126,6 @@ export default {
         },
         toggleCreatePersonalStuffForm() {
             this.showCreatePersonalForm = !this.showCreatePersonalForm;
-        },
-        openCalendarOnIconClick() {
-            this.$refs.specDate.fp.toggle();
-        },
-        createTask() {
-            this.form.post(route('create.task.post'),{
-                onSuccess: () => {
-                    this.createTask.form.daily = false;
-                    this.createTask.form.push_email = false;
-                    this.createTask.createTask.showRemindOptions = false;
-                    this.createTask.form.reset();
-                }
-            });
-        },
-        getBeforeValuePlaceholder() {
-            switch (this.createTask.form.remind_before_option) {
-                case "minutes":
-                    return "Specify minutes"
-                case "hours":
-                    return "Specify hours"
-                case "days":
-                    return "Specify days"
-                case "weeks":
-                    return "Specify weeks"
-                case "months":
-                    return "Specify months"
-            }
-        },
-        clearCalendarInput() {
-            this.createTask.form.spec_date = "";
-        },
-        clearTimeInput() {
-            this.createTask.form.spec_time = "";
         }
     },
     mounted() {
@@ -243,18 +140,6 @@ export default {
               this.toggleCreatePersonalStuffForm()
           }
       }
-    },
-    computed: {
-        daily() {
-            return this.createTask.form.daily
-        }
-    },
-    watch: {
-        daily(value) {
-            if (value === true) {
-                this.createTask.showRemindOptions = false;
-            }
-        }
     }
 }
 </script>

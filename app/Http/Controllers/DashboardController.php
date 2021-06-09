@@ -37,18 +37,24 @@ class DashboardController extends Controller {
            'upcomingTasks' => [],
            'allTasks' => $allTasks,
            'allEvents' => $allEvents,
-           'events' => array_merge($events->toArray(), $todaysEvents->toArray())
+           'events' => array_merge($events->toArray(), $todaysEvents->toArray()),
+            'completedTasks' => $this->task->getCompletedTasks()
         ]);
     }
 
     public function create(Request $request)
     {
         $show = NULL;
+        $date = NULL;
         if ($request->show) {
             $show = $request->show;
         }
+        if ($request->date) {
+            $date = $request->date;
+        }
         return Inertia::render('Create', [
-           'show' => $show
+           'show' => $show,
+           'date' => $date
         ]);
     }
 }
