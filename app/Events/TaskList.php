@@ -10,10 +10,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class TaskList implements ShouldBroadcast {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
+    public $user;
 
-    public function __construct($message) {
-        $this->message = $message;
+    public function __construct($user) {
+        $this->user = $user;
     }
 
     public function broadcastOn() {

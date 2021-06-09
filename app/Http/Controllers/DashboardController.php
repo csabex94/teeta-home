@@ -7,7 +7,8 @@ use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Events\TestNotification;
+use App\Events\TaskList;
+use App\Notifications\TaskList as TL;
 
 class DashboardController extends Controller {
 
@@ -20,8 +21,9 @@ class DashboardController extends Controller {
 
     public function index() {
 
-        event(new TestNotification('Test'));
-
+        event(new TaskList(auth()->user()));
+        //$user = auth()->user();
+        //$user->notify(new TL(auth()->user()));
         $allTasks = $this->task->getAllTasks();
         $dailyTasks = $this->task->getDailyTasks();
         $todaysTasks = $this->task->getTodaysTasks();

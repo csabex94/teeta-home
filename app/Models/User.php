@@ -63,8 +63,12 @@ class User extends Authenticatable //implements MustVerifyEmail
         return $this->hasMany(\App\Models\Task::class, 'user_id', 'id');
     }
 
-    public function futureEvents() {
+    public function events() {
         return $this->hasMany(\App\Models\Event::class, 'event_id', 'id');
+    }
+
+    public function friends() {
+        return $this->belongsToMany('User', 'friends', 'user_id', 'friend_id');
     }
 
     //public function notifications() {

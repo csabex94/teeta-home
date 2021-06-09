@@ -81,10 +81,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         });
 
         Route::get('/mail/task-list', function () { //task list to complete in the following * 2 weeks
-            $tasks = App\Models\Task::with('user')->whereDate('spec_date', '>=', Carbon\Carbon::now()->addWeeks(2))->get();
+            $tasks = App\Models\Task::with('user')->whereDate('spec_date', '>=', Carbon\Carbon::now())->whereDate('spec_date', '<=', Carbon\Carbon::now()->addWeeks(2))->get();
 
             return (new App\Mail\TaskListReminder(auth()->user(), $tasks, '2 weeks'))->render(); //params(User, task list, in the following '$string')
         });
+
+        //Verify
+        Route::get('/email/verify', function () {
+            return view('auth.verify-email');
+        })->name('verification.notice');
 
     /*
     Route::get('/email/verify', function () {

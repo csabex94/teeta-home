@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskListReminder extends Mailable {
+class TaskListReminder extends Mailable implements ShouldQueue {
 
     use Queueable, SerializesModels;
 
@@ -24,7 +24,7 @@ class TaskListReminder extends Mailable {
     public function build() {
         return $this->from('noreply@teeta.com')
             ->to($this->user->email)
-            ->subject('Teeta Reminder - TaskList for ' . $this->getLastName($this->user->name) . Carbon::now()->toFormattedDateString())
+            ->subject('Teeta Reminder - Upcoming tasks for the following ' . $this->following)
             ->markdown('mails.upcoming-tasks')
             ->with([
                 'name' => $this->getLastName($this->user->name),
