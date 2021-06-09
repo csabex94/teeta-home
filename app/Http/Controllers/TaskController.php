@@ -61,9 +61,21 @@ class TaskController extends Controller {
 
     public function completeTask(Request $request) {
         $this->task->completeTask($request->taskId);
-        return response()->json([
-            'completedTask' => $this->task->getTask($request->taskId),
-            'completedTasks' => count($this->task->getCompletedTasks())
+        $allTasks = $this->task->getAllTasks();
+        $dailyTasks = $this->task->getDailyTasks();
+        $todaysTasks = $this->task->getTodaysTasks();
+
+        $allEvents = $this->event->getAllEvents();
+        $events = $this->event->getDailyEvents();
+        $todaysEvents = $this->event->getTodaysEvents();
+
+        return Inertia::render('DashboardLight', [
+            'tasks' => array_merge($dailyTasks->toArray(), $todaysTasks->toArray()),
+            'upcomingTasks' => [],
+            'allTasks' => $allTasks,
+            'allEvents' => $allEvents,
+            'events' => array_merge($events->toArray(), $todaysEvents->toArray()),
+            'completedTasks' => $this->task->getCompletedTasks()
         ]);
     }
 

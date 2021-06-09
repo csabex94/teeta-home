@@ -3,18 +3,20 @@
         <div class="shadow-lg rounded-2xl height bg-white dark:bg-gray-700 w-full">
             <div class="font-bold text-md border-b border-gray-100 flex items-center justify-between p-4 text-black dark:text-white">
                 <div>
-                    <span v-if="isTodayDate()" class="text-blue-500">
-                        Today's <span class="text-gray-600">Tasks</span>
+                    <span v-if="isTodayDate()" @click="setListToUncompleted" :class="markCurrentCompletedList()" class="text-gray-500 cursor-pointer hover:text-blue-500">
+                        Today's Tasks ({{ uncompletedTasks() }})
                     </span>
                     <span v-else class="text-blue-500">{{ formatDate() }} <span class="text-gray-600">Tasks</span></span>
-                    <span class="text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2">
-                        ({{ uncompletedTasks }})
-                    </span>
                 </div>
                 <div>
-                    <span class="text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2">Completed Tasks ({{ completedTasks }}) </span>
+                    <span
+                        v-if="isTodayDate()"
+                        @click="setListToCompleted"
+                        class="text-gray-500 cursor-pointer hover:text-blue-500 dark:text-gray-300 dark:text-white ml-2"
+                        :class="markCurrentUncompletedList()"
+                    >Completed Tasks ({{ completedTasks.length }}) </span>
                 </div>
-                <inertia-link :href="route('create', { show: 'create-task' })" class="flex items-center bg-blue-500 text-white py-1 cursor-pointer rounded-md shadow px-2">
+                <inertia-link :href="route('create', { show: 'create-task', date: formatDate(date) })" class="flex items-center bg-blue-500 text-white py-1 cursor-pointer rounded-md shadow px-2">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd">
                         </path>
@@ -22,9 +24,14 @@
                     Add
                 </inertia-link>
             </div>
-            <ul>
-                <li v-for="task in tasks" :key="task.id">
-                    <today-task-component @completedTasksLength="setCompletedTasksLength" :task="task" />
+            <ul v-if="taskListType === 'uncompleted'">
+                <li v-for="task in getUncompletedTasks()" :key="task.id">
+                    <today-task-component :task="task" />
+                </li>
+            </ul>
+            <ul v-if="taskListType === 'completed' && isTodayDate()">
+                <li v-for="task in completedTasks" :key="task.id">
+                    <today-task-component :task="task" />
                 </li>
             </ul>
         </div>
@@ -57,13 +64,9 @@ export default {
     },
     props: {
         tasks: Array,
-        date: Object
-    },
-    data() {
-        return {
-            completedTasks: 0,
-            uncompletedTasks: this.tasks.length
-        }
+        date: Object,
+        completedTasks: Array,
+        taskListType: String
     },
     methods: {
         isTodayDate() {
@@ -72,16 +75,39 @@ export default {
         formatDate() {
             return moment(this.date).format("DD MMMM YYYY");
         },
-        setCompletedTasksLength(value) {
-            this.completedTasks = value;
-        }
-    },
-    mounted() {
-        this.completedTasks = this.tasks.filter(task => {
-            if (task.completed) {
-                return task;
+        uncompletedTasks() {
+            return this.tasks.filter(task => {
+                if (!task.completed) {
+                    return task;
+                }
+            }).length;
+        },
+        setListToCompleted() {
+            this.list = 'completed';
+            this.$emit('listType', 'completed')
+        },
+        setListToUncompleted() {
+            this.list = 'uncompleted'
+            this.$emit('listType', 'uncompleted')
+        },
+        markCurrentCompletedList() {
+            if (this.taskListType === 'uncompleted') {
+                return "text-blue-500"
             }
-        }).length;
+        },
+        markCurrentUncompletedList() {
+            if (this.taskListType === 'completed') {
+                return "text-blue-500"
+            }
+        },
+        getUncompletedTasks() {
+            return this.tasks.filter(task => {
+                if (!task.completed) {
+                    return task;
+                }
+            })
+        },
+
     }
 }
 </script>

@@ -59,7 +59,6 @@ class HandleInertiaRequests extends Middleware
         ], [
             'todayEvents' => array_merge($todaysEvents->toArray(), $dailyEvents->toArray()),
             'todayTasks' => array_merge($todaysTasks->toArray(), $dailyTasks->toArray()),
-            'unreadNotificationsCount' => $request->user()->unreadNotifications()->count()
         ]);
     }
 }

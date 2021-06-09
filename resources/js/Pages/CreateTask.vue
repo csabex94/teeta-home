@@ -153,7 +153,7 @@ import JetActionMessage from '@/Jetstream/ActionMessage';
 import JetButton from '@/Jetstream/Button';
 import JetCheckbox from '@/Jetstream/Checkbox';
 import flatPickr from 'vue-flatpickr-component';
-
+import moment from 'moment';
 
 export default {
     components: {
@@ -166,6 +166,9 @@ export default {
         JetButton,
         JetCheckbox,
         flatPickr
+    },
+    props: {
+        date: String
     },
     data() {
         return {
@@ -237,6 +240,11 @@ export default {
             if (value === true) {
                 this.showRemindOptions = false;
             }
+        }
+    },
+    mounted() {
+        if (this.date) {
+            this.form.spec_date = moment(this.date).format("YYYY-MM-D");
         }
     }
 }

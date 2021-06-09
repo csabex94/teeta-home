@@ -30,8 +30,9 @@ class TaskRepository implements TaskRepositoryInterface {
     }
 
     public function getCompletedTasks() {
-        return $this->task->where('completed', 1)->get();
+        return $this->task->where([['completed', 1], ['user_id', auth()->user()->id]])->get();
     }
+
 
     public function getFollowingDaysTasks($days, $email = false) {
         $tasks = $this->task->where('daily', 0)->where('completed', 0)->whereDate('spec_date', '>=', Carbon::now()->addDays($days));

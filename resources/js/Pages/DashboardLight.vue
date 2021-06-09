@@ -4,7 +4,7 @@
             <div class="pr-2 pl-2 md:pt-0 md:pr-0 md:pl-0">
                 <div class="flex flex-col flex-wrap sm:flex-row ">
                     <div class="w-full sm:w-1/2 xl:w-1/2">
-                        <today-tasks :tasks="taskList" :date="today" />
+                        <today-tasks @listType="setListType" :tasks="taskList" :completedTasks="completedTasks" :date="today" :taskListType="taskListType" />
                         <daily-events :events="eventList" :date="today" />
                     </div>
 
@@ -40,14 +40,16 @@
             upcomingTasks: Array,
             allTasks: Array,
             allEvents: Array,
-            events: Array
+            events: Array,
+            completedTasks: Array,
         },
         data() {
             return {
-                taskList: this.tasks,
-                eventList: this.events,
+                taskList: this.allTasks,
+                eventList: this.allEvents,
                 importantList: null,
-                today: moment()
+                today: moment(),
+                taskListType: 'uncompleted'
             }
         },
         methods: {
@@ -55,8 +57,12 @@
                 this.today = value.day;
                 this.taskList = value.todayTasks ? value.todayTasks : this.tasks;
                 this.eventList = value.todayEvents ? value.todayEvents : this.events;
+                this.taskListType = 'uncompleted';
+            },
+            setListType(value) {
+                this.taskListType = value;
             }
-        }
+        },
     }
 </script>
 

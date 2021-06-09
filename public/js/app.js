@@ -17230,14 +17230,11 @@ __webpack_require__.r(__webpack_exports__);
       if (this.currentTask.completed) return "bg-gray-100";
     },
     completeTask: function completeTask() {
-      var _this = this;
-
       if (!this.currentTask.completed && (moment__WEBPACK_IMPORTED_MODULE_1___default()(this.currentTask.spec_date).format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_1___default()().format("D MMM YYYY") || this.currentTask.daily)) {
-        axios.get('/complete-task?taskId=' + this.currentTask.id).then(function (res) {
-          _this.currentTask = res.data.completedTask;
-          _this.status = 'completed';
-
-          _this.$emit('completedTasksLength', res.data.completedTasks);
+        this.$inertia.get(route('complete.task', {
+          taskId: this.currentTask.id
+        }), {
+          onSuccess: function onSuccess() {}
         });
       } else {
         this.checkbox = false;
@@ -17308,13 +17305,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     tasks: Array,
-    date: Object
-  },
-  data: function data() {
-    return {
-      completedTasks: 0,
-      uncompletedTasks: this.tasks.length
-    };
+    date: Object,
+    completedTasks: Array,
+    taskListType: String
   },
   methods: {
     isTodayDate: function isTodayDate() {
@@ -17323,16 +17316,38 @@ __webpack_require__.r(__webpack_exports__);
     formatDate: function formatDate() {
       return moment__WEBPACK_IMPORTED_MODULE_8___default()(this.date).format("DD MMMM YYYY");
     },
-    setCompletedTasksLength: function setCompletedTasksLength(value) {
-      this.completedTasks = value;
-    }
-  },
-  mounted: function mounted() {
-    this.completedTasks = this.tasks.filter(function (task) {
-      if (task.completed) {
-        return task;
+    uncompletedTasks: function uncompletedTasks() {
+      return this.tasks.filter(function (task) {
+        if (!task.completed) {
+          return task;
+        }
+      }).length;
+    },
+    setListToCompleted: function setListToCompleted() {
+      this.list = 'completed';
+      this.$emit('listType', 'completed');
+    },
+    setListToUncompleted: function setListToUncompleted() {
+      this.list = 'uncompleted';
+      this.$emit('listType', 'uncompleted');
+    },
+    markCurrentCompletedList: function markCurrentCompletedList() {
+      if (this.taskListType === 'uncompleted') {
+        return "text-blue-500";
       }
-    }).length;
+    },
+    markCurrentUncompletedList: function markCurrentUncompletedList() {
+      if (this.taskListType === 'completed') {
+        return "text-blue-500";
+      }
+    },
+    getUncompletedTasks: function getUncompletedTasks() {
+      return this.tasks.filter(function (task) {
+        if (!task.completed) {
+          return task;
+        }
+      });
+    }
   }
 });
 
@@ -18958,84 +18973,14 @@ __webpack_require__.r(__webpack_exports__);
     CreatePersonal: _Pages_Personal_Create__WEBPACK_IMPORTED_MODULE_10__.default
   },
   props: {
-    show: String
+    show: String,
+    date: String
   },
   data: function data() {
     return {
       showCreateTaskForm: false,
       showCreateEventForm: false,
-      showCreatePersonalForm: false,
-      createTask: {
-        form: this.$inertia.form({
-          title: "",
-          description: "",
-          daily: false,
-          push_email: false,
-          spec_date: "",
-          remind_before_value: "",
-          remind_before_option: "Remind me before",
-          spec_time: ""
-        }),
-        showRemindOptions: false,
-        flatPickrConfig: {
-          altFormat: 'M j, Y',
-          altInput: true,
-          dateFormat: 'Y-m-d'
-        },
-        flatPickrConfigTime: {
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i"
-        }
-      },
-      createEvent: {
-        form: this.$inertia.form({
-          title: "",
-          description: "",
-          daily: false,
-          push_email: false,
-          spec_date: "",
-          remind_before_value: "",
-          remind_before_option: "Remind me before",
-          spec_time: "",
-          important: false
-        }),
-        showRemindOptions: false,
-        flatPickrConfig: {
-          altFormat: 'M j, Y',
-          altInput: true,
-          dateFormat: 'Y-m-d'
-        },
-        flatPickrConfigTime: {
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i"
-        }
-      },
-      createPersonalStuff: {
-        form: this.$inertia.form({
-          title: "",
-          description: "",
-          image_id: "",
-          daily: false,
-          push_email: false,
-          spec_date: "",
-          remind_before_value: "",
-          remind_before_option: "Remind me before",
-          spec_time: ""
-        }),
-        showRemindOptions: false,
-        flatPickrConfig: {
-          altFormat: 'M j, Y',
-          altInput: true,
-          dateFormat: 'Y-m-d'
-        },
-        flatPickrConfigTime: {
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i"
-        }
-      }
+      showCreatePersonalForm: false
     };
   },
   methods: {
@@ -19047,46 +18992,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     toggleCreatePersonalStuffForm: function toggleCreatePersonalStuffForm() {
       this.showCreatePersonalForm = !this.showCreatePersonalForm;
-    },
-    openCalendarOnIconClick: function openCalendarOnIconClick() {
-      this.$refs.specDate.fp.toggle();
-    },
-    createTask: function createTask() {
-      var _this = this;
-
-      this.form.post(route('create.task.post'), {
-        onSuccess: function onSuccess() {
-          _this.createTask.form.daily = false;
-          _this.createTask.form.push_email = false;
-          _this.createTask.createTask.showRemindOptions = false;
-
-          _this.createTask.form.reset();
-        }
-      });
-    },
-    getBeforeValuePlaceholder: function getBeforeValuePlaceholder() {
-      switch (this.createTask.form.remind_before_option) {
-        case "minutes":
-          return "Specify minutes";
-
-        case "hours":
-          return "Specify hours";
-
-        case "days":
-          return "Specify days";
-
-        case "weeks":
-          return "Specify weeks";
-
-        case "months":
-          return "Specify months";
-      }
-    },
-    clearCalendarInput: function clearCalendarInput() {
-      this.createTask.form.spec_date = "";
-    },
-    clearTimeInput: function clearTimeInput() {
-      this.createTask.form.spec_time = "";
     }
   },
   mounted: function mounted() {
@@ -19101,18 +19006,6 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.show === 'create-stuff') {
         this.toggleCreatePersonalStuffForm();
-      }
-    }
-  },
-  computed: {
-    daily: function daily() {
-      return this.createTask.form.daily;
-    }
-  },
-  watch: {
-    daily: function daily(value) {
-      if (value === true) {
-        this.createTask.showRemindOptions = false;
       }
     }
   }
@@ -19141,6 +19034,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_Checkbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Jetstream/Checkbox */ "./resources/js/Jetstream/Checkbox.vue");
 /* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-flatpickr-component */ "./node_modules/vue-flatpickr-component/dist/vue-flatpickr.min.js");
 /* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -19161,6 +19057,9 @@ __webpack_require__.r(__webpack_exports__);
     JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_6__.default,
     JetCheckbox: _Jetstream_Checkbox__WEBPACK_IMPORTED_MODULE_7__.default,
     flatPickr: (vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_8___default())
+  },
+  props: {
+    date: String
   },
   data: function data() {
     return {
@@ -19239,6 +19138,11 @@ __webpack_require__.r(__webpack_exports__);
       if (value === true) {
         this.showRemindOptions = false;
       }
+    }
+  },
+  mounted: function mounted() {
+    if (this.date) {
+      this.form.spec_date = moment__WEBPACK_IMPORTED_MODULE_9___default()(this.date).format("YYYY-MM-D");
     }
   }
 });
@@ -19349,14 +19253,16 @@ __webpack_require__.r(__webpack_exports__);
     upcomingTasks: Array,
     allTasks: Array,
     allEvents: Array,
-    events: Array
+    events: Array,
+    completedTasks: Array
   },
   data: function data() {
     return {
-      taskList: this.tasks,
-      eventList: this.events,
+      taskList: this.allTasks,
+      eventList: this.allEvents,
       importantList: null,
-      today: moment__WEBPACK_IMPORTED_MODULE_5___default()()
+      today: moment__WEBPACK_IMPORTED_MODULE_5___default()(),
+      taskListType: 'uncompleted'
     };
   },
   methods: {
@@ -19364,6 +19270,10 @@ __webpack_require__.r(__webpack_exports__);
       this.today = value.day;
       this.taskList = value.todayTasks ? value.todayTasks : this.tasks;
       this.eventList = value.todayEvents ? value.todayEvents : this.events;
+      this.taskListType = 'uncompleted';
+    },
+    setListType: function setListType(value) {
+      this.taskListType = value;
     }
   }
 });
@@ -21802,37 +21712,17 @@ var _hoisted_3 = {
   "class": "font-bold text-md border-b border-gray-100 flex items-center justify-between p-4 text-black dark:text-white"
 };
 var _hoisted_4 = {
-  key: 0,
-  "class": "text-blue-500"
-};
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Today's ");
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-  "class": "text-gray-600"
-}, "Tasks", -1
-/* HOISTED */
-);
-
-var _hoisted_7 = {
   key: 1,
   "class": "text-blue-500"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
   "class": "text-gray-600"
 }, "Tasks", -1
 /* HOISTED */
 );
 
-var _hoisted_9 = {
-  "class": "text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2"
-};
-var _hoisted_10 = {
-  "class": "text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2"
-};
-
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   "class": "w-6 h-6",
   fill: "currentColor",
   viewBox: "0 0 20 20",
@@ -21845,45 +21735,73 @@ var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add ");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add ");
 
+var _hoisted_8 = {
+  key: 0
+};
+var _hoisted_9 = {
+  key: 1
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
 
   var _component_today_task_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("today-task-component");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [$options.isTodayDate() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_4, [_hoisted_5, _hoisted_6])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate()) + " ", 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [$options.isTodayDate() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", {
+    key: 0,
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $options.setListToUncompleted && $options.setListToUncompleted.apply($options, arguments);
+    }),
+    "class": [$options.markCurrentCompletedList(), "text-gray-500 cursor-pointer hover:text-blue-500"]
+  }, " Today's Tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.uncompletedTasks()) + ") ", 3
+  /* TEXT, CLASS */
+  )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate()) + " ", 1
   /* TEXT */
-  ), _hoisted_8])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_9, " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.uncompletedTasks) + ") ", 1
-  /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_10, "Completed Tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.completedTasks) + ") ", 1
-  /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
+  ), _hoisted_5]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [$options.isTodayDate() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", {
+    key: 0,
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.setListToCompleted && $options.setListToCompleted.apply($options, arguments);
+    }),
+    "class": ["text-gray-500 cursor-pointer hover:text-blue-500 dark:text-gray-300 dark:text-white ml-2", $options.markCurrentUncompletedList()]
+  }, "Completed Tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.completedTasks.length) + ") ", 3
+  /* TEXT, CLASS */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
     href: _ctx.route('create', {
-      show: 'create-task'
+      show: 'create-task',
+      date: $options.formatDate($props.date)
     }),
     "class": "flex items-center bg-blue-500 text-white py-1 cursor-pointer rounded-md shadow px-2"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_11, _hoisted_12];
+      return [_hoisted_6, _hoisted_7];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.tasks, function (task) {
+  , ["href"])]), $props.taskListType === 'uncompleted' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("ul", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getUncompletedTasks(), function (task) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
       key: task.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_today_task_component, {
-      onCompletedTasksLength: $options.setCompletedTasksLength,
       task: task
     }, null, 8
     /* PROPS */
-    , ["onCompletedTasksLength", "task"])]);
+    , ["task"])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])])]);
+  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.taskListType === 'completed' && $options.isTodayDate() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("ul", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.completedTasks, function (task) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
+      key: task.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_today_task_component, {
+      task: task
+    }, null, 8
+    /* PROPS */
+    , ["task"])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 }
 
 /***/ }),
@@ -25925,7 +25843,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $options.toggleCreateTaskForm && $options.toggleCreateTaskForm.apply($options, arguments);
         }),
         "class": "w-full mb-5 h-16 flex items-center justify-between rounded-md shadow bg-white px-5 hover:text-blue-500 cursor-pointer"
-      }, [_hoisted_2, !$data.showCreateTaskForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("svg", _hoisted_3, [_hoisted_4])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showCreateTaskForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("svg", _hoisted_5, [_hoisted_6])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Create Task Form "), $data.showCreateTaskForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_task)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Create Event Head "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+      }, [_hoisted_2, !$data.showCreateTaskForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("svg", _hoisted_3, [_hoisted_4])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showCreateTaskForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("svg", _hoisted_5, [_hoisted_6])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Create Task Form "), $data.showCreateTaskForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_task, {
+        date: $props.date
+      }, null, 8
+      /* PROPS */
+      , ["date"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Create Event Head "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
         onClick: _cache[2] || (_cache[2] = function () {
           return $options.toggleCreateEventForm && $options.toggleCreateEventForm.apply($options, arguments);
         }),
@@ -26399,11 +26321,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_light_layout, null, {
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_today_tasks, {
+        onListType: $options.setListType,
         tasks: $data.taskList,
-        date: $data.today
+        completedTasks: $props.completedTasks,
+        date: $data.today,
+        taskListType: $data.taskListType
       }, null, 8
       /* PROPS */
-      , ["tasks", "date"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_daily_events, {
+      , ["onListType", "tasks", "completedTasks", "date", "taskListType"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_daily_events, {
         events: $data.eventList,
         date: $data.today
       }, null, 8
