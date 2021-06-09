@@ -16958,32 +16958,44 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     changeDay: function changeDay(day) {
-      this.selectedDate = day.date();
-      this.selectedDateMonth = this.months[day.month()];
-      this.changeMonth(this.months[day.month()]);
-      var todayTasks = this.allTasks.filter(function (task) {
-        if (task.spec_date) {
-          if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(task.spec_date).format('YYYY-MM-DD')) {
-            return task;
+      if (moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_0___default()().format("D MMM YYYY")) {
+        this.setCalendar();
+      } else {
+        this.selectedDate = day.date();
+        this.selectedDateMonth = this.months[day.month()];
+        this.changeMonth(this.months[day.month()]);
+        var todayTasks = this.allTasks.filter(function (task) {
+          if (task.spec_date && !task.completed) {
+            if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(task.spec_date).format('YYYY-MM-DD')) {
+              return task;
+            }
           }
-        }
 
-        if (task.daily) return task;
-      });
-      var todayEvents = this.allEvents.filter(function (event) {
-        if (event.spec_date) {
-          if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(event.spec_date).format('YYYY-MM-DD')) {
-            return event;
+          if (task.daily && !task.completed) {
+            if (moment__WEBPACK_IMPORTED_MODULE_0___default()().format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format("D MMM YYYY")) {
+              return task;
+            }
           }
-        }
+        });
+        var todayEvents = this.allEvents.filter(function (event) {
+          if (event.spec_date) {
+            if (day.format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(event.spec_date).format('YYYY-MM-DD')) {
+              return event;
+            }
+          }
 
-        if (event.daily) return event;
-      });
-      this.$emit('data', {
-        todayTasks: todayTasks,
-        todayEvents: todayEvents,
-        day: moment__WEBPACK_IMPORTED_MODULE_0___default()(day)
-      });
+          if (event.daily) {
+            if (moment__WEBPACK_IMPORTED_MODULE_0___default()().format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format("D MMM YYYY")) {
+              return event;
+            }
+          }
+        });
+        this.$emit('data', {
+          todayTasks: todayTasks,
+          todayEvents: todayEvents,
+          day: moment__WEBPACK_IMPORTED_MODULE_0___default()(day)
+        });
+      }
     }
   },
   mounted: function mounted() {
@@ -17222,10 +17234,14 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.currentTask.completed && (moment__WEBPACK_IMPORTED_MODULE_1___default()(this.currentTask.spec_date).format("D MMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_1___default()().format("D MMM YYYY") || this.currentTask.daily)) {
         axios.get('/complete-task?taskId=' + this.currentTask.id).then(function (res) {
-          return _this.currentTask = res.data.completedTask;
+          _this.currentTask = res.data.completedTask;
+          _this.status = 'completed';
+
+          _this.$emit('completedTasksLength', res.data.completedTasks);
         });
       } else {
         this.checkbox = false;
+        status = null;
       }
     }
   },
@@ -17294,6 +17310,12 @@ __webpack_require__.r(__webpack_exports__);
     tasks: Array,
     date: Object
   },
+  data: function data() {
+    return {
+      completedTasks: 0,
+      uncompletedTasks: this.tasks.length
+    };
+  },
   methods: {
     isTodayDate: function isTodayDate() {
       return moment__WEBPACK_IMPORTED_MODULE_8___default()(this.date).format("D MMMM YYYY") === moment__WEBPACK_IMPORTED_MODULE_8___default()().format("D MMMM YYYY");
@@ -17301,20 +17323,16 @@ __webpack_require__.r(__webpack_exports__);
     formatDate: function formatDate() {
       return moment__WEBPACK_IMPORTED_MODULE_8___default()(this.date).format("DD MMMM YYYY");
     },
-    uncompletedTasksListLength: function uncompletedTasksListLength() {
-      return this.tasks.filter(function (task) {
-        if (!task.completed) {
-          return task;
-        }
-      }).length;
-    },
-    completedTaskListLength: function completedTaskListLength() {
-      return this.tasks.filter(function (task) {
-        if (task.completed) {
-          return task;
-        }
-      }).length;
+    setCompletedTasksLength: function setCompletedTasksLength(value) {
+      this.completedTasks = value;
     }
+  },
+  mounted: function mounted() {
+    this.completedTasks = this.tasks.filter(function (task) {
+      if (task.completed) {
+        return task;
+      }
+    }).length;
   }
 });
 
@@ -21838,9 +21856,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [$options.isTodayDate() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_4, [_hoisted_5, _hoisted_6])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate()) + " ", 1
   /* TEXT */
-  ), _hoisted_8])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_9, " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.uncompletedTasksListLength()) + ") ", 1
+  ), _hoisted_8])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_9, " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.uncompletedTasks) + ") ", 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_10, "Completed Tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.completedTaskListLength()) + ") ", 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_10, "Completed Tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.completedTasks) + ") ", 1
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
     href: _ctx.route('create', {
@@ -21860,10 +21878,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
       key: task.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_today_task_component, {
+      onCompletedTasksLength: $options.setCompletedTasksLength,
       task: task
     }, null, 8
     /* PROPS */
-    , ["task"])]);
+    , ["onCompletedTasksLength", "task"])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])]);
@@ -30642,7 +30661,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.height {\r\n        height: 455px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.height {\n        height: 455px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30666,7 +30685,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.height {\r\n        height: 455px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.height {\n        height: 455px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30690,7 +30709,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dashboard-wrapper {\r\n    width: 100%;\r\n    height: 100%;\r\n    min-height: 100vh;\r\n    display: grid;\r\n    grid-template-columns: 1fr 1fr 1fr 1fr;\n}\n.left-side {\r\n    grid-column: 1 / 4;\r\n    height: 100%;\r\n    width: 100%;\n}\n.right-side {\r\n    grid-column: 4 / 5;\r\n    height: 100%;\r\n    width: 25%;\r\n    right: 0;\n}\n.header {\r\n    width: 100%;\r\n    height: 4rem;\n}\n.myAvatar {\r\n    width: 30px;\r\n    height: 30px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dashboard-wrapper {\n    width: 100%;\n    height: 100%;\n    min-height: 100vh;\n    display: grid;\n    grid-template-columns: 1fr 1fr 1fr 1fr;\n}\n.left-side {\n    grid-column: 1 / 4;\n    height: 100%;\n    width: 100%;\n}\n.right-side {\n    grid-column: 4 / 5;\n    height: 100%;\n    width: 25%;\n    right: 0;\n}\n.header {\n    width: 100%;\n    height: 4rem;\n}\n.myAvatar {\n    width: 30px;\n    height: 30px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

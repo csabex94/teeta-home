@@ -52,9 +52,14 @@ export default {
         },
         completeTask() {
            if (!this.currentTask.completed && ((moment(this.currentTask.spec_date).format("D MMM YYYY") === moment().format("D MMM YYYY")) || this.currentTask.daily)) {
-               axios.get('/complete-task?taskId='+this.currentTask.id).then(res => this.currentTask = res.data.completedTask);
+               axios.get('/complete-task?taskId='+this.currentTask.id).then(res => {
+                   this.currentTask = res.data.completedTask;
+                   this.status = 'completed';
+                   this.$emit('completedTasksLength', res.data.completedTasks)
+               });
            } else {
                this.checkbox = false;
+               status = null;
            }
         }
     },
