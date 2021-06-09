@@ -30,12 +30,15 @@ class TaskRepository implements TaskRepositoryInterface {
     }
 
     public function getCompletedTasks() {
-        return $this->task->where([['completed', 1], ['user_id', auth()->user()->id]])->get();
+        return $this->task->where('completed', 1)->get();
     }
 
+    public function getUncompletedTasksForToday($id) {
+        return $this->task->whereDate('spec_date', Carbon::now())->where('user_id', $id)->where('completed', 0)->get();
+    }
 
-    public function getFollowingDaysTasks($days, $email = false) {
-        $tasks = $this->task->where('daily', 0)->where('completed', 0)->whereDate('spec_date', '>=', Carbon::now()->addDays($days));
+    public function getFollowingDaysTasks($days, $email = false, $userId) {
+        $tasks = $this->task->where('daily', 0)->where('completed', 0)->where('user_id', $userId)->whereDate('spec_date', '>=', Carbon::now()->addDays($days));
 
         if($email) {
             $tasks->where('push_email', 1);
@@ -44,8 +47,8 @@ class TaskRepository implements TaskRepositoryInterface {
         return $tasks->get();
     }
 
-    public function getFollowingWeeksTasks($weeks, $email = false) {
-        $tasks = $this->task->where('daily', 0)->where('completed', 0)->whereDate('spec_date', '>=', Carbon::now()->addWeeks($weeks));
+    public function getFollowingWeeksTasks($weeks, $email = false, $userId) {
+        $tasks = $this->task->where('daily', 0)->where('completed', 0)->where('user_id', $userId)->whereDate('spec_date', '>=', Carbon::now()->addWeeks($weeks));
 
         if($email) {
             $tasks->where('push_email', 1);

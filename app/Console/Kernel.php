@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel {
         $schedule->command('command:reset-daily-tasks')->daily();
         $schedule->command('command:delete-old-events')->daily();
         $schedule->command('command:delete-old-tasks')->daily();
+        $schedule->command('command:check-tasks')->daily()->at('14:00');
     }
 
     /**
