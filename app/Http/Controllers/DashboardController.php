@@ -24,13 +24,13 @@ class DashboardController extends Controller {
         //event(new TaskList(auth()->user()));
         //$user = auth()->user();
         //$user->notify(new TL(auth()->user()));
-        $allTasks = $this->task->getAllTasks();
-        $dailyTasks = $this->task->getDailyTasks();
-        $todaysTasks = $this->task->getTodaysTasks();
+        $allTasks = $this->task->getAllTasks(auth()->user()['id']);
+        $dailyTasks = $this->task->getDailyTasks(auth()->user()['id']);
+        $todaysTasks = $this->task->getTodaysTasks(auth()->user()['id']);
 
-        $allEvents = $this->event->getAllEvents();
-        $events = $this->event->getDailyEvents();
-        $todaysEvents = $this->event->getTodaysEvents();
+        $allEvents = $this->event->getAllEvents(auth()->user()['id']);
+        $events = $this->event->getDailyEvents(auth()->user()['id']);
+        $todaysEvents = $this->event->getTodaysEvents(auth()->user()['id']);
 
         return Inertia::render('DashboardLight', [
            'tasks' => array_merge($dailyTasks->toArray(), $todaysTasks->toArray()),
@@ -38,8 +38,8 @@ class DashboardController extends Controller {
            'allTasks' => $allTasks,
            'allEvents' => $allEvents,
            'events' => array_merge($events->toArray(), $todaysEvents->toArray()),
-           'completedTasks' => $this->task->getCompletedTasks(),
-           'completedEvents' => $this->event->getCompletedEvents()
+           'completedTasks' => $this->task->getCompletedTasks(auth()->user()['id']),
+           'completedEvents' => $this->event->getCompletedEvents(auth()->user()['id'])
         ]);
     }
 

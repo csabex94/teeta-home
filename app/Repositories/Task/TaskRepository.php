@@ -7,30 +7,31 @@ use Carbon\Carbon;
 
 class TaskRepository implements TaskRepositoryInterface {
 
-    protected $task;
+    protected $task, $user;
 
     public function __construct(Task $task) {
         $this->task = $task;
+        $this->user = auth()->user();
     }
 
-    public function getAllTasks() {
-        return $this->task->get();
+    public function getAllTasks($id) {
+        return $this->task->where('user_id', $id)->get();
     }
 
     public function getTask($id) {
         return $this->task->where('id', $id)->first();
     }
 
-    public function getDailyTasks() {
-        return $this->task->where('daily', 1)->where('completed', 0)->get();
+    public function getDailyTasks($id) {
+        return $this->task->where('daily', 1)->where('user_id', $id)->where('completed', 0)->get();
     }
 
-    public function getTodaysTasks() {
-        return $this->task->whereDate('spec_date', Carbon::today())->where('completed', 0)->get();
+    public function getTodaysTasks($id) {
+        return $this->task->whereDate('spec_date', Carbon::today())->where('user_id', $id)->where('completed', 0)->get();
     }
 
-    public function getCompletedTasks() {
-        return $this->task->where('completed', 1)->get();
+    public function getCompletedTasks($id) {
+        return $this->task->where('completed', 1)->where('user_id', $id)->get();
     }
 
     public function getUncompletedTasksForToday($id) {

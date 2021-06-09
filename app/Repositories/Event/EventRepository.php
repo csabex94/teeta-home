@@ -14,28 +14,28 @@ class EventRepository implements EventRepositoryInterface {
         $this->event = $event;
     }
 
-    public function getAllEvents() {
-        return $this->event->get();
+    public function getAllEvents($id) {
+        return $this->event->where('user_id', $id)->get();
     }
 
     public function getEvent($id) {
         return $this->event->where('id', $id)->first();
     }
 
-    public function getDailyEvents() {
-        return $this->event->where('daily', 1)->get();
+    public function getDailyEvents($id) {
+        return $this->event->where('user_id', $id)->where('daily', 1)->get();
     }
 
-    public function getCompletedEvents() {
-        return $this->event->where([['completed', 1], ['user_id', auth()->user()->id]])->get();
+    public function getCompletedEvents($id) {
+        return $this->event->where('user_id', $id)->where([['completed', 1], ['user_id', auth()->user()->id]])->get();
     }
 
-    public function getTodaysEvents() {
-        return $this->event->whereDate('spec_date', Carbon::today())->get();
+    public function getTodaysEvents($id) {
+        return $this->event->where('user_id', $id)->whereDate('spec_date', Carbon::today())->get();
     }
 
-    public function getImportantEvents() {
-        return $this->event->where('important', 1)->get();
+    public function getImportantEvents($id) {
+        return $this->event->where('user_id', $id)->where('important', 1)->get();
     }
 
     public function getFollowingDaysEvents($days, $email = false) {

@@ -10,7 +10,7 @@ use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
 
 class HandleInertiaRequests extends Middleware {
-
+    
     public function __construct(EventRepositoryInterface $event, TaskRepositoryInterface $task) {
         $this->event = $event;
         $this->task = $task;
@@ -43,11 +43,12 @@ class HandleInertiaRequests extends Middleware {
      * @return array
      */
     public function share(Request $request) {
-        $todaysTasks = $this->task->getTodaysTasks();
-        $dailyTasks = $this->task->getDailyTasks();
-        $todaysEvents = $this->event->getTodaysEvents();
-        $dailyEvents = $this->event->getDailyEvents();
-
+        $auth = (auth()->user()) ?? 0;
+        $todaysTasks = ($auth) ? $this->task->getTodaysTasks($auth['id']) : [];
+        $dailyTasks = ($auth) ? $this->task->getDailyTasks($auth['id']) : [];
+        $todaysEvents = ($auth) ? $this->event->getTodaysEvents($auth['id']) : [];
+        $dailyEvents = ($auth) ? $this->event->getDailyEvents($auth['id']) : [];
+        
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
                 return [
@@ -56,8 +57,8 @@ class HandleInertiaRequests extends Middleware {
                 ];
             }
         ], [
-            'todayEvents' => array_merge($todaysEvents->toArray(), $dailyEvents->toArray()),
-            'todayTasks' => array_merge($todaysTasks->toArray(), $dailyTasks->toArray()),
+            'todayEvents' => ($auth) ? array_merge($todaysEvents->toArray(), $dailyEvents->toArray()) : [],
+            'todayTasks' => ($auth) ? array_merge($todaysTasks->toArray(), $dailyTasks->toArray()): [],
             'unreadNotificationsCount' => (auth()->user()) ? auth()->user()->unreadNotifications()->count() : 0
         ]);
     }
