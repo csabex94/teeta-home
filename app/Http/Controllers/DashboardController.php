@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Events\TestNotification;
 
 class DashboardController extends Controller {
 
@@ -17,6 +19,9 @@ class DashboardController extends Controller {
     }
 
     public function index() {
+
+        event(new TestNotification('Test'));
+
         $allTasks = $this->task->getAllTasks();
         $dailyTasks = $this->task->getDailyTasks();
         $todaysTasks = $this->task->getTodaysTasks();

@@ -18,6 +18,7 @@
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     </head>
@@ -32,7 +33,7 @@
         });
 
         var channel = pusher.subscribe('my-channel');
-            channel.bind('my-event', function(data) {
+        channel.bind('my-event', function(data) {
             app.messages.push(JSON.stringify(data));
         });
     </script>

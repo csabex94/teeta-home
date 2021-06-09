@@ -18214,17 +18214,19 @@ __webpack_require__.r(__webpack_exports__);
     FlashMessages: _Components_FlashMessages__WEBPACK_IMPORTED_MODULE_5__.default
   },
   created: function created() {
-    var _this = this;
-
-    window.Echo["private"]('App.Models.User.${this.$page.props.user.id}').notification(function (notification) {
-      console.log(notification);
-
-      switch (notification.type) {
-        case 'App\\Notifications\\TaskList':
-          _this.$page.props.unreadNotificationsCount++;
-          break;
-      }
+    /*let channel = Echo.channel('my-channel');
+    channel.listen('.my-event', function(data) {
+        alert(data);
     });
+    window.Echo.channel('App.Models.User.${this.$page.props.user.id}').notification((notification => {
+        console.log(notification);
+        switch(notification.type) {
+            case 'App\\Notifications\\TaskList':
+                this.$page.props.unreadNotificationsCount++;
+                break;
+            
+        }
+    }));*/
   },
   methods: {
     returnProfilePhoto: function returnProfilePhoto() {
@@ -19761,7 +19763,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (pixelsFromBotton < 200) {
         axios.get(_this.userNotifications.next_page_url).then(function (response) {
           _this.userNotifications = _objectSpread(_objectSpread({}, response.data), {}, {
-            data: [].concat(_toConsumableArray(_this.notifications.data), _toConsumableArray(response.data.data))
+            data: [].concat(_toConsumableArray(_this.userNotifications.data), _toConsumableArray(response.data.data))
           });
         });
       }

@@ -20,5 +20,6 @@ class NotificationsController extends Controller {
     public function notifyTaskList() {
         $taskList = $this->task->getFollowingDaysTasks(7, false);
         
+        return $taskList;
     }
 }
