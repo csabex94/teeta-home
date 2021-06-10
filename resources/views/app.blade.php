@@ -18,7 +18,7 @@
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
-        
+
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     </head>

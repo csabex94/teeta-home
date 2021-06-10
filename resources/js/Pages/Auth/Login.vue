@@ -56,7 +56,7 @@
             <div class="flex items-center justify-end mt-4">
 
 
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button class="w-full flex items-center justify-center py-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </jet-button>
             </div>

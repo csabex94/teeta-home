@@ -9,6 +9,7 @@ use App\Http\Controllers\PersonalStuffController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/logo-get', function() {
+   $path = Storage::disk('local')->get('public/images/logo.png');
+   return response()->stream(function() use ($path) {
+      echo $path;
+   });
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 

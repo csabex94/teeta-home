@@ -16857,7 +16857,8 @@ __webpack_require__.r(__webpack_exports__);
 
       return "text-center text-gray-300";
     },
-    changeMonth: function changeMonth(month) {
+    changeMonth: function changeMonth(month, i) {
+      this.selectedMonthIndex = i;
       this.selectedMonth = month;
       var calendar = [];
       var today = moment__WEBPACK_IMPORTED_MODULE_0___default()("".concat(this.currentYear, ", ").concat(month));
@@ -16903,14 +16904,28 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedMonth = moment__WEBPACK_IMPORTED_MODULE_0___default()().format("MMMM");
     },
     incrementMonth: function incrementMonth() {
-      this.selectedMonthIndex++;
-      this.selectedMonth = this.months[this.selectedMonthIndex];
-      this.changeMonth(this.selectedMonth);
+      if (this.selectedMonthIndex + 1 <= 11) {
+        this.selectedMonthIndex++;
+        this.selectedMonth = this.months[this.selectedMonthIndex];
+        this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
+      } else {
+        this.currentYear++;
+        this.selectedMonthIndex = 0;
+        this.selectedMonth = this.months[this.selectedMonthIndex];
+        this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
+      }
     },
     decrementMonth: function decrementMonth() {
-      this.selectedMonthIndex--;
-      this.selectedMonth = this.months[this.selectedMonthIndex];
-      this.changeMonth(this.selectedMonth);
+      if (this.selectedMonthIndex - 1 >= 0) {
+        this.selectedMonthIndex--;
+        this.selectedMonth = this.months[this.selectedMonthIndex];
+        this.changeMonth(this.selectedMonth);
+      } else {
+        this.currentYear--;
+        this.selectedMonthIndex = 11;
+        this.selectedMonth = this.months[this.selectedMonthIndex];
+        this.changeMonth(this.selectedMonth);
+      }
     },
     setCalendar: function setCalendar() {
       this.currentYear = moment__WEBPACK_IMPORTED_MODULE_0___default()().year();
@@ -16933,6 +16948,7 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedMonth = moment__WEBPACK_IMPORTED_MODULE_0___default()().format("MMMM");
       this.selectedDate = moment__WEBPACK_IMPORTED_MODULE_0___default()().date();
       this.selectedDateMonth = null;
+      this.selectedMonthIndex = moment__WEBPACK_IMPORTED_MODULE_0___default()().month();
       var todayTasks = this.allTasks.filter(function (task) {
         if (task.spec_date) {
           if (moment__WEBPACK_IMPORTED_MODULE_0___default()().format('YYYY-MM-DD') === moment__WEBPACK_IMPORTED_MODULE_0___default()(task.spec_date).format('YYYY-MM-DD')) {
@@ -18327,21 +18343,6 @@ __webpack_require__.r(__webpack_exports__);
     JetHeader: _Jetstream_Header__WEBPACK_IMPORTED_MODULE_4__.default,
     FlashMessages: _Components_FlashMessages__WEBPACK_IMPORTED_MODULE_5__.default
   },
-  created: function created() {
-    /*let channel = Echo.channel('my-channel');
-    channel.listen('.my-event', function(data) {
-        alert(data);
-    });
-    window.Echo.channel('App.Models.User.${this.$page.props.user.id}').notification((notification => {
-        console.log(notification);
-        switch(notification.type) {
-            case 'App\\Notifications\\TaskList':
-                this.$page.props.unreadNotificationsCount++;
-                break;
-            
-        }
-    }));*/
-  },
   methods: {
     returnProfilePhoto: function returnProfilePhoto() {
       if (this.$page.props.user.profile_photo_path) {
@@ -18352,6 +18353,37 @@ __webpack_require__.r(__webpack_exports__);
     },
     logout: function logout() {
       this.$inertia.post(route('logout'));
+    },
+    showNotification: function showNotification(data) {
+      var notification = new Notification('New Notification', {
+        body: data,
+        icon: '/logo-get'
+      });
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('cfb1ab398ed7babd3469', {
+      cluster: 'eu'
+    });
+    var channel = pusher.subscribe('my-channel');
+
+    if (Notification.permission === 'granted') {
+      channel.bind('my-event', function (data) {
+        _this.showNotification(JSON.stringify(data));
+      });
+    }
+
+    if (Notification.permission === 'default') {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === 'granted') {
+          channel.bind('my-event', function (data) {
+            _this.showNotification(JSON.stringify(data));
+          });
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -21391,7 +21423,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", {
       key: i,
       onClick: function onClick($event) {
-        return $options.changeMonth(month);
+        return $options.changeMonth(month, i);
       },
       "class": $options.markCurrentMonth(i)
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(month), 11
@@ -25353,7 +25385,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8
       /* PROPS */
       , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
-        "class": ["ml-4", {
+        "class": ["w-full flex items-center justify-center py-3", {
           'opacity-25': $data.form.processing
         }],
         disabled: $data.form.processing
@@ -25460,7 +25492,7 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" and ");
 
 var _hoisted_10 = {
-  "class": "flex items-center justify-end mt-4"
+  "class": "mt-4"
 };
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Already registered? ");
@@ -25593,7 +25625,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8
       /* PROPS */
       , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
-        "class": ["ml-4", {
+        "class": ["w-full flex items-center justify-center mt-2 py-3", {
           'opacity-25': $data.form.processing
         }],
         disabled: $data.form.processing
@@ -31078,7 +31110,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\r\n/* width */\n.eventHeight::-webkit-scrollbar {\r\n    width: 6px;\n}\r\n\r\n/* Track */\n.eventHeight::-webkit-scrollbar-track {\r\n    background: #f1f1f1;\n}\r\n\r\n/* Handle */\n.eventHeight::-webkit-scrollbar-thumb {\r\n    background: #34D399;\r\n    border-radius: 25px;\n}\r\n\r\n/* Handle on hover */\n.eventHeight::-webkit-scrollbar-thumb:hover {\r\n    background: #555;\n}\n.eventHeight {\r\n    height: 385px;\r\n    max-height: 385px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* width */\n.eventHeight::-webkit-scrollbar {\n    width: 6px;\n}\n\n/* Track */\n.eventHeight::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n\n/* Handle */\n.eventHeight::-webkit-scrollbar-thumb {\n    background: #34D399;\n    border-radius: 25px;\n}\n\n/* Handle on hover */\n.eventHeight::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.eventHeight {\n    height: 385px;\n    max-height: 385px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31102,7 +31134,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\r\n/* width */\n.height::-webkit-scrollbar {\r\n    width: 6px;\n}\r\n\r\n/* Track */\n.height::-webkit-scrollbar-track {\r\n    background: #f1f1f1;\n}\r\n\r\n/* Handle */\n.height::-webkit-scrollbar-thumb {\r\n    background: #3B82F6;\r\n    border-radius: 25px;\n}\r\n\r\n/* Handle on hover */\n.height::-webkit-scrollbar-thumb:hover {\r\n    background: #555;\n}\n.height {\r\n    height: 385px;\r\n    max-height: 385px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* width */\n.height::-webkit-scrollbar {\n    width: 6px;\n}\n\n/* Track */\n.height::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n\n/* Handle */\n.height::-webkit-scrollbar-thumb {\n    background: #3B82F6;\n    border-radius: 25px;\n}\n\n/* Handle on hover */\n.height::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.height {\n    height: 385px;\n    max-height: 385px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31126,7 +31158,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dashboard-wrapper {\r\n    width: 100%;\r\n    height: 100%;\r\n    min-height: 100vh;\r\n    display: grid;\r\n    grid-template-columns: 1fr 1fr 1fr 1fr;\n}\n.left-side {\r\n    grid-column: 1 / 4;\r\n    height: 100%;\r\n    width: 100%;\n}\n.right-side {\r\n    grid-column: 4 / 5;\r\n    height: 100%;\r\n    width: 25%;\r\n    right: 0;\n}\n.header {\r\n    width: 100%;\r\n    height: 4rem;\n}\n.myAvatar {\r\n    width: 30px;\r\n    height: 30px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dashboard-wrapper {\n    width: 100%;\n    height: 100%;\n    min-height: 100vh;\n    display: grid;\n    grid-template-columns: 1fr 1fr 1fr 1fr;\n}\n.left-side {\n    grid-column: 1 / 4;\n    height: 100%;\n    width: 100%;\n}\n.right-side {\n    grid-column: 4 / 5;\n    height: 100%;\n    width: 25%;\n    right: 0;\n}\n.header {\n    width: 100%;\n    height: 4rem;\n}\n.myAvatar {\n    width: 30px;\n    height: 30px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

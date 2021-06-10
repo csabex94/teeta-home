@@ -41,7 +41,7 @@
                                         <span
                                             v-for="(month, i) in months"
                                             :key="i"
-                                            @click="changeMonth(month)"
+                                            @click="changeMonth(month, i)"
                                             :class="markCurrentMonth(i)"
                                         >
                                             {{ month }}
@@ -170,7 +170,8 @@
                 }
                 return "text-center text-gray-300"
             },
-            changeMonth(month) {
+            changeMonth(month, i) {
+                this.selectedMonthIndex = i;
                 this.selectedMonth = month;
                 let calendar = [];
                 const today = moment(`${this.currentYear}, ${month}`);
@@ -212,14 +213,28 @@
                 this.selectedMonth = moment().format("MMMM");
             },
             incrementMonth() {
-                this.selectedMonthIndex++;
-                this.selectedMonth = this.months[this.selectedMonthIndex];
-                this.changeMonth(this.selectedMonth);
+                if (this.selectedMonthIndex + 1 <= 11) {
+                    this.selectedMonthIndex++;
+                    this.selectedMonth = this.months[this.selectedMonthIndex];
+                    this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
+                } else {
+                    this.currentYear++;
+                    this.selectedMonthIndex = 0;
+                    this.selectedMonth = this.months[this.selectedMonthIndex];
+                    this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
+                }
             },
             decrementMonth() {
-                this.selectedMonthIndex--;
-                this.selectedMonth = this.months[this.selectedMonthIndex];
-                this.changeMonth(this.selectedMonth);
+                if (this.selectedMonthIndex - 1 >= 0) {
+                    this.selectedMonthIndex--;
+                    this.selectedMonth = this.months[this.selectedMonthIndex];
+                    this.changeMonth(this.selectedMonth);
+                } else {
+                    this.currentYear--;
+                    this.selectedMonthIndex = 11;
+                    this.selectedMonth = this.months[this.selectedMonthIndex];
+                    this.changeMonth(this.selectedMonth);
+                }
             },
             setCalendar() {
                 this.currentYear = moment().year();
@@ -240,6 +255,7 @@
                 this.selectedMonth = moment().format("MMMM");
                 this.selectedDate = moment().date();
                 this.selectedDateMonth = null;
+                this.selectedMonthIndex = moment().month();
                 let todayTasks = this.allTasks.filter(task => {
                     if (task.spec_date) {
                         if(moment().format('YYYY-MM-DD') === moment(task.spec_date).format('YYYY-MM-DD')) {
