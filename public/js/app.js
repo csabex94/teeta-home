@@ -16919,12 +16919,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.selectedMonthIndex - 1 >= 0) {
         this.selectedMonthIndex--;
         this.selectedMonth = this.months[this.selectedMonthIndex];
-        this.changeMonth(this.selectedMonth);
+        this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
       } else {
         this.currentYear--;
         this.selectedMonthIndex = 11;
         this.selectedMonth = this.months[this.selectedMonthIndex];
-        this.changeMonth(this.selectedMonth);
+        this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
       }
     },
     setCalendar: function setCalendar() {
@@ -18355,10 +18355,17 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.post(route('logout'));
     },
     showNotification: function showNotification(data) {
-      var notification = new Notification('New Notification', {
-        body: data,
-        icon: '/logo-get'
+      var notification = new Notification(data.title, {
+        body: data.description,
+        icon: '/logo-get',
+        requireInteraction: true,
+        renotify: false
       });
+
+      notification.onclick = function (e) {
+        e.preventDefault();
+        window.open('http://localhost:8000');
+      };
     }
   },
   mounted: function mounted() {
@@ -18372,7 +18379,7 @@ __webpack_require__.r(__webpack_exports__);
 
     if (Notification.permission === 'granted') {
       channel.bind('my-event', function (data) {
-        _this.showNotification(data.message);
+        _this.showNotification(data);
       });
     }
 
@@ -18380,7 +18387,7 @@ __webpack_require__.r(__webpack_exports__);
       Notification.requestPermission().then(function (permission) {
         if (permission === 'granted') {
           channel.bind('my-event', function (data) {
-            _this.showNotification(data.message);
+            _this.showNotification(data);
           });
         }
       });
@@ -20881,7 +20888,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.description = task.description;
       this.form.daily = task.daily;
       this.form.push_email = task.push_email;
-      this.form.spec_date = task.spec_date;
+      this.form.spec_date = moment__WEBPACK_IMPORTED_MODULE_10___default()(task.spec_date).format("YYYY-M-D");
       this.form.spec_time = task.spec_time;
 
       if (task.remind_before_option && task.remind_before_value) {

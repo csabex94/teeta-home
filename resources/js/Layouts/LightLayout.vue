@@ -47,10 +47,16 @@ export default {
             this.$inertia.post(route('logout'));
         },
         showNotification(data) {
-            const notification = new Notification('New Notification', {
-                body: data,
-                icon: '/logo-get'
+            const notification = new Notification(data.title, {
+                body: data.description,
+                icon: '/logo-get',
+                requireInteraction: true,
+                renotify: false
             });
+            notification.onclick = function(e){
+                e.preventDefault();
+                window.open('http://localhost:8000');
+            }
         }
     },
     mounted() {
@@ -61,14 +67,14 @@ export default {
         const channel = pusher.subscribe('my-channel');
         if (Notification.permission === 'granted') {
             channel.bind('my-event', (data) => {
-                this.showNotification(data.message)
+                this.showNotification(data)
             });
         }
         if (Notification.permission === 'default') {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     channel.bind('my-event', (data) => {
-                        this.showNotification(data.message)
+                        this.showNotification(data)
                     });
                 }
             });

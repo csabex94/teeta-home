@@ -148,6 +148,7 @@ class TaskRepository implements TaskRepositoryInterface {
                 $task->spec_date = $request->spec_date;
             } else {
                 $task->spec_date = NULL;
+                $task->daily = 1;
             }
         }
 

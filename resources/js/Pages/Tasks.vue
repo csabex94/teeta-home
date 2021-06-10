@@ -371,7 +371,7 @@ export default {
             this.form.description = task.description;
             this.form.daily = task.daily;
             this.form.push_email = task.push_email;
-            this.form.spec_date = task.spec_date;
+            this.form.spec_date = moment(task.spec_date).format("YYYY-M-D");
             this.form.spec_time = task.spec_time;
             if (task.remind_before_option && task.remind_before_value) {
                 this.form.remind_before_value = task.remind_before_value;

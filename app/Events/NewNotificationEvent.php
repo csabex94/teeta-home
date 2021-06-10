@@ -11,11 +11,11 @@ class NewNotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public String $message;
+    public $data;
 
-    public function __construct($message)
+    public function __construct($data)
     {
-        $this->message = $message;
+        $this->message = $data;
     }
 
     public function broadcastOn()
