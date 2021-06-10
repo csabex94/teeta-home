@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\SendNotification;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +13,7 @@ class Kernel extends ConsoleKernel {
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\ResetDailyTasks::class
+        SendNotification::class,
     ];
 
     /**
@@ -22,10 +23,11 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule) {
-        $schedule->command('command:reset-daily-tasks')->daily();
-        $schedule->command('command:delete-old-events')->daily();
-        $schedule->command('command:delete-old-tasks')->daily();
-        $schedule->command('command:check-tasks')->daily()->at('14:00');
+//        $schedule->command('command:reset-daily-tasks')->daily();
+//        $schedule->command('command:delete-old-events')->daily();
+//        $schedule->command('command:delete-old-tasks')->daily();
+//        $schedule->command('command:check-tasks')->daily()->at('14:00');
+        $schedule->command('send:notification')->everyMinute();
     }
 
     /**

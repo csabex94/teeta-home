@@ -18372,7 +18372,7 @@ __webpack_require__.r(__webpack_exports__);
 
     if (Notification.permission === 'granted') {
       channel.bind('my-event', function (data) {
-        _this.showNotification(JSON.stringify(data));
+        _this.showNotification(data.message);
       });
     }
 
@@ -18380,7 +18380,7 @@ __webpack_require__.r(__webpack_exports__);
       Notification.requestPermission().then(function (permission) {
         if (permission === 'granted') {
           channel.bind('my-event', function (data) {
-            _this.showNotification(JSON.stringify(data));
+            _this.showNotification(data.message);
           });
         }
       });
