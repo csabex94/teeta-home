@@ -26,7 +26,6 @@ import JetSidebar from '@/Jetstream/Sidebar';
 import JetHeader from '@/Jetstream/Header';
 import FlashMessages from '@/Components/FlashMessages';
 
-
 export default {
     components: {
         JetDropdown,

@@ -23,11 +23,18 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule) {
+<<<<<<< HEAD
 //        $schedule->command('command:reset-daily-tasks')->daily();
 //        $schedule->command('command:delete-old-events')->daily();
 //        $schedule->command('command:delete-old-tasks')->daily();
 //        $schedule->command('command:check-tasks')->daily()->at('14:00');
         $schedule->command('send:notification')->everyMinute();
+=======
+        $schedule->command('command:reset-daily-tasks')->daily();
+        $schedule->command('command:delete-old-events')->daily();
+        $schedule->command('command:delete-old-tasks')->daily();
+        $schedule->command('command:check-tasks')->daily()->at('17:00');
+>>>>>>> 78539953b84ee23e947f1ca5f84338d13e7130ef
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Event;
-use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use App\Repositories\Event\EventRepositoryInterface;
