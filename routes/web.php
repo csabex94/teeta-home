@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\PersonalStuffController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +55,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::put('/personal/update', [PersonalStuffController::class, 'update'])->name('personal.update');
     Route::delete('/personal/delete', [PersonalStuffController::class, 'delete'])->name('personal.delete');
 
+    //Friends
+
+    Route::get('/friends', [FriendsController::class, 'index'])->name('friends.show');
+    Route::get('/friends/create', [FriendsController::class, 'create'])->name('friends.create');
+    Route::post('/friends/store', [FriendsController::class, 'store'])->name('friends.store');
+    Route::put('/friends/update', [FriendsController::class, 'update'])->name('friends.update');
+    Route::delete('/friends/delete', [FriendsController::class, 'delete'])->name('friends.delete');
     //Notifications
 
     Route::get('/notifications', [UserNotificationsController::class, 'show'])->name('notifications.show');
@@ -93,6 +102,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::get('/email/verify', function () {
             return view('auth.verify-email');
         })->name('verification.notice');
+
+        Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+            $request->fulfill();
+        
+            return redirect('/home');
+        })->middleware(['auth', 'signed'])->name('verification.verify');
+
+        Route::post('/email/verification-notification', function (Request $request) {
+            $request->user()->sendEmailVerificationNotification();
+        
+            return back()->with('success', 'Verification link sent!');
+        })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
     /*
     Route::get('/email/verify', function () {

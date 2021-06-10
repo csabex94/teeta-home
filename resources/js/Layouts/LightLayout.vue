@@ -26,19 +26,6 @@ import JetSidebar from '@/Jetstream/Sidebar';
 import JetHeader from '@/Jetstream/Header';
 import FlashMessages from '@/Components/FlashMessages';
 
-Pusher.logToConsole = true;
-
-var pusher = new Pusher('2b171450eff5f8bd267e', {
-    cluster: 'eu'
-});
-
-var channel = pusher.subscribe('my-channel');
-channel.bind('my-event', function(data) {
-    //app.messages.push(JSON.stringify(data));
-    console.log(JSON.stringify(data));
-});
-
-
 export default {
     components: {
         JetDropdown,
@@ -75,6 +62,19 @@ export default {
             this.$inertia.post(route('logout'));
         },
 
+    },
+    mounted() {
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('2b171450eff5f8bd267e', {
+            cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            //app.messages.push(JSON.stringify(data));
+            console.log(JSON.stringify(data));
+        });
     }
 }
 </script>
