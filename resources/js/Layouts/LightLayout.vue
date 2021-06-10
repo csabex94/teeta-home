@@ -26,18 +26,6 @@ import JetSidebar from '@/Jetstream/Sidebar';
 import JetHeader from '@/Jetstream/Header';
 import FlashMessages from '@/Components/FlashMessages';
 
-Pusher.logToConsole = true;
-
-var pusher = new Pusher('2b171450eff5f8bd267e', {
-    cluster: 'eu'
-});
-
-var channel = pusher.subscribe('my-channel');
-channel.bind('my-event', function(data) {
-    //app.messages.push(JSON.stringify(data));
-    console.log(JSON.stringify(data));
-});
-
 
 export default {
     components: {
@@ -47,21 +35,6 @@ export default {
         JetSidebar,
         JetHeader,
         FlashMessages
-    },
-    created() {
-        /*let channel = Echo.channel('my-channel');
-        channel.listen('.my-event', function(data) {
-            alert(data);
-        });
-        window.Echo.channel('App.Models.User.${this.$page.props.user.id}').notification((notification => {
-            console.log(notification);
-            switch(notification.type) {
-                case 'App\\Notifications\\TaskList':
-                    this.$page.props.unreadNotificationsCount++;
-                    break;
-                
-            }
-        }));*/
     },
     methods: {
         returnProfilePhoto() {
@@ -74,9 +47,35 @@ export default {
         logout() {
             this.$inertia.post(route('logout'));
         },
-
+        showNotification(data) {
+            const notification = new Notification('New Notification', {
+                body: data,
+                icon: '/logo-get'
+            });
+        }
+    },
+    mounted() {
+        Pusher.logToConsole = true;
+        const pusher = new Pusher('cfb1ab398ed7babd3469', {
+            cluster: 'eu'
+        });
+        const channel = pusher.subscribe('my-channel');
+        if (Notification.permission === 'granted') {
+            channel.bind('my-event', (data) => {
+                this.showNotification(JSON.stringify(data))
+            });
+        }
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    channel.bind('my-event', (data) => {
+                        this.showNotification(JSON.stringify(data))
+                    });
+                }
+            });
+        }
     }
 }
 </script>
 
-    
+

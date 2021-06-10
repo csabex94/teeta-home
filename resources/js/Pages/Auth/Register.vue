@@ -57,12 +57,15 @@
                 </jet-label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="mt-4">
                 <inertia-link :href="route('login')" class="text-sm text-gray-800 underline hover:text-gray-600">
                     Already registered?
                 </inertia-link>
 
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button
+                    class="w-full flex items-center justify-center mt-2 py-3"
+                    :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                >
                     Register
                 </jet-button>
             </div>
