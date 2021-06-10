@@ -17,26 +17,19 @@ class FriendsController extends Controller {
     }
     
     public function index(Request $request) {
-        $user = auth()->user()->id;
-        if (!$request->username) {
-            $friends = User::whereHas('friends', function($query) use ($user) {
-                $query->where('user_id', '=', $user);
-                })->get();
+        if (!$request->search) {
+            $friends = auth()->user()->friends;
         } else {
-            
+            $friends = $this->user->where('username', 'LIKE', "%$request->search%")->orWhere('name', 'LIKE', "%$request->search%")->get();
         }
-        dd($friends);
+        
         return Inertia::render('Friends/Show', [
             'friends' => $friends
         ]);
     }
 
-    public function create() {
-        //
-    }
-
-    public function store(Request $request) {
-        //
+    public function sendFriendRequest(int $id) {
+        return $this->friend->sendFriendRequest($id);
     }
 
     public function show($id) {
@@ -52,6 +45,6 @@ class FriendsController extends Controller {
     }
 
     public function destroy($id) {
-        //
+        $this->friend->deleteFriendRequest($id);
     }
 }

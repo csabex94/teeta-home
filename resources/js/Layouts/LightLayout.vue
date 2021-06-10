@@ -55,7 +55,7 @@ export default {
     },
     mounted() {
         Pusher.logToConsole = true;
-        const pusher = new Pusher('cfb1ab398ed7babd3469', {
+        const pusher = new Pusher('2b171450eff5f8bd267e', {
             cluster: 'eu'
         });
         const channel = pusher.subscribe('my-channel');

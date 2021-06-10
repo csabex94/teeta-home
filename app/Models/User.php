@@ -71,6 +71,10 @@ class User extends Authenticatable //implements MustVerifyEmail
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')->wherePivot('accepted', '=', 1);
     }
 
+    public function colaborations() {
+        return $this->hasMany(Collaboration::class, 'collaborations', 'user_id');
+    }
+
     //public function notifications() {
         //return $this->hasMany(\App\Models\Notification::class);
     //}
@@ -78,6 +82,12 @@ class User extends Authenticatable //implements MustVerifyEmail
     public function friendsOfMine() {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
             ->wherePivot('accepted', '=', 1) // to filter only accepted
+            ->withPivot('accepted'); // or to fetch accepted value
+    }
+
+    public function pendingFriendsOfMine() {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+            ->wherePivot('accepted', '=', 0) // to filter only accepted
             ->withPivot('accepted'); // or to fetch accepted value
     }
 
@@ -104,7 +114,7 @@ class User extends Authenticatable //implements MustVerifyEmail
     }
 
     protected function mergeFriends() {
-        return $this->friendsOfMine->merge($this->friendOf);
+        return $this->friendsOfMine->merge($this->friendOf)->merge($this->pendingFriendsOfMine);
     }
     /*
     // access all friends

@@ -4,7 +4,7 @@
 You are receiving this email because we received a signup request for your mail account.
 Please confirm your email by clicking the following link:
 
-@component('mail::button', ['url' => 'website.com'])
+@component('mail::button', ['url' => {{ $url }}])
 Confirm Email
 @endcomponent
 
