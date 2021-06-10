@@ -61,14 +61,14 @@ export default {
         const channel = pusher.subscribe('my-channel');
         if (Notification.permission === 'granted') {
             channel.bind('my-event', (data) => {
-                this.showNotification(JSON.stringify(data))
+                this.showNotification(data.message)
             });
         }
         if (Notification.permission === 'default') {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     channel.bind('my-event', (data) => {
-                        this.showNotification(JSON.stringify(data))
+                        this.showNotification(data.message)
                     });
                 }
             });

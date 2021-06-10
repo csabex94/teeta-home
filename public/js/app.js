@@ -18372,7 +18372,7 @@ __webpack_require__.r(__webpack_exports__);
 
     if (Notification.permission === 'granted') {
       channel.bind('my-event', function (data) {
-        _this.showNotification(JSON.stringify(data));
+        _this.showNotification(data.message);
       });
     }
 
@@ -18380,22 +18380,11 @@ __webpack_require__.r(__webpack_exports__);
       Notification.requestPermission().then(function (permission) {
         if (permission === 'granted') {
           channel.bind('my-event', function (data) {
-            _this.showNotification(JSON.stringify(data));
+            _this.showNotification(data.message);
           });
         }
       });
     }
-  },
-  mounted: function mounted() {
-    Pusher.logToConsole = true;
-    var pusher = new Pusher('2b171450eff5f8bd267e', {
-      cluster: 'eu'
-    });
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function (data) {
-      //app.messages.push(JSON.stringify(data));
-      console.log(JSON.stringify(data));
-    });
   }
 });
 
@@ -27857,7 +27846,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           key: friend.id,
           "class": "flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-2 my-2"
-        }, [friend.accepted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_12)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_13)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(friend.username), 1
+        }, [friend.accepted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_12)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_13)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, "@" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(friend.username), 1
         /* TEXT */
         ), _hoisted_15]);
       }), 128
@@ -31110,7 +31099,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* width */\n.eventHeight::-webkit-scrollbar {\n    width: 6px;\n}\n\n/* Track */\n.eventHeight::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n\n/* Handle */\n.eventHeight::-webkit-scrollbar-thumb {\n    background: #34D399;\n    border-radius: 25px;\n}\n\n/* Handle on hover */\n.eventHeight::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.eventHeight {\n    height: 385px;\n    max-height: 385px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n/* width */\n.eventHeight::-webkit-scrollbar {\r\n    width: 6px;\n}\r\n\r\n/* Track */\n.eventHeight::-webkit-scrollbar-track {\r\n    background: #f1f1f1;\n}\r\n\r\n/* Handle */\n.eventHeight::-webkit-scrollbar-thumb {\r\n    background: #34D399;\r\n    border-radius: 25px;\n}\r\n\r\n/* Handle on hover */\n.eventHeight::-webkit-scrollbar-thumb:hover {\r\n    background: #555;\n}\n.eventHeight {\r\n    height: 385px;\r\n    max-height: 385px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31134,7 +31123,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* width */\n.height::-webkit-scrollbar {\n    width: 6px;\n}\n\n/* Track */\n.height::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n\n/* Handle */\n.height::-webkit-scrollbar-thumb {\n    background: #3B82F6;\n    border-radius: 25px;\n}\n\n/* Handle on hover */\n.height::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.height {\n    height: 385px;\n    max-height: 385px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n/* width */\n.height::-webkit-scrollbar {\r\n    width: 6px;\n}\r\n\r\n/* Track */\n.height::-webkit-scrollbar-track {\r\n    background: #f1f1f1;\n}\r\n\r\n/* Handle */\n.height::-webkit-scrollbar-thumb {\r\n    background: #3B82F6;\r\n    border-radius: 25px;\n}\r\n\r\n/* Handle on hover */\n.height::-webkit-scrollbar-thumb:hover {\r\n    background: #555;\n}\n.height {\r\n    height: 385px;\r\n    max-height: 385px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31158,7 +31147,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dashboard-wrapper {\n    width: 100%;\n    height: 100%;\n    min-height: 100vh;\n    display: grid;\n    grid-template-columns: 1fr 1fr 1fr 1fr;\n}\n.left-side {\n    grid-column: 1 / 4;\n    height: 100%;\n    width: 100%;\n}\n.right-side {\n    grid-column: 4 / 5;\n    height: 100%;\n    width: 25%;\n    right: 0;\n}\n.header {\n    width: 100%;\n    height: 4rem;\n}\n.myAvatar {\n    width: 30px;\n    height: 30px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dashboard-wrapper {\r\n    width: 100%;\r\n    height: 100%;\r\n    min-height: 100vh;\r\n    display: grid;\r\n    grid-template-columns: 1fr 1fr 1fr 1fr;\n}\n.left-side {\r\n    grid-column: 1 / 4;\r\n    height: 100%;\r\n    width: 100%;\n}\n.right-side {\r\n    grid-column: 4 / 5;\r\n    height: 100%;\r\n    width: 25%;\r\n    right: 0;\n}\n.header {\r\n    width: 100%;\r\n    height: 4rem;\n}\n.myAvatar {\r\n    width: 30px;\r\n    height: 30px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
