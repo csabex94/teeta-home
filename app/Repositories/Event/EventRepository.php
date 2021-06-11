@@ -83,7 +83,8 @@ class EventRepository implements EventRepositoryInterface {
             'description' => 'required|string',
             'daily' => 'required|boolean',
             'push_email' => 'required|boolean',
-            'important' => 'required|boolean'
+            'important' => 'required|boolean',
+            'keep_in_list' => 'required|boolean'
         ]);
 
         if ($validData) {
@@ -92,6 +93,7 @@ class EventRepository implements EventRepositoryInterface {
             $this->event->daily = $validData['daily'];
             $this->event->push_email = $validData['push_email'];
             $this->event->important = $validData['important'];
+            $this->event->keep_in_list = $validData['keep_in_list'];
             $this->event->user_id = auth()->user()->id;
         }
 
@@ -122,7 +124,8 @@ class EventRepository implements EventRepositoryInterface {
             'description' => 'required|string',
             'daily' => 'required|boolean',
             'push_email' => 'required|boolean',
-            'important' => 'required|boolean'
+            'important' => 'required|boolean',
+            'keep_in_list' => 'required|boolean'
         ]);
         $event = $this->event->where('id', $request->eventId)->first();
 
@@ -130,6 +133,7 @@ class EventRepository implements EventRepositoryInterface {
         $event->description = $validData['description'];
         $event->push_email = $validData['push_email'];
         $event->important = $validData['important'];
+        $event->keep_in_list = $validData['keep_in_list'];
 
         if ($validData['daily'] == true || $validData['daily'] == 1) {
             $event->remind_before_option = NULL;

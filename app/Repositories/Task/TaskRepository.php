@@ -84,7 +84,8 @@ class TaskRepository implements TaskRepositoryInterface {
             'title' => 'required|string',
             'description' => 'required|string',
             'daily' => 'required|boolean',
-            'push_email' => 'required|boolean'
+            'push_email' => 'required|boolean',
+            'keep_in_list' => 'required|boolean'
         ]);
 
         if ($validData) {
@@ -92,7 +93,9 @@ class TaskRepository implements TaskRepositoryInterface {
              $this->task->description = $validData['description'];
              $this->task->daily = $validData['daily'];
              $this->task->push_email = $validData['push_email'];
+             $this->task->keep_in_list = $validData['keep_in_list'];
              $this->task->user_id = auth()->user()->id;
+             
         }
 
         if ($request->spec_date) {
@@ -114,13 +117,14 @@ class TaskRepository implements TaskRepositoryInterface {
         $this->task->save();
     }
 
-    public function update($request) {
+    public function update($request) { 
         $validData = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
             'daily' => 'required|boolean',
             'push_email' => 'required|boolean',
             'important' => 'required|boolean',
+            'keep_in_list' => 'required|boolean'
         ]);
         $task = $this->task->where('id', $request->taskId)->first();
 
@@ -128,6 +132,7 @@ class TaskRepository implements TaskRepositoryInterface {
         $task->description = $validData['description'];
         $task->push_email = $validData['push_email'];
         $task->important = $validData['important'];
+        $task->keep_in_list = $validData['keep_in_list'];
         $task->spec_time = $request->spec_time;
 
         if ($validData['daily'] == true || $validData['daily'] == 1) {
