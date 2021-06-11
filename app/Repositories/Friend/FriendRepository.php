@@ -21,6 +21,14 @@ class FriendRepository implements FriendRepositoryInterface {
         return auth()->user()->friends;
     }
 
+    public function searchFriends($search) {
+        //return $this->friend->where('user_id', auth()->user()->id)->with('friend')->get();
+    }
+
+    public function isFriend($user, $friend) {
+        return ($this->friend->where('user_id', $user)->where('friend_id', $friend)->first()) ? true : false;
+    }
+
     public function sendFriendRequest($id) {
         $user = $this->user->find($id)->first(); //get friend id
 

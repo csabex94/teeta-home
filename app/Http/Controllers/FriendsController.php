@@ -17,14 +17,19 @@ class FriendsController extends Controller {
     }
     
     public function index(Request $request) {
-        if (!$request->search) {
-            $friends = auth()->user()->friends;
-        } else {
-            $friends = $this->user->where('username', 'LIKE', "%$request->search%")->orWhere('name', 'LIKE', "%$request->search%")->get();
-        }
+        $friends = auth()->user()->friends;
         
+        $users = $this->user->where('id', '<>', auth()->user()->id)->get();
+        $notFriends = [];
+
+        foreach ($users as $user) {
+            if(!$this->friend->isFriend(auth()->user()->id, $user->id)) {
+                $notFriends[] = $user;
+            }
+        }
         return Inertia::render('Friends/Show', [
-            'friends' => $friends
+            'friends' => $friends,
+            'users' => $notFriends
         ]);
     }
 

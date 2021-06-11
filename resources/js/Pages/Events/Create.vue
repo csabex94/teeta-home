@@ -190,7 +190,8 @@ export default {
                 remind_before_value: "",
                 remind_before_option: "Remind me before",
                 spec_time: "",
-                important: false
+                important: false,
+                keep_in_list: false
             }),
             showRemindOptions: false,
             flatPickrConfig: {

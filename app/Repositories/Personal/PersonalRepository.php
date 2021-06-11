@@ -29,7 +29,8 @@ class PersonalRepository implements PersonalRepositoryInterface {
             'title' => 'required|string',
             'description' => 'required|string',
             'daily' => 'required|boolean',
-            'push_email' => 'required|boolean'
+            'push_email' => 'required|boolean',
+            'keep_in_list' => 'required|boolean'
         ]);
 
         if ($validData) {

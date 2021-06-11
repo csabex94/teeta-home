@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\SendNotification;
+use App\Console\Commands\SendEventsForToday;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel {
      */
     protected $commands = [
         SendNotification::class,
+        SendEventsForToday::class
     ];
 
     /**
@@ -28,6 +30,7 @@ class Kernel extends ConsoleKernel {
 //        $schedule->command('command:delete-old-tasks')->daily();
 //        $schedule->command('command:check-tasks')->daily()->at('14:00');
         $schedule->command('send:notification')->everyMinute();
+        $schedule->command('send:events-for-today')->everyThreeHours();
     }
 
     /**

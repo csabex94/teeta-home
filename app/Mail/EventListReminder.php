@@ -24,7 +24,7 @@ class EventListReminder extends Mailable {
     public function build() {
         return $this->from('noreply@teeta.com')
             ->to($this->user->email)
-            ->subject('Teeta Reminder - TaskList for ' . $this->getLastName($this->user->name) . Carbon::now()->toFormattedDateString())
+            ->subject('Teeta Reminder - TaskList for ' . $this->getLastName($this->user->name) . " " . Carbon::now()->toFormattedDateString())
             ->markdown('mails.upcoming-events')
             ->with([
                 'name' => $this->getLastName($this->user->name),

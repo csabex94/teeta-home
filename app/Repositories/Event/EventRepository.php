@@ -84,7 +84,7 @@ class EventRepository implements EventRepositoryInterface {
             'daily' => 'required|boolean',
             'push_email' => 'required|boolean',
             'important' => 'required|boolean',
-            'keep_in_list' => 'required|boolean'
+            'keep_in_list' => 'boolean'
         ]);
 
         if ($validData) {
@@ -125,7 +125,7 @@ class EventRepository implements EventRepositoryInterface {
             'daily' => 'required|boolean',
             'push_email' => 'required|boolean',
             'important' => 'required|boolean',
-            'keep_in_list' => 'required|boolean'
+            'keep_in_list' => 'boolean'
         ]);
         $event = $this->event->where('id', $request->eventId)->first();
 

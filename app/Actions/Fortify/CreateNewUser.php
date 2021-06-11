@@ -31,15 +31,13 @@ class CreateNewUser implements CreatesNewUsers {
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'username' => $this->setUsername($input['name'])
+            'username' => $this->check(str_replace(' ', '.', strtolower($input['name'])))
         ]);
-
-        //event(new Registered($user));
 
         return $user;
     }
 
-    public function setUsername($name) {
-        substr(str_replace(' ','',strtolower($name)), 0, 5);
+    public function check($name) {
+        return (User::where('name', $name)->first()) ? $name . rand(1, 10) : $name;
     }
 }

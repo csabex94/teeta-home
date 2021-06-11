@@ -10,29 +10,10 @@
                 <div class="flex items-left p-4 px-3 py-10">
                     <div class="w-full max-w-md mx-2">
                         <div class="bg-white shadow-md rounded-lg px-3 py-2 mb-4">
-                            <div class="block text-gray-700 text-lg font-semibold py-2 px-2">
+                            <div class="block text-gray-700 text-lg font-semibold mt-2 py-2 px-2">
                                 Friend List
                             </div>
-
-                            <div class="flex items-center mb-5">
-                                <div class="w-full relative flex items-center">
-                                    <jet-input @keydown="handleKeyDown" v-model="searchQuery" type="text" autocomplete="off" name="search" placeholder="Search users" class="w-full" />
-                                    <svg
-                                        @click="clearSearchInput"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-5 w-5 cursor-pointer absolute text-gray-500 right-10 bottom-3"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path
-                                            fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <svg @click="searchForFriend" xmlns="http://www.w3.org/2000/svg" class="h-5 cursor-pointer bottom-3 absolute right-2 text-gray-500 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                </div>
-                            </div>
-
+                                
                             <div class="py-3 text-sm">
                                 
                                 <div @click="activate(friend.id); openFriendsActionBar()" v-for="(friend, index) in friends" :index="index" :key="friend.id" :class="{ activeFriend: active_el == friend.id }" class="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-2 my-2">
@@ -112,6 +93,7 @@ import JetDangerButton from '@/Jetstream/DangerButton';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton';
 import JetButton from '@/Jetstream/Button';
 import JetLabel from '@/Jetstream/Label';
+import Multiselect from '@vueform/multiselect';
 import _ from 'lodash';
 
 export default {
@@ -121,7 +103,8 @@ export default {
         JetDangerButton,
         JetSecondaryButton,
         JetButton,
-        JetLabel
+        JetLabel,
+        Multiselect
     },
     data() {
       return {
@@ -129,22 +112,26 @@ export default {
           selectedUser: "",
           showFriendsActions: false,
           activeFriend: false,
-          active_el:-1
+          active_el: -1,
+          friend_id: ""
       }
     },
     props: {
-        friends: Array
+        friends: Array,
+        users: Array
     },
     methods: {
-        searchForFriend: _.debounce(function() {
+        /*searchForFriend: _.debounce(function() {
             this.$inertia.visit(route('friends.show', { search: this.searchQuery }), {
                 _method: 'GET',
                 preserveState: true,
                 preserveScroll: true,
                 //resetOnSuccess: false,
-                onSuccess: (value) => {}
+                onSuccess: (value) => {
+                    console.log(value);
+                }
             })
-        }, 400),
+        }, 400),*/
         handleKeyDown(event) {
             if (event.key === 'Enter') {
                 this.searchForFriend();
@@ -183,9 +170,7 @@ export default {
         }
     },
     watch: {
-        searchQuery(value) {
-            this.searchForFriend();
-        }
+        
     },
 }
 </script>

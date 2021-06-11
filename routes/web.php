@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,9 +130,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
    */
 
 });
-//Route::get('/email/verify', function () {
-    //return view('auth.verify-email');
-//})->name('verification.notice');
+Route::get('/email/verify', function () {
+    return Inertia::render('Auth/VerifyEmail');
+})->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();

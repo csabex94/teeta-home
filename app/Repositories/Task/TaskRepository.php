@@ -85,8 +85,13 @@ class TaskRepository implements TaskRepositoryInterface {
             'description' => 'required|string',
             'daily' => 'required|boolean',
             'push_email' => 'required|boolean',
-            'keep_in_list' => 'required|boolean'
+            'keep_in_list' => 'boolean'
         ]);
+
+        if($validData->fails()) {
+            dd(1);
+            return redirect()->back()->withErrors($validData)->withInput();
+        }
 
         if ($validData) {
              $this->task->title = $validData['title'];

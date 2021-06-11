@@ -1,6 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import '../../node_modules/@vueform/multiselect/themes/default.css';
 
 input:-webkit-autofill,
 textarea:-webkit-autofill,

@@ -1,3 +1,6 @@
+@component('mail::header', ['url' => public_path() . '/images/logo.png'])
+
+@endcomponent
 @component('mail::message')
 
 # Dear {{$name}},
