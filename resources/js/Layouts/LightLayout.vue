@@ -47,28 +47,32 @@ export default {
             this.$inertia.post(route('logout'));
         },
         showNotification(data) {
-            const notification = new Notification('New Notification', {
-                body: data,
-                icon: '/logo-get'
+            const notification = new Notification(data.title, {
+                body: data.description,
+                icon: '/logo-get',
             });
+            notification.onclick = function(e){
+                e.preventDefault();
+                window.open('http://localhost:8000');
+            }
         }
     },
     mounted() {
         Pusher.logToConsole = true;
-        const pusher = new Pusher('2b171450eff5f8bd267e', {
+        const pusher = new Pusher('cfb1ab398ed7babd3469', {
             cluster: 'eu'
         });
         const channel = pusher.subscribe('my-channel');
         if (Notification.permission === 'granted') {
             channel.bind('my-event', (data) => {
-                this.showNotification(data.message)
+                this.showNotification(data)
             });
         }
         if (Notification.permission === 'default') {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     channel.bind('my-event', (data) => {
-                        this.showNotification(data.message)
+                        this.showNotification(data)
                     });
                 }
             });

@@ -119,27 +119,28 @@ export default {
     },
     methods: {
         toggleCreateTaskForm() {
+            console.log(this.showCreateTaskForm);
             this.showCreateTaskForm = !this.showCreateTaskForm;
         },
         toggleCreateEventForm() {
+            console.log(this.showCreateEventForm)
             this.showCreateEventForm = !this.showCreateEventForm;
         },
         toggleCreatePersonalStuffForm() {
+            console.log(this.showCreatePersonalForm);
             this.showCreatePersonalForm = !this.showCreatePersonalForm;
         }
     },
     mounted() {
-      if (this.show) {
-          if (this.show === 'create-task') {
-              this.toggleCreateTaskForm();
-          }
-          if (this.show === 'create-event') {
-              this.toggleCreateEventForm()
-          }
-          if (this.show === 'create-stuff') {
-              this.toggleCreatePersonalStuffForm()
-          }
-      }
+        if (this.show === 'create-task') {
+            this.showCreateTaskForm = true;
+        }
+        if (this.show === 'create-event') {
+            this.showCreateEventForm = true;
+        }
+        if (this.show === 'create-stuff') {
+            this.showCreatePersonalForm = true;
+        }
     }
 }
 </script>

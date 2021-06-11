@@ -228,12 +228,12 @@
                 if (this.selectedMonthIndex - 1 >= 0) {
                     this.selectedMonthIndex--;
                     this.selectedMonth = this.months[this.selectedMonthIndex];
-                    this.changeMonth(this.selectedMonth);
+                    this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
                 } else {
                     this.currentYear--;
                     this.selectedMonthIndex = 11;
                     this.selectedMonth = this.months[this.selectedMonthIndex];
-                    this.changeMonth(this.selectedMonth);
+                    this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
                 }
             },
             setCalendar() {

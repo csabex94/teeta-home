@@ -16936,12 +16936,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.selectedMonthIndex - 1 >= 0) {
         this.selectedMonthIndex--;
         this.selectedMonth = this.months[this.selectedMonthIndex];
-        this.changeMonth(this.selectedMonth);
+        this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
       } else {
         this.currentYear--;
         this.selectedMonthIndex = 11;
         this.selectedMonth = this.months[this.selectedMonthIndex];
-        this.changeMonth(this.selectedMonth);
+        this.changeMonth(this.selectedMonth, this.selectedMonthIndex);
       }
     },
     setCalendar: function setCalendar() {
@@ -18372,24 +18372,29 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.post(route('logout'));
     },
     showNotification: function showNotification(data) {
-      var notification = new Notification('New Notification', {
-        body: data,
+      var notification = new Notification(data.title, {
+        body: data.description,
         icon: '/logo-get'
       });
+
+      notification.onclick = function (e) {
+        e.preventDefault();
+        window.open('http://localhost:8000');
+      };
     }
   },
   mounted: function mounted() {
     var _this = this;
 
     Pusher.logToConsole = true;
-    var pusher = new Pusher('2b171450eff5f8bd267e', {
+    var pusher = new Pusher('cfb1ab398ed7babd3469', {
       cluster: 'eu'
     });
     var channel = pusher.subscribe('my-channel');
 
     if (Notification.permission === 'granted') {
       channel.bind('my-event', function (data) {
-        _this.showNotification(data.message);
+        _this.showNotification(data);
       });
     }
 
@@ -18397,7 +18402,7 @@ __webpack_require__.r(__webpack_exports__);
       Notification.requestPermission().then(function (permission) {
         if (permission === 'granted') {
           channel.bind('my-event', function (data) {
-            _this.showNotification(data.message);
+            _this.showNotification(data);
           });
         }
       });
@@ -19117,28 +19122,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggleCreateTaskForm: function toggleCreateTaskForm() {
+      console.log(this.showCreateTaskForm);
       this.showCreateTaskForm = !this.showCreateTaskForm;
     },
     toggleCreateEventForm: function toggleCreateEventForm() {
+      console.log(this.showCreateEventForm);
       this.showCreateEventForm = !this.showCreateEventForm;
     },
     toggleCreatePersonalStuffForm: function toggleCreatePersonalStuffForm() {
+      console.log(this.showCreatePersonalForm);
       this.showCreatePersonalForm = !this.showCreatePersonalForm;
     }
   },
   mounted: function mounted() {
-    if (this.show) {
-      if (this.show === 'create-task') {
-        this.toggleCreateTaskForm();
-      }
+    if (this.show === 'create-task') {
+      this.showCreateTaskForm = true;
+    }
 
-      if (this.show === 'create-event') {
-        this.toggleCreateEventForm();
-      }
+    if (this.show === 'create-event') {
+      this.showCreateEventForm = true;
+    }
 
-      if (this.show === 'create-stuff') {
-        this.toggleCreatePersonalStuffForm();
-      }
+    if (this.show === 'create-stuff') {
+      this.showCreatePersonalForm = true;
     }
   }
 });
@@ -19502,6 +19508,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.form.post(route('events.store'), {
+        preserveState: true,
         onSuccess: function onSuccess() {
           _this.form.daily = false;
           _this.form.push_email = false;
@@ -20873,7 +20880,8 @@ __webpack_require__.r(__webpack_exports__);
         spec_date: "",
         spec_time: "",
         remind_before_value: "",
-        remind_before_option: "Remind me before"
+        remind_before_option: "Remind me before",
+        keep_in_list: false
       })
     };
   },
@@ -20949,8 +20957,8 @@ __webpack_require__.r(__webpack_exports__);
       this.form.important = task.important;
       this.form.description = task.description;
       this.form.daily = task.daily;
-      this.form.push_email = task.push_email;
-      this.form.spec_date = task.spec_date;
+      this.form.keep_in_list = task.keep_in_list, this.form.push_email = task.push_email;
+      this.form.spec_date = moment__WEBPACK_IMPORTED_MODULE_10___default()(task.spec_date).format("YYYY-M-D");
       this.form.spec_time = task.spec_time;
 
       if (task.remind_before_option && task.remind_before_value) {
@@ -26320,7 +26328,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "text-gray-800 mt-4"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Daily *"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", {
   "class": "mt-2"
@@ -26552,7 +26560,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8
       /* PROPS */
       , ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_checkbox, {
-        checked: "",
         modelValue: $data.form.keep_in_list,
         "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
           return $data.form.keep_in_list = $event;
@@ -27070,7 +27077,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8
       /* PROPS */
       , ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_checkbox, {
-        checked: "",
         modelValue: $data.form.keep_in_list,
         "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
           return $data.form.keep_in_list = $event;

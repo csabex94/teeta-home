@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,7 +12,7 @@ class VerifyEmail extends Mailable {
     use Queueable, SerializesModels;
 
     protected $user, $url;
-    
+
     public function __construct($user, $url) {
         $this->user = $user;
         $this->url = $url;
@@ -33,5 +34,5 @@ class VerifyEmail extends Mailable {
         $last_name = (strpos($name, ' ') === false) ? '' : preg_replace('#.*\s([\w-]*)$#', '$1', $name);
         return $last_name;
     }
-    
+
 }

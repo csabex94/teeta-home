@@ -6,11 +6,16 @@ use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\PersonalStuffController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Jenssegers\Agent\Agent;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,8 +112,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             return (new App\Mail\FriendRequest($user, auth()->user()))->render(); //params(User, task list, in the following '$string')
         });
 
-        //Verify
-        
+
 
     /*
     Route::get('/email/verify', function () {
@@ -128,8 +132,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     })->middleware(['auth', 'signed'])->name('verification.verify');
 
    */
-
 });
+
+//Verify
 Route::get('/email/verify', function () {
     return Inertia::render('Auth/VerifyEmail');
 })->name('verification.notice');
@@ -145,3 +150,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('success', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+Route::get('/sessions', [UserController::class, 'getOnlineUsers'])->name('get.onlineUsers');
+

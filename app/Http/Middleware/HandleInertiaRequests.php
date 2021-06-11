@@ -8,7 +8,7 @@ use App\Repositories\Event\EventRepositoryInterface;
 use App\Repositories\Task\TaskRepositoryInterface;
 
 class HandleInertiaRequests extends Middleware {
-    
+
     public function __construct(EventRepositoryInterface $event, TaskRepositoryInterface $task) {
         $this->event = $event;
         $this->task = $task;

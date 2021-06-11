@@ -27,5 +27,6 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind('App\Repositories\Friend\FriendRepositoryInterface', 'App\Repositories\Friend\FriendRepository');
         $this->app->bind('App\Repositories\Task\TaskRepositoryInterface', 'App\Repositories\Task\TaskRepository');
         $this->app->bind('App\Repositories\Personal\PersonalRepositoryInterface', 'App\Repositories\Personal\PersonalRepository');
+        $this->app->bind('App\Repositories\User\UserRepositoryInterface', 'App\Repositories\User\UserRepository');
     }
 }
