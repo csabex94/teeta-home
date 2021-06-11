@@ -35,7 +35,7 @@
 
                             <div class="py-3 text-sm">
                                 
-                                <div @click="activate(index); openFriendsActionBar()" v-for="(friend, index) in friends" :index="index" :key="friend.id" :class="{ activeFriend: active_el == index }" class="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-2 my-2">
+                                <div @click="activate(friend.id); openFriendsActionBar()" v-for="(friend, index) in friends" :index="index" :key="friend.id" :class="{ activeFriend: active_el == friend.id }" class="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-2 my-2">
                                     <span v-if="friend.pivot.accepted" class="bg-green-400 h-2 w-2 m-2 rounded-full"></span>
                                     <span v-else class="bg-red-400 h-2 w-2 m-2 rounded-full"></span>
                                     <div class="flex-grow font-medium px-2">@{{ friend.username }}</div>
@@ -48,8 +48,8 @@
                                 <button class="hover:text-gray-600 text-gray-500 font-bold py-2 px-4" @click="closeFriendsActionBar">
                                     Cancel
                                 </button>
-                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Invite
+                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" @click="deleteFriend(active_el)">
+                                    Remove
                                 </button>
                             </div>
                         </div>
@@ -172,8 +172,14 @@ export default {
         sendFriendRequest() {
             
         },
-        deleteFriend() {
-            
+        deleteFriend(user) {
+            this.$inertia.delete(route('friends.delete',{id: user}),{
+                preserveState: false,
+                preserveScroll: false,
+                onSuccess: () => {
+                    this.friends.reset();
+                }
+            });
         }
     },
     watch: {

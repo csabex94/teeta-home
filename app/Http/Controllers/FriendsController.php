@@ -32,19 +32,7 @@ class FriendsController extends Controller {
         return $this->friend->sendFriendRequest($id);
     }
 
-    public function show($id) {
-        //
-    }
-
-    public function edit($id) {
-        //
-    }
-
-    public function update(Request $request, $id) {
-        //
-    }
-
-    public function destroy($id) {
-        $this->friend->deleteFriendRequest($id);
+    public function delete(Request $request) {
+        $this->friend->deleteFriendRequest($request->id);
     }
 }

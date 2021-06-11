@@ -23,7 +23,7 @@ class VerifyEmail extends Mailable {
             ->subject('Teeta Reminder - Verify Email')
             ->markdown('mails.verify-email')
             ->with([
-                'name' => $this->getLastName($this->task->user->name),
+                'name' => $this->getLastName($this->user->name),
                 'url' => $this->url
             ]);
     }

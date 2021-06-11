@@ -43,15 +43,8 @@ class FriendRepository implements FriendRepositoryInterface {
         return true;
     }
 
-    public function unfriend($id) {
-        $friendship = $this->friend->where('friend_id', $id)->where('user_id', auth()->user()->id)->first();
-        $friendship->delete();
-
-        return true;
-    }
-    
     public function deleteFriendRequest($id) {
-        $friendship = $this->friend->find($id);
+        $friendship = $this->friend->where('friend_id', $id)->where('user_id', auth()->user()->id)->first();
         $friendship->delete();
 
         //event(new DeclineFriendRequest($toUser), auth()->user());
