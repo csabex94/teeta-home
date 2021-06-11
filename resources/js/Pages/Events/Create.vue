@@ -54,7 +54,7 @@
                             <div v-if="!form.daily" class="flex items-center text-sm font-medium">Remind Before <jet-checkbox v-model="showRemindOptions" class="ml-2" /></div>
                             <div class="flex items-center text-sm font-medium">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
                             <div class="flex items-center text-sm font-medium">Important <jet-checkbox v-model="form.important" class="ml-2" /></div>
-                            <div class="flex items-center text-sm font-medium">Keep in list<jet-checkbox checked v-model="form.keep_in_list" class="ml-2" /></div>
+                            <div class="flex items-center text-sm font-medium">Keep in list<jet-checkbox v-model="form.keep_in_list" class="ml-2" /></div>
                         </div>
 
                         <div class="grid grid-cols-2 col-span-6 gap-8">
@@ -190,7 +190,8 @@ export default {
                 remind_before_value: "",
                 remind_before_option: "Remind me before",
                 spec_time: "",
-                important: false
+                important: false,
+                keep_in_list: false
             }),
             showRemindOptions: false,
             flatPickrConfig: {
@@ -211,6 +212,7 @@ export default {
         },
         createEvent() {
             this.form.post(route('events.store'),{
+                preserveState: true,
                 onSuccess: () => {
                     this.form.daily = false;
                     this.form.push_email = false;

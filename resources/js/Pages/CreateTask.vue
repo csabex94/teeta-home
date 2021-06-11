@@ -7,7 +7,7 @@
                 </template>
 
                 <template #description>
-                    <p class="text-gray-800 mt-4">
+                    <div class="text-gray-800 mt-4">
                         <b>Daily *</b>
                         <br>
                         <ul class="mt-2"><li>- The created task will appear everyday on the dashboard</li></ul>
@@ -23,7 +23,7 @@
                         <b>Keep in list *</b>
                         <br>
                         <ul class="mt-2"><li>- The Item will not be automatically deleted by our system</li></ul>
-                    </p>
+                    </div>
                 </template>
 
                 <template #form>
@@ -49,7 +49,7 @@
                         <div class="flex items-center text-sm font-medium">Daily <jet-checkbox v-model="form.daily" class="ml-2" /></div>
                         <div v-if="!form.daily" class="flex items-center text-sm font-medium">Remind Before <jet-checkbox v-model="showRemindOptions" class="ml-2" /></div>
                         <div class="flex items-center text-sm font-medium">Email<jet-checkbox v-model="form.push_email" class="ml-2" /></div>
-                        <div class="flex items-center text-sm font-medium">Keep in list<jet-checkbox checked v-model="form.keep_in_list" class="ml-2" /></div>
+                        <div class="flex items-center text-sm font-medium">Keep in list<jet-checkbox v-model="form.keep_in_list" class="ml-2" /></div>
                     </div>
 
                     <div class="grid grid-cols-2 col-span-6 gap-8">
@@ -185,7 +185,8 @@ export default {
                 spec_date: "",
                 remind_before_value: "",
                 remind_before_option: "Remind me before",
-                spec_time: ""
+                spec_time: "",
+                keep_in_list: false
             }),
             showRemindOptions: false,
             flatPickrConfig: {

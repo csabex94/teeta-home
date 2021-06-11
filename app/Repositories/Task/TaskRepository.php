@@ -95,7 +95,7 @@ class TaskRepository implements TaskRepositoryInterface {
              $this->task->push_email = $validData['push_email'];
              $this->task->keep_in_list = $validData['keep_in_list'];
              $this->task->user_id = auth()->user()->id;
-             
+
         }
 
         if ($request->spec_date) {
@@ -117,7 +117,7 @@ class TaskRepository implements TaskRepositoryInterface {
         $this->task->save();
     }
 
-    public function update($request) { 
+    public function update($request) {
         $validData = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',

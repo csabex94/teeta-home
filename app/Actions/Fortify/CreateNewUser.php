@@ -9,13 +9,14 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Auth\Events\Registered;
 
-class CreateNewUser implements CreatesNewUsers {
+class CreateNewUser implements CreatesNewUsers
+{
     use PasswordValidationRules;
 
     /**
      * Validate and create a newly registered user.
      *
-     * @param  array  $input
+     * @param array $input
      * @return \App\Models\User
      */
     public function create(array $input)
@@ -31,15 +32,11 @@ class CreateNewUser implements CreatesNewUsers {
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'username' => $this->setUsername($input['name'])
+            'username' => substr(str_replace(' ','',strtolower($input['name'])), 0, 5)
         ]);
 
-        //event(new Registered($user));
+//        event(new Registered($user));
 
         return $user;
-    }
-
-    public function setUsername($name) {
-        substr(str_replace(' ','',strtolower($name)), 0, 5);
     }
 }

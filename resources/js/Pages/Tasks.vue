@@ -297,7 +297,8 @@ export default {
               spec_date: "",
               spec_time: "",
               remind_before_value: "",
-              remind_before_option: "Remind me before"
+              remind_before_option: "Remind me before",
+              keep_in_list: false
           })
       }
     },
@@ -370,6 +371,7 @@ export default {
             this.form.important = task.important;
             this.form.description = task.description;
             this.form.daily = task.daily;
+            this.form.keep_in_list = task.keep_in_list,
             this.form.push_email = task.push_email;
             this.form.spec_date = moment(task.spec_date).format("YYYY-M-D");
             this.form.spec_time = task.spec_time;
