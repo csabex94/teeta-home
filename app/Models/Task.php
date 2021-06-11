@@ -31,4 +31,9 @@ class Task extends Model {
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function colaborators() {
+        return $this->hasOne(Collaboration::class, 'task_id', 'id');
+    }
+    
 }

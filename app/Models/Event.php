@@ -31,4 +31,8 @@ class Event extends Model {
         return $this->belongsTo(User::class);
     }
 
+    public function colaborators() {
+        return $this->hasOne(Collaboration::class, 'task_id', 'id');
+    }
+
 }

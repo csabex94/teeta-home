@@ -20,6 +20,7 @@ class CreateColaborationsTable extends Migration
             $table->boolean('is_task')->default(0);
             $table->boolean('is_event')->default(0);
             $table->boolean('completed')->default(0);
+            $table->boolean('deleted')->default(0);
             $table->timestamps();
         });
     }

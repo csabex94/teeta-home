@@ -15,7 +15,7 @@ class NewNotificationEvent implements ShouldBroadcast
 
     public function __construct($data)
     {
-        $this->message = $data;
+        $this->data = $data;
     }
 
     public function broadcastOn()

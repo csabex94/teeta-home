@@ -50,8 +50,6 @@ export default {
             const notification = new Notification(data.title, {
                 body: data.description,
                 icon: '/logo-get',
-                requireInteraction: true,
-                renotify: false
             });
             notification.onclick = function(e){
                 e.preventDefault();
@@ -61,7 +59,7 @@ export default {
     },
     mounted() {
         Pusher.logToConsole = true;
-        const pusher = new Pusher('cfb1ab398ed7babd3469', {
+        const pusher = new Pusher('2b171450eff5f8bd267e', {
             cluster: 'eu'
         });
         const channel = pusher.subscribe('my-channel');
